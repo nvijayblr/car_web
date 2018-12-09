@@ -1,0 +1,1329 @@
+<div class="fixed-nav-header" id="fixed-nav-header">
+  <div class="container first">
+    <div class="row border-top">
+      <div class="container">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-back" (click)="goSearchview(SaveWarningPopupShowModal)"></li>
+            <li class="breadcrumb-item"><a> {{titleofView}}</a></li>
+            <li class="breadcrumb-item-right">
+
+                  <button class="btn btn-primary btn-sm" *ngIf="responseButtonStatus==1" (click)="createOrViewResponse()" >View Validation</button>
+                  <button class="btn btn-primary btn-sm" *ngIf=" responseButtonStatus==2"  (click)="createOrViewResponse()" >Create Validation</button>
+                  <button class="btn btn-primary btn-sm" *ngIf="capaButtonStatus==1" (click)="createOrViewCAPA()">View CAPA</button>
+                  <button class="btn btn-primary btn-sm" *ngIf="capaButtonStatus==2" (click)="createOrViewCAPA()">Create CAPA</button>                  
+
+
+              <button  class="icon-edit text-primary cursor-pointer mr-3" (click)="disableClaim=false ; editButtonClick = true" *ngIf=" (((claimstatus == 'Draft'||
+                claimstatus == 'Closed')||
+                (claimstatus == 'Open' && custClaimTypeValue =='Compliance')) &&
+                (disableClaim ==true)) && isClaimLevelOne ">
+              </button>
+            </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-header" id="tabHeader">
+    <div class="col-12" >
+      <div class="row">
+        <a  data-target="#block-1" [class.active]="activeTab=='block-1'" (click)="onAnchorClick(1)"><i data-line="1"></i> Basic Details</a>
+        <a  data-target="#block-2" [class.active]="activeTab=='block-2'" (click)="onAnchorClick(2)" ><i data-line="2"></i> Customer Details</a>
+        <a  data-target="#block-3" [class.active]="activeTab=='block-3'" (click)="onAnchorClick(3)"><i data-line="3"></i> Product Details </a>
+        <a  data-target="#block-4" [class.active]="activeTab=='block-4'" (click)="onAnchorClick(4)"><i data-line="4"></i> Claim Details </a>
+        <a  data-target="#block-5" [class.active]="activeTab=='block-5'" (click)="onAnchorClick(5)"><i data-line="5"></i> Additional Information </a>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="customer-infomation-box">
+      <div class="row">
+        <div class="col-2">Claim Type</div>
+        <div class="col-2">Customer Complaint No.</div>
+        <div class="col-2">Initiator Name</div>
+        <div class="col-2">Created Date</div>
+        <div class="col-2">Closed Date</div>
+        <div class="col-2">Status</div>
+      </div>
+      <div class="row">
+        <div class="col-2">
+          <b>{{custClaimTypeValue}}</b>
+        </div>
+        <div class="col-2">
+          <b>{{createNewClaimObject.custComplaintNo}}</b>
+        </div>
+        <div class="col-2">
+          <b>{{createNewClaimObject.custInitiator}}</b>
+        </div>
+        <div class="col-2">
+          <b>{{createNewClaimObject.CreatedDate| date:"MM/dd/yyyy"}}</b>
+        </div>
+        <div class="col-2">
+          <b>{{createNewClaimObject.ClosedDate| date:"MM/dd/yyyy"}}</b>
+        </div>
+        <div class="col-2">
+          <b class="text-secondary">{{claimstatus}}</b>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form class="application" id="scrollable-page" #claimForm="ngForm">
+  <div class="container last">
+    <!-- basic block begin -->
+    <div class="block" id="block-1">
+      <h4 class="col-11 text-primary text-uppercase">1. Basic Details</h4>
+      <div class="row col-11">
+        <div class="col-4">
+          <div class="form-group required">
+            <label>Sales Business Unit</label>
+            <select class="form-control" id="custSBUSelectedValue" name="custSBUSelectedValue" #custSBUSelectedValue="ngModel" [(ngModel)]= "createNewClaimObject.custSBUSelectedValue" (ngModelChange)= "getDistChannel(createNewClaimObject.custSBUSelectedValue,'0')" required [disabled]="formMode !='Createnewclaim'">
+                <option value="0" selected *ngIf="SBUList.length > 1">Select</option>
+                <ng-container *ngFor=" let sbuItems of SBUList; let i=index" >
+                  <option [value]="sbuItems.EntityID">{{sbuItems.Entity}}</option>
+                </ng-container>
+            </select>
+            <span *ngIf="createNewClaimObject.custSBUSelectedValue==0 && (custSBUSelectedValue.dirty || custSBUSelectedValue.touched)">Please select Sales Business Unit</span>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="row">
+            <div class="col-8">
+              <div class="form-group">
+                <label>Initiator Phone</label>
+                <input type="text" class="form-control" name="InitiatorPhone" [(ngModel)]="createNewClaimObject.custInitiatorPhone" [placeholder]="disableClaim ? '' : countryObject.ContactFormat" pattern="[0-9]+" maxlength="12" onPaste="return false" ondrop="return false"  onkeypress='return event.charCode >= 48 && event.charCode <= 57' [disabled]="disableClaim"/>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                <label>Extn</label>
+                <input type="tel" class="form-control" name="InitiatorExt" [(ngModel)]="createNewClaimObject.custExtn" maxlength="6" onPaste="return false" ondrop="return false"  onkeypress='return event.charCode >= 48 && event.charCode <= 57' [disabled]="disableClaim"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <label>PO Number</label>
+            <div #popper1 [popper]="popper1Content" [popperShowOnStart]="false" [popperTrigger]="'hover'" [popperDisabled]="!disableClaim || !createNewClaimObject.PONo"  [popperPlacement]="'bottom'">
+              <input type="text" class="form-control" name="PONo" maxlength="1024" [(ngModel)]="createNewClaimObject.PONo"  #PONo="ngModel" (blur)="bDetailsValidate('po')" [placeholder]="disableClaim?'':'Enter multiple PO  numbers seperated by comma'"  [disabled]="disableClaim"/>
+            </div>
+          </div>
+          <popper-content #popper1Content>
+              <p class="bold">{{createNewClaimObject.PONo}}</p>
+          </popper-content>
+        </div>
+      </div>
+      <div class="row col-11">
+        <div class="col-4">
+          <div class="form-group not-required" [ngClass]="{'required':requiredClaim}">
+            <label>Complaint Category</label>
+            <select class="custom-select form-control" id="ComplaintCategory" name="ComplaintCategory" [(ngModel)]="createNewClaimObjectProductDetails.custComplaintCategorySelectedValue"
+            #ComplaintCategory="ngModel" [disabled]="disableClaim" [required]="requiredClaim">
+              <option value="0" selected>Select</option>
+              <option *ngFor="let items of complaintCategoryList; let i = index" [value]="items.ComplaintCategoryID">{{items.ComplaintCategory}}</option>
+            </select>
+            <span *ngIf="createNewClaimObjectProductDetails.custComplaintCategorySelectedValue ==0 && (ComplaintCategory.dirty || ComplaintCategory.touched) && requiredClaim">Please select complaint category</span>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <label>Invoice No.</label>
+            <div class="input-group" #popper1 [popper]="popper2Content" [popperShowOnStart]="false" [popperTrigger]="'hover'" [popperDisabled]="!disableClaim || !createNewClaimObject.custInvoiceNo"  [popperPlacement]="'bottom'">
+              <input pasteNumberOnly id="invoice_no_id" type="text" class="form-control" name="InvoiceNo" maxlength="1024" [(ngModel)]="createNewClaimObject.custInvoiceNo" (blur)="bDetailsValidate('invoice')" [placeholder]="disableClaim?'':'Enter multiple invoice no. seperated by comma'" onkeypress='return event.charCode >= 48 && event.charCode <= 57 || event.charCode == 44' ondrop="return false" (ngModelChange)="invoiceNumNgModValChange()" [disabled]="disableClaim">
+              <div class="input-group-append cursor-pointer" *ngIf="!disableClaim  && createNewClaimObject.custInvoiceNo.split(',').length ==1">
+                <button class="input-group-text input-group-text-nw" (click)="invoiceSearchClick(InvoiceSearchPopUpViewModal)">
+                  <i class="icon-search"></i>
+                </button>
+              </div>
+            </div>
+            <popper-content #popper2Content>
+              <p class="bold">{{createNewClaimObject.custInvoiceNo}}</p>
+            </popper-content>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="row">
+            <div class="col-8">
+              <div class="form-group">
+                <label>Invoice Value</label>
+                <input type="text" readonly class="form-control-plaintext" [value]="createNewClaimObject.custInvoiceValue">
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                <label>Currency</label>
+                <input type="text" readonly class="form-control-plaintext" [value]="createNewClaimObject.currency">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-4" *ngIf="formMode =='Viewclaim' && claimstatus == 'Closed'" >
+          <div class="form-group">
+            <label>Status</label>
+            <!-- Remove hardcoded value when get filtered status list-->
+            <select class="form-control" name="claimStatus" [(ngModel)]="createNewClaimObject.claimStatusID" [disabled]="disableClaim">
+              <option value="4">Closed</option>
+              <option value="5">Reopen</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group" [ngClass]="{'required':requiredClaim}">
+            <label>Mode of complaint</label>
+            <select class="form-control" name="ModeOfComplaint" class="form-control custom-select" #ModeOfComplaint="ngModel" [(ngModel)]="createNewClaimObjectCustomerDetails.custModeOFComplaintSelectedValue" required  [disabled]="disableClaim">
+              <option value="0" selected>Select</option>
+              <ng-container *ngFor="let items of modeOfComplaintList; let i = index">
+                <option [value]="items.ModeofComplaintID">{{items.ModeofComplaint}}</option>
+              </ng-container>
+            </select>
+            <span *ngIf="createNewClaimObjectCustomerDetails.custModeOFComplaintSelectedValue ==0 && (ModeOfComplaint.dirty || ModeOfComplaint.touched) && requiredClaim">Please select mode of complaint</span>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div>
+    <!-- basic block End -->
+    <!-- Customer block begin -->
+    <div class="block" id="block-2">
+      <h4 class="col-11 text-primary text-uppercase">2. Customer Details</h4>
+      <div class="row col-11">
+        <div class="col-4">
+          <div class="form-group required">
+            <label>Name of Customer</label>
+            <input type="text" id="NameOfCustomer" class="form-control" name="NameOfCustomer" [(ngModel)]="createNewClaimObjectCustomerDetails.custNameOfCustomer" #NameOfCustomer="ngModel"  maxlength="80" required [disabled]="disableClaim">
+            <span *ngIf="NameOfCustomer.invalid && (NameOfCustomer.dirty || NameOfCustomer.touched)">Please enter name</span>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group required">
+            <label>Customer Number</label>
+            <input type="text" id="CustomerNo" class="form-control" maxlength="10" name="CustomerNo" pattern="[a-zA-Z0-9 ]+" [(ngModel)]="createNewClaimObjectCustomerDetails.custCustomerNo" #CustomerNo="ngModel" onPaste="return false" ondrop="return false"  onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || (event.charCode >= 65 &&event.charCode <= 90)||(event.charCode >= 97 && event.charCode <= 122)' required [disabled]="disableClaim">
+            <span *ngIf="CustomerNo.invalid && (CustomerNo.dirty || CustomerNo.touched)">Please enter customer number</span>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group" *ngIf="countryFlag">
+            <label>Country</label>
+            <select [(ngModel)]="createNewClaimObjectCustomerDetails.custCountry" name="country" class=" custom-select form-control" (ngModelChange)="populateCurrency()" disabled>
+              <option [value]="country.CountryID" *ngFor="let country of countryList; let inx = index" [selected]="inx == 0">{{country.CountryName}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row col-11">
+        <div class="col-4">
+          <div class="form-group required">
+            <label>Distribution Channel</label>
+            <select class="form-control" name="DistributionChannel" #DistributionChannel="ngModel" [(ngModel)]="createNewClaimObjectCustomerDetails.custDistributionChannelSelectedValue" [disabled]="disableClaim" required>
+              <option value="0">Select</option>
+              <option *ngFor="let items of dropdownDistributionChannel; let i = index" [value]="items.DistributionChannelID">{{items.DistributionChannel}}</option>
+            </select>
+            <span *ngIf="(DistributionChannel.dirty || DistributionChannel.touched) && createNewClaimObjectCustomerDetails.custDistributionChannelSelectedValue ==0">Please select distribution channel</span>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group" [ngClass]="{'required':requiredClaim}">
+            <label>Contact Person</label>
+            <input type="text" class="form-control" id="ContactPerson" name="ContactPerson" [(ngModel)]="createNewClaimObjectCustomerDetails.custContactPerson" #ContactPerson="ngModel" maxlength="80" [required]="requiredClaim" [disabled]="disableClaim">
+            <span *ngIf="ContactPerson.invalid && (ContactPerson.dirty || ContactPerson.touched)">Please enter contact person</span>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <label>Name of Final Customer</label>
+            <input type="text" class="form-control" id="custNameOfFinalCust" name="custNameOfFinalCust" [(ngModel)]="createNewClaimObjectCustomerDetails.custNameOfFinalCust" maxlength="80" [disabled]="disableClaim">
+          </div>
+        </div>
+      </div>
+      <div class="row col-11">
+        <div class="col-4">
+          <div class="row">
+            <div class="col-8">
+              <div class="form-group">
+                <label>Customer Phone</label>
+                <input [(ngModel)]="createNewClaimObjectCustomerDetails.custCustomerPhone" type="text" class="form-control" name="CustomerPhone" onkeypress='return event.charCode >= 48 && event.charCode <= 57' onPaste="return false" ondrop="return false"    [placeholder]="disableClaim ? '' : countryObject.ContactFormat" pattern="[0-9]+" maxlength="12" [disabled]="disableClaim"/>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                <label>Extn</label>
+                <input type="tel" class="form-control" name="CustomerExtn" [(ngModel)]= "createNewClaimObjectCustomerDetails.custExtn" maxlength="6" onPaste="return false" ondrop="return false"  onkeypress='return event.charCode >= 48 && event.charCode <= 57' [disabled]="disableClaim"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group not-required">
+            <label>Customer Email</label>
+            <input type="email" class="form-control" id="CustomerEmail" name="CustomerEmail" [(ngModel)]= "createNewClaimObjectCustomerDetails.custEmail" maxlength="80" #CustomerEmail="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"  [disabled]="disableClaim"/>
+            <span *ngIf="CustomerEmail.invalid && (CustomerEmail.dirty || CustomerEmail.touched)">Please enter customer email</span>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div>
+    <!-- Customer block End -->
+    <!-- Product block Start -->
+    <div class="block" id="block-3">
+      <h4 class="col-11 text-primary text-uppercase">3. Product Details</h4>
+      <div class="row col-11">
+        <div class="col-4">
+          <div class="form-group" [ngClass]="{'required':requiredClaim}">
+            <label>Brand</label>
+            <select class="custom-select form-control" id="Brand" name="Brand" [(ngModel)]="createNewClaimObjectProductDetails.custBrandSelectedValue" #Brand="ngModel" required [disabled]="disableClaim">
+              <option value="0" selected>Select</option>
+              <option *ngFor="let items of brandList; let i = index" value="{{items.BrandID}}">{{items.BrandName}}</option>
+            </select>
+            <span *ngIf="createNewClaimObjectProductDetails.custBrandSelectedValue ==0 && (Brand.dirty || Brand.touched) && requiredClaim">Please select brand</span>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <label>Customer SKU No.</label>
+            <input type="text" class="form-control" name="CustomerSKUNo" maxlength="10" [(ngModel)]="createNewClaimObjectProductDetails.custSKUNo" #CustomerSKUNo="ngModel"  pattern="[a-zA-Z0-9 ]+" [disabled]="disableClaim"/>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group" [ngClass]="{'required':requiredClaim}">
+            <label>Internal SKU No.</label>
+            <input type="text" class="form-control" id="InternalSKUNo" name="InternalSKUNo" maxlength="10" [(ngModel)]="createNewClaimObjectProductDetails.internalSKUNo" #InternalSKUNo="ngModel" pattern="[a-zA-Z0-9 ]+" [disabled]="disableClaim" [required]="requiredClaim"/>
+            <span *ngIf="InternalSKUNo.invalid && (InternalSKUNo.dirty || InternalSKUNo.touched)">Please Enter valid SKU No</span>
+          </div>
+        </div>
+      </div>
+      <div class="row col-11">
+        <div class="col-4">
+          <div class="form-group" [ngClass]="{'required':requiredClaim}">
+            <label>Product Description</label>
+            <input type="text" class="form-control" id="ProductDescription" name="ProductDescription" [(ngModel)]="createNewClaimObjectProductDetails.custProductDescription" #ProductDescription="ngModel" maxlength="1024" [disabled]="disableClaim" [required]="requiredClaim">
+            <span *ngIf="ProductDescription.invalid && (ProductDescription.dirty || ProductDescription.touched)">Please enter product description</span>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <label>Manufactured By</label>
+            <input type="text" class="form-control" id="custManufacturedBy" name="custManufacturedBy" [(ngModel)]= "createNewClaimObjectProductDetails.custManufacturedBy" maxlength="200" [disabled]="disableClaim">
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="row">
+              <div class="col-6">
+                  <div class="form-group">
+                    <label>Delivery No. </label>
+                    <input type="text" class="form-control" id=">DeliveryNo" name="DeliveryNo" maxlength="10" [(ngModel)]="createNewClaimObjectProductDetails.custDeliveryNo" onPaste="return false" ondrop="return false"  onkeypress='return event.charCode >= 48 && event.charCode <= 57' [disabled]="disableClaim"/>
+                  </div>
+              </div>
+              <div class="col-6">
+                  <div class="form-group">
+                    <label>Delivery Date </label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" name="DeliveryDate" #DeliveryDate = "bsDatepicker" bsDatepicker [(ngModel)]="createNewClaimObjectProductDetails.custDeliveryDate" [bsConfig]="deliveryDateConfig" [disabled]="disableClaim" readonly="readonly"/>
+                      <div class="input-group-append">
+                        <span class="input-group-text"  (click)="!disableClaim?DeliveryDate.toggle():''"> <i class="icon-calendar"></i> </span>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="row col-11">
+        <div class="col-4">
+          <div class="form-group" [ngClass]="{'required':requiredClaim}">
+            <label>Delivered Items</label>
+            <div class="input-group">
+              <input type="text" class="form-control" maxlength="9" id="DeliveredItems" name="DeliveredItems" [(ngModel)]="createNewClaimObjectProductDetails.custNoOfDeliveredItems"  #DeliveredItems="ngModel" pattern="[0-9]+" onPaste="return false" ondrop="return false"  onkeypress='return event.charCode >= 48 && event.charCode <= 57' [disabled]="disableClaim" [required]="requiredClaim"/>
+              <div class="input-group-append">
+                <span class="input-group-text">Units</span>
+              </div>
+            </div>
+            <span *ngIf="DeliveredItems.invalid && (DeliveredItems.dirty || DeliveredItems.touched)">Please enter delivered items</span>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group" [ngClass]="{'required':requiredClaim}">
+            <label>Defective Items</label>
+            <div class="input-group">
+              <input type="text" class="form-control" maxlength="9" id="DefectiveItems" name="DefectiveItems" [(ngModel)]="createNewClaimObjectProductDetails.custNoOfDefectedItems" #DefectiveItems="ngModel" onPaste="return false" ondrop="return false"   onkeypress='return event.charCode >= 48 && event.charCode <= 57' [disabled]="disableClaim" [required]="requiredClaim">
+              <div class="input-group-append">
+                <span class="input-group-text">Units</span>
+              </div>
+            </div>
+            <span *ngIf="DefectiveItems.invalid && (DefectiveItems.dirty || DefectiveItems.touched)">Please enter defective items</span>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <label>Drawing Number & Rev<i>( If Available )</i></label>
+            <input type="text" class="form-control" id="DrawingNumber" name="DrawingNumber" [(ngModel)]=" createNewClaimObjectProductDetails.custDrawingNumberRev" maxlength="10" [disabled]="disableClaim">
+          </div>
+        </div>
+      </div>
+      <div class="row col-11 mb-3">
+        <div class="col-3" *ngIf="custClaimTypeValue!='Compliance'">
+          <div class="form-group mb-0"><label>Pallet Ticket<i>( If Available )</i></label></div>
+          <div class="row">
+            <div class="col-5">
+              <div class="form-group">
+                <div class="btn btn-primary custom-file" (click)="palletTicket.click()" [ngClass]="{'disabled':disableClaim}">
+                    <input type="file" class="custom-file-input hidden" id="iampalletTicket" (change)="stateChangesStatus($event)" name="iampalletTicket" #palletTicket ng2FileSelect [uploader]="uploaderPalletTicket" multiple  [disabled]="disableClaim"/>
+                    <label class="custom-file-label" for="customFile"></label>
+                </div>
+              </div>
+            </div>
+            <div class="col-7" *ngIf="palletTicketFileUploadDetail.length > 0">
+              <div class="form-group">
+                <button type="button" class="btn btn-light" (click)="showPalletUploadModal(filePalletUploadModal)">
+                    {{palletTicketFileUploadDetail.length}}&nbsp;  Files Added <i class="icon-eye"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-3" *ngIf="custClaimTypeValue=='Compliance'">
+          <div class="form-group mb-0">
+            <label>Compliance File Attachment<i>( If Available )</i></label>
+          </div>
+          <div class="row">
+            <div class="col-5">
+              <div class="btn btn-primary custom-file" (click)="compliance.click()" [ngClass]="{'disabled':disableClaim}">
+                  <input type="file" class="custom-file-input hidden" id="iamcompliance" (change)="stateChangesStatus($event)" name="iamcompliance" #compliance ng2FileSelect [uploader]="uploaderComplianceFile" accept=".xlsx" multiple [disabled]="disableClaim"/>
+                  <label class="custom-file-label" for="customFile"></label>
+              </div>
+            </div>
+            <div class="col-7" *ngIf="complianceFileUploadDetail.length > 0">
+              <button type="button" class="btn btn-light" (click)="showComplianceUploadPopUp(complianceUploadModal);" *ngIf="titleofView !== 'View Claim' && titleofView !== 'Response'">
+                  {{complianceFileUploadDetail.length}}&nbsp; Files Added <i class="icon-eye"></i>
+              </button>
+              <button type="button" class="btn btn-light" (click)="complianceFilePopUpView(complianceUploadModal, complianceUploadViewModel)" *ngIf="titleofView == 'View Claim' || titleofView == 'Response'">
+                  {{complianceFileUploadDetail.length}}&nbsp; Files Added <i class="icon-eye"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group mb-0">
+            <label>Master Carton Barcode<i>( If Available )</i></label>
+          </div>
+          <div class="row">
+            <div class="col-5">
+              <div class="btn btn-primary custom-file" (click)="masterCartonBarcode.click()"  [ngClass]="{'disabled':disableClaim}">
+                  <input type="file" class="custom-file-input hidden" (change)="stateChangesStatus($event)" #masterCartonBarcode ng2FileSelect [uploader]="uploadermasterCartonBarcode" multiple [disabled]="disableClaim"/>
+                  <label class="custom-file-label" for="customFile"></label>
+              </div>
+            </div>
+            <div class="col-7" *ngIf="masterCartonBarcodeFileUploadDetail.length > 0">
+              <button type="button" class="btn btn-light" (click)="showFileMasterCartonUploadModal(fileMasterCartonUploadModal)">
+                  {{masterCartonBarcodeFileUploadDetail.length}}&nbsp; Files Added
+                  <i class="icon-eye"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div>
+    <!-- Product block End -->
+    <!-- Claim Details block Begin -->
+    <div class="block" id="block-4">
+      <h4 class="col-11 text-primary text-uppercase">4. Claim Details</h4>
+      <div class="row col-11">
+        <div class="col-6">
+          <div class="form-group">
+            <label>At what stage the problems were detected ?</label>
+            <textarea class="form-control" #custComplaintStage [placeholder]="disableClaim ? '' : 'Description'"  id="custComplaintStage" name="custComplaintStage" [(ngModel)]="createNewClaimObjectClaimDetails.custComplaintStage" maxlength="1024" [disabled]="disableClaim"></textarea>
+          </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group" [ngClass]="{'required':requiredClaim}">
+              <label>Complaint Description</label>
+              <textarea class="form-control" [placeholder]="disableClaim ? '' : 'Description'" name="ComplaintDescription" [(ngModel)]="createNewClaimObjectClaimDetails.custComplaintDescri" #ComplaintDescription="ngModel" maxlength="1024" [disabled]="disableClaim" [required]="requiredClaim"></textarea>
+              <span *ngIf="ComplaintDescription.invalid && (ComplaintDescription.touched)">Please enter complaint description</span>
+            </div>
+          </div>
+      </div>
+      <div class="row col-11">
+        <div class="col-6">
+          <div class="row">
+            <div class="col-6">
+                <div class="form-group mb-5">
+                  <label>Defective Sample Received?</label>
+                  <div class="input-group">
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input class="custom-control-input" type="radio" id="radioDefectiveSampleReceivedStatusYes"
+                        name="radioDefectiveSampleReceivedStatus1"
+                        [(ngModel)]="createNewClaimObjectClaimDetails.custDefectiveSampleReceivedStatus"
+                        [value]="true"
+                        (ngModelChange)="onDefectiveSelect(true)" [disabled]="disableClaim">
+                      <label class="custom-control-label" for="radioDefectiveSampleReceivedStatusYes">Yes</label>
+                  </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input class="custom-control-input" type="radio" id="radioDefectiveSampleReceivedStatusNO"
+                        name="radioDefectiveSampleReceivedStatus2"
+                        [(ngModel)]="createNewClaimObjectClaimDetails.custDefectiveSampleReceivedStatus"
+                        [value]="false"
+                        (ngModelChange)="onDefectiveSelect(false)" [disabled]="disableClaim">
+                      <label class="custom-control-label" for="radioDefectiveSampleReceivedStatusNO">No</label>
+                  </div>
+                  </div>
+                </div>
+            </div>
+            <div class="col-6" *ngIf="!createNewClaimObjectClaimDetails.custDefectiveSampleReceivedStatus">
+              <div class="form-group">
+                <label>Expected Date to Receive Samples</label>
+                <div class="input-group">
+                  <input type="text" class="form-control" name="expectedDate" #expectedDate = "bsDatepicker" bsDatepicker  [(ngModel)]="createNewClaimObjectClaimDetails.custDefectivePicturesOfSampleReceivedDate"  [bsConfig]="expectedDateConfig" [disabled]="disableClaim" readonly="readonly"/>
+                  <div class="input-group-append">
+                    <span class="input-group-text" (click)="!disableClaim?expectedDate.toggle():''"> <i class="icon-calendar"></i> </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <label>Pictures of Defective Sample Received?</label>
+                  <div class="custom-control custom-radio custom-control-inline">
+                    <input class="custom-control-input" type="radio" id="radioPicturesOfSampleReceivedStatusYes"
+                      name="radioPicturesOfSampleReceivedStatusYes"
+                      [(ngModel)]="createNewClaimObjectClaimDetails.custDefectivePicturesOfSampleReceivedStatus"
+                      [value]="true" [disabled]="disableClaim">
+                    <label class="custom-control-label" for="radioPicturesOfSampleReceivedStatusYes">Yes</label>
+                  </div>
+                  <div class="custom-control custom-radio custom-control-inline">
+                  <input class="custom-control-input" type="radio" id="radioPicturesOfSampleReceivedStatusNo"
+                    name="radioPicturesOfSampleReceivedStatusNo"
+                    [(ngModel)]="createNewClaimObjectClaimDetails.custDefectivePicturesOfSampleReceivedStatus"
+                    [value]="false"
+                    (click)="uploaderDefectiveDetail = []" [disabled]="disableClaim">
+                  <label class="custom-control-label" for="radioPicturesOfSampleReceivedStatusNo">No</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="row">
+                <div class="col-5 mt-4" *ngIf="createNewClaimObjectClaimDetails.custDefectivePicturesOfSampleReceivedStatus">
+                  <div class="form-group browse-container">
+                    <button type="button"[disabled]="disableClaim" class="btn btn-primary" (click)="defectiveSampleAttach.click()">Browse</button>
+                    <span style="visibility: hidden; position: absolute; overflow: hidden; width: 0px; height:0px;border:none;margin:0; padding:0">
+                      <input type="file" #defectiveSampleAttach ng2FileSelect [uploader]="uploaderdefectiveSampleAttach" multiple />
+                    </span>
+                  </div>
+                </div>
+                <div class="col-7 mt-4" *ngIf="createNewClaimObjectClaimDetails.custDefectivePicturesOfSampleReceivedStatus">
+                  <button type="button" class="btn btn-light" (click)="showfileUploaderDefectivPopUp(fileUploaderDefectivPopUpModal)" *ngIf="uploaderDefectiveDetail.length > 0">
+                      {{uploaderDefectiveDetail.length}} Files Added <i class="icon-eye"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row col-12">
+        <div class="col-6" *ngIf="custClaimTypeValue!='Compliance'">
+          <div class="custom-control custom-radio custom-control-inline">
+            <input class="custom-control-input" type="radio" name="actionRequested" id="actionRequested"
+              [(ngModel)]="createNewClaimObjectClaimDetails.custActionStatus"
+              [value]="true"
+              (click)="onActionRequested()"  *ngIf="!disableClaim">
+            <input class="custom-control-input" type="radio" name="actionRequested"
+              [checked]="createNewClaimObjectClaimDetails.custActionStatus" *ngIf="disableClaim" disabled>
+            <label class="custom-control-label" for="actionRequested">Commercial action needed</label>
+          </div>
+        </div>
+        <div class="col-6 mb-3">
+          <div class="custom-control custom-radio custom-control-inline">
+            <input class="custom-control-input" type="radio" name="noActionNeeded" id="noActionNeeded"
+              [(ngModel)]="createNewClaimObjectClaimDetails.custActionStatus" [value]="false" (click)="onNOActionRequested()" *ngIf="!disableClaim">
+            <input class="custom-control-input" type="radio" name="actionRequested"
+              [checked]="!createNewClaimObjectClaimDetails.custActionStatus" *ngIf="disableClaim" disabled>
+            <label class="custom-control-label" for="noActionNeeded">No Commercial action needed</label>
+          </div>
+          <div class="mt-3" role="no-commmercial-action" *ngIf="!createNewClaimObjectClaimDetails.custActionStatus">
+            <div class="row">
+              <div class="col">
+                <div class="custom-control custom-checkbox custom-control-inline">
+                  <input class="custom-control-input" type="checkbox" id="ncan-request-capa" name="ncan-request-capa" [(ngModel)]="createNewClaimObjectClaimDetails.CAPAFlag" [disabled]="disableClaim">
+                  <label class="custom-control-label" for="ncan-request-capa">Request CAPA</label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="custom-control custom-checkbox custom-control-inline">
+                  <input class="custom-control-input" type="checkbox" id="ncan-remarks-checkbox" name="ncan-remarks-checkbox" [(ngModel)]="createNewClaimObjectClaimDetails.custOtherStatus" [disabled]="disableClaim">
+                  <label class="custom-control-label" for="ncan-remarks-checkbox">Remarks</label>
+                </div>
+              </div>
+              <div class="col-6" *ngIf="createNewClaimObjectClaimDetails.custOtherStatus">
+                <div class="form-group">
+                  <textarea type="text" class="form-control" id="custSectionOthersDescription" name="custSectionOthersDescription"
+                    [(ngModel)]="createNewClaimObjectClaimDetails.custSectionOthersDescription" maxlength="1024" [disabled]="disableClaim"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row no-gutters col-12">
+        <div class="col-12 mt-3" role="commercial-action" *ngIf="createNewClaimObjectClaimDetails.custActionStatus">
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <div class="custom-control custom-radio">
+                  <input class="custom-control-input" type="radio" name="radioClaimType" id="radioClaimType" [(ngModel)]="createNewClaimObjectClaimDetails.custSelectClaimType"
+                  [value]="false" (click)="onMinorClick()" [disabled]="disableClaim">
+                  <label class="custom-control-label" for="radioClaimType">
+                      Minor & Below {{countryObject.Symbol + ((countryObject.Symbol.length > 1)? ' ':'') + countryObject.Threshold}}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row no-gutters" *ngIf="!createNewClaimObjectClaimDetails.custSelectClaimType && createNewClaimObjectClaimDetails.custActionStatus">
+            <div class="col-12 no-gutters row">
+              <div class="col-3">
+                <div class="form-group">
+                  <div class="custom-control custom-checkbox custom-control-inline">
+                    <input class="custom-control-input" type="checkbox" name="minor-issue-credit" id="minor-issue-credit" [(ngModel)]="createNewClaimObjectClaimDetails.custIssueCreditStatus" (change)="onIssueCreditSelect(createNewClaimObjectClaimDetails.custIssueCreditStatus)" *ngIf="!disableClaim">
+                    <input class="custom-control-input" type="checkbox" [checked]="createNewClaimObjectClaimDetails.custIssueCreditStatus" *ngIf="disableClaim" disabled>
+                    <label class="custom-control-label" for="minor-issue-credit" >Issue Credit</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-9 no-gutters" *ngIf="(createNewClaimObjectClaimDetails.custIssueCreditStatus && createNewClaimObjectClaimDetails.custActionStatus)">
+                <div class="row">
+                    <div class="col-6"  *ngIf="createNewClaimObject.custClaimTypeSelectedValue != 2">
+                        <div class="row">
+                          <div class="col-4">
+                          <div class="form-group" [ngClass]="{'has-error':(MBIunitCost.invalid && (MBIunitCost.dirty || MBIunitCost.touched))}">
+                            <label>Unit Cost</label>
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">{{countryObject.Symbol}}</span>
+                              </div>
+                              <input type="text" maxlength="9" class="form-control" id="custPUnitCostFirst" onPaste="return false" ondrop="return false"
+                                name="custPUnitCostFirst" [(ngModel)]="createNewClaimObjectClaimDetails.custPUnitCostFirst"
+                                (ngModelChange)="valuechangeIssueCredt($event)" [disabled]="disableClaim" #MBIunitCost="ngModel" pattern="[0-9]+([\.][0-9]+)?" (change)="createNewClaimObjectClaimDetails.custPUnitCostFirst =formatCost(createNewClaimObjectClaimDetails.custPUnitCostFirst)">
+                            </div>
+                          </div>
+                        </div>
+                          <div class="col-4">
+                          <div class="form-group">
+                            <label>Quantity</label>
+                            <div class="input-group mb-3">
+                              <input type="text" maxlength="6" class="form-control" id="custQuantityFisrt" name="custQuantityFisrt"
+                              [(ngModel)]="createNewClaimObjectClaimDetails.custQuantityFisrt" [disabled]="disableClaim"
+                              (ngModelChange)="valuechangeIssueCredt($event)" onPaste="return false" ondrop="return false"  onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+                              <div class="input-group-append">
+                                <span class="input-group-text">Units</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                          <div class="col-4">
+                            <div class="form-group" [ngClass]="{'has-error':(MBIaddCost.invalid && (MBIaddCost.dirty || MBIaddCost.touched))}">
+                              <label>Additional Costs</label>
+                              <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text">{{countryObject.Symbol}}</span>
+                                </div>
+                                <input type="text" maxlength="9" class="form-control" name="additionalCostFirst" [(ngModel)]= "createNewClaimObjectClaimDetails.additionalCostFirst"
+                                  (ngModelChange)= "valuechangeIssueCredt($event)" [disabled]="disableClaim" #MBIaddCost="ngModel" pattern="[0-9]+([\.][0-9]+)?" (change)="createNewClaimObjectClaimDetails.additionalCostFirst =formatCost(createNewClaimObjectClaimDetails.additionalCostFirst)">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="row">
+                        <div class="col-6">
+                        <div class="form-group">
+                          <label>Total Cost</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">{{countryObject.Symbol}}</span>
+                            </div>
+                            <input  *ngIf="createNewClaimObject.custClaimTypeSelectedValue != 2" type="text" class="form-control" name="custTotalCostFisrt" [(ngModel)]="createNewClaimObjectClaimDetails.custTotalCostFisrt" maxlength="16" readonly>
+                            <input  *ngIf="createNewClaimObject.custClaimTypeSelectedValue == 2" type="text" class="form-control" id="custTotalCostFisrt" name="custTotalCostFisrt" [(ngModel)]="createNewClaimObjectClaimDetails.custTotalCostFisrt" maxlength="16" [disabled]="disableClaim">
+                          </div>
+                        </div>
+                      </div>
+                        <div class="col-6">
+                        <div class="form-group">
+                          <label>Responsible Department</label>
+                          <div class="input-group">
+                            <input  *ngIf="custClaimTypeValue!=='Compliance' " type="text" class="form-control" name="custSectionFisrtLbl" [(ngModel)]="createNewClaimObjectClaimDetails.custSectionFisrtLbl" readonly>
+                          </div>
+                        </div>
+                      </div>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 no-gutters row" >
+              <div class="col-3">
+                <div class="form-group">
+                  <div class="custom-control custom-checkbox custom-control-inline">
+                    <input class="custom-control-input" type="checkbox" name="minor-request-capa" id="minor-request-capa" [(ngModel)]="createNewClaimObjectClaimDetails.CAPAFlag" [disabled]="disableClaim">
+                    <label class="custom-control-label" for="minor-request-capa">Request CAPA</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 no-gutters row" >
+              <div class="col-3">
+                <div class="form-group">
+                  <div class="custom-control custom-checkbox custom-control-inline">
+                    <input class="custom-control-input" type="checkbox" name="minor-replacement" id="minor-replacement" [(ngModel)]="createNewClaimObjectClaimDetails.custReplacementStatus" (change)="onReplacementSelect(createNewClaimObjectClaimDetails.custReplacementStatus)" [disabled]="disableClaim">
+                    <label class="custom-control-label" for="minor-replacement">Replacement</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-9 no-gutters" *ngIf="createNewClaimObjectClaimDetails.custReplacementStatus">
+                <div class="row">
+                    <div class="col-3">
+                        <div class="form-group" [ngClass]="{'has-error':(MBRunitCost.invalid && (MBRunitCost.dirty || MBRunitCost.touched))}">
+                          <label>Unit Cost</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">{{countryObject.Symbol}}</span>
+                            </div>
+                            <input type="text" maxlength="9" class="form-control" id="custPUnitCostSecond" name="custPUnitCostSecond"
+                              [(ngModel)]="createNewClaimObjectClaimDetails.custPUnitCostSecond"
+                              (ngModelChange)="valuechangeReplacement($event)" #MBRunitCost="ngModel" pattern="[0-9]+([\.][0-9]+)?" [disabled]="disableClaim" (change)="createNewClaimObjectClaimDetails.custPUnitCostSecond =formatCost(createNewClaimObjectClaimDetails.custPUnitCostSecond)">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="form-group">
+                          <label>Quantity</label>
+                          <div class="input-group">
+                            <input type="text" maxlength="6" class="form-control" id="custQuantitySecond" name="custQuantitySecond"
+                              [(ngModel)]="createNewClaimObjectClaimDetails.custQuantitySecond" onPaste="return false" ondrop="return false"  onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                              (ngModelChange)="valuechangeReplacement($event)" [disabled]="disableClaim">
+                              <div class="input-group-append">
+                                <span class="input-group-text">Units</span>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="form-group">
+                          <label>Total Cost</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend"><span class="input-group-text">{{countryObject.Symbol}}</span></div>
+                            <input  type="text" class="form-control" id="custTotalCostSecond" name="custTotalCostSecond" [(ngModel)]="createNewClaimObjectClaimDetails.custTotalCostSecond"
+                            maxlength="16" readonly>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="form-group">
+                          <label>Responsible Department</label>
+                          <div class="input-group">
+                            <input  *ngIf="custClaimTypeValue!=='Compliance' " type="text" class="form-control" name="custSectionSecondLbl" [(ngModel)]="createNewClaimObjectClaimDetails.custSectionSecondLbl" readonly>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 no-gutters row">
+              <div class="col-3">
+                <div class="form-group">
+                  <div class="custom-control custom-checkbox custom-control-inline">
+                    <input class="custom-control-input" type="checkbox" name="minor-remarks" id="minor-remarks" [(ngModel)]="createNewClaimObjectClaimDetails.custOtherStatus" [disabled]="disableClaim">
+                    <label class="custom-control-label" for="minor-remarks">Remarks</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-9" *ngIf="createNewClaimObjectClaimDetails.custOtherStatus">
+                <div class="form-group">
+                      <label>Description</label>
+                      <textarea type="text" class="form-control" id="custSectionOthersDescription" name="custSectionOthersDescription"
+                      [(ngModel)]="createNewClaimObjectClaimDetails.custSectionOthersDescription"
+                            (ngModelChange)="stateChangesStatus()" maxlength="1024" [disabled]="disableClaim"></textarea>
+                    </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <div class="custom-control custom-radio">
+                  <input class="custom-control-input" type="radio" name="majorClaimType" id="majorClaimType" [(ngModel)]="createNewClaimObjectClaimDetails.custSelectClaimType"
+                  [value]="true" (click)="onMajorClick()" [disabled]="disableClaim">
+                  <label class="custom-control-label" for="majorClaimType">Claim Other to be validated by Quality Manager <span class="note">(Note:CAPA is Automatic)</span></label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row no-gutters" *ngIf="createNewClaimObjectClaimDetails.custSelectClaimType && createNewClaimObjectClaimDetails.custActionStatus">
+            <div class="col-12 row">
+              <div class="col-3">
+                <div class="form-group">
+                  <div class="custom-control custom-checkbox">
+                    <input class="custom-control-input" type="checkbox" name="major-issue-credit" id="major-issue-credit" [(ngModel)]="createNewClaimObjectClaimDetails.custIssueCreditStatus"  (change)="onIssueCreditSelect(createNewClaimObjectClaimDetails.custIssueCreditStatus)" [disabled]="disableClaim">
+                    <label class="custom-control-label" for="major-issue-credit">Issue Credit</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-9 no-gutters" *ngIf="createNewClaimObjectClaimDetails.custIssueCreditStatus">
+                <div class="row">
+                    <div class="col-2">
+                        <div class="form-group" [ngClass]="{'has-error':(QAIunitCost.invalid && (QAIunitCost.dirty || QAIunitCost.touched))}">
+                          <label>Unit Cost</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">{{countryObject.Symbol}}</span>
+                            </div>
+                            <input type="text" maxlength="9" class="form-control" id="custPUnitCostFirst" onPaste="return false" ondrop="return false"
+                              name="custPUnitCostFirst" [(ngModel)]="createNewClaimObjectClaimDetails.custPUnitCostFirst"
+                              (ngModelChange)="valuechangeIssueCredt($event)" #QAIunitCost="ngModel" pattern="[0-9]+([\.][0-9]+)?" [disabled]="disableClaim" (change)="createNewClaimObjectClaimDetails.custPUnitCostFirst =formatCost(createNewClaimObjectClaimDetails.custPUnitCostFirst)">
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group">
+                          <label>Quantity</label>
+                          <div class="input-group">
+                            <input type="text" maxlength="6" class="form-control" id="custQuantityFisrt" name="custQuantityFisrt"
+                              [(ngModel)]="createNewClaimObjectClaimDetails.custQuantityFisrt"
+                              (ngModelChange)="valuechangeIssueCredt($event)" onPaste="return false" ondrop="return false"  onkeypress='return event.charCode >= 48 && event.charCode <= 57' [disabled]="disableClaim">
+                              <div class="input-group-append">
+                                <span class="input-group-text">Units</span>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group" [ngClass]="{'has-error':(QAIaddCost.invalid && (QAIaddCost.dirty || QAIaddCost.touched))}">
+                          <label>Additional Costs</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">{{countryObject.Symbol}}</span>
+                            </div>
+                            <input type="text" maxlength="9" class="form-control" id="additionalCostFirst" onPaste="return false" ondrop="return false"
+                              name="additionalCostFirst" [(ngModel)]="createNewClaimObjectClaimDetails.additionalCostFirst"
+                              (ngModelChange)="valuechangeIssueCredt($event)"  #QAIaddCost="ngModel" pattern="[0-9]+([\.][0-9]+)?" [disabled]="disableClaim" (change)="createNewClaimObjectClaimDetails.additionalCostFirst =formatCost(createNewClaimObjectClaimDetails.additionalCostFirst)">
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group">
+                          <label>Total Cost</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">{{countryObject.Symbol}}</span>
+                            </div>
+                            <input  *ngIf="createNewClaimObject.custClaimTypeSelectedValue != 2" type="text" class="form-control" id="custTotalCostFisrt" name="custTotalCostFisrt" [(ngModel)]="createNewClaimObjectClaimDetails.custTotalCostFisrt"
+                              maxlength="16" readonly>
+                            <input  *ngIf="createNewClaimObject.custClaimTypeSelectedValue == 2" type="text" class="form-control" id="custTotalCostFisrt" name="custTotalCostFisrt" [(ngModel)]="createNewClaimObjectClaimDetails.custTotalCostFisrt"
+                              maxlength="16" [disabled]="disableClaim?'':null">
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                          <label>Responsible Department</label>
+                          <div class="input-group">
+                            <input  *ngIf="custClaimTypeValue!=='Compliance' " type="text" class="form-control" name="custSectionFisrtLbl" [(ngModel)]="createNewClaimObjectClaimDetails.custSectionFisrtLbl" readonly>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 row">
+              <div class="col-3">
+                <div class="form-group">
+                  <div class="custom-control custom-checkbox">
+                    <input class="custom-control-input" type="checkbox" name="major-return-authorization" id="major-return-authorization" [(ngModel)]="createNewClaimObjectClaimDetails.custReturnAutorizationStatus" (click)="onReturnAuthorizationSelect()" [disabled]="disableClaim">
+                      <label class="custom-control-label" for="major-return-authorization">Return Authorization</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-3" *ngIf="(createNewClaimObjectClaimDetails.custReturnAutorizationStatus && createNewClaimObject.custClaimTypeSelectedValue != 4)">
+                <div class="form-group">
+                  <label>RA No.</label>
+                  <input  [disabled]="disableClaim" type="text" class="form-control" id="custRAno" name="custRAno"
+                    [(ngModel)]="createNewClaimObjectClaimDetails.custRAno" maxlength="10" onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || (event.charCode >= 65 &&event.charCode <= 90)||(event.charCode >= 97 && event.charCode <= 122)'>
+                </div>
+              </div>
+              <div class="col-9 no-gutters" *ngIf="(createNewClaimObjectClaimDetails.custReturnAutorizationStatus && createNewClaimObject.custClaimTypeSelectedValue == 4)">
+                <div class="row">
+                  <div class="col-4">
+                    <div class="form-group" [ngClass]="{'has-error':(QAR_unitCost.invalid && (QAR_unitCost.dirty || QAR_unitCost.touched))}">
+                      <label>Unit Cost</label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">{{countryObject.Symbol}}</span>
+                        </div>
+                        <input [disabled]="disableClaim" type="text" maxlength="9" class="form-control" id="custPUnitCostFirstResponseRA"
+                          onPaste="return false" ondrop="return false"  name="custPUnitCostFirstResponseRA"
+                          [(ngModel)]="createNewClaimObjectClaimDetails.custPUnitCostFirstRAno"
+                          (ngModelChange)="valuechangeIssueCredtRAno($event)" #QAR_unitCost="ngModel" pattern="[0-9]+([\.][0-9]+)?" [disabled]="disableClaim" (change)="createNewClaimObjectClaimDetails.custPUnitCostFirstRAno =formatCost(createNewClaimObjectClaimDetails.custPUnitCostFirstRAno)">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="form-group">
+                      <label>Quantity</label>
+                      <div class="input-group">
+                        <input type="text" maxlength="6" class="form-control" id="custQuantityFisrtResponseRA" name="custQuantityFisrtResponseRA"   [disabled]="disableClaim" [(ngModel)]="createNewClaimObjectClaimDetails.custQuantityFisrtRAno"
+                        (ngModelChange)="valuechangeIssueCredtRAno($event)" onPaste="return false" ondrop="return false"  onkeypress='return event.charCode >= 48 && event.charCode <= 57' [disabled]="disableClaim">
+                        <div class="input-group-append">
+                          <span class="input-group-text">Units</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="form-group">
+                      <label>Total Cost</label>
+                      <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">{{countryObject.Symbol}}</span>
+                        </div>
+                        <input *ngIf="createNewClaimObject.custClaimTypeSelectedValue != 2" type="text" class="form-control" id="custTotalCostFisrtResponseRA" name="custTotalCostFisrtResponseRA" [(ngModel)]="createNewClaimObjectClaimDetails.custTotalCostFisrtRAno"
+                          maxlength="16" readonly>
+                        <input *ngIf="createNewClaimObject.custClaimTypeSelectedValue == 2" type="text" class="form-control" id="custTotalCostFisrtResponseRA" name="custTotalCostFisrtResponseRA" [(ngModel)]="createNewClaimObjectClaimDetails.custTotalCostFisrtRAno"
+                          maxlength="16" [disabled]="disableClaim">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 row">
+              <div class="col-3">
+                <div class="form-group">
+                  <div class="custom-control custom-checkbox">
+                    <input class="custom-control-input" type="checkbox" name="major-replacement" id="major-replacement" [(ngModel)]="createNewClaimObjectClaimDetails.custReplacementStatus" (change)="onReplacementSelect(createNewClaimObjectClaimDetails.custReplacementStatus)" [disabled]="disableClaim">
+                    <label class="custom-control-label" for="major-replacement">Replacement</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-9 no-gutters" *ngIf="createNewClaimObjectClaimDetails.custReplacementStatus">
+                <div class="row">
+                  <div class="col-3">
+                      <div class="form-group" [ngClass]="{'has-error':(QARP_unitCost.invalid && (QARP_unitCost.dirty || QARP_unitCost.touched))}">
+                        <label>Unit Cost</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">{{countryObject.Symbol}}</span>
+                          </div>
+                          <input type="text" maxlength="9" class="form-control" name="custPUnitCostSecond"
+                            [(ngModel)]="createNewClaimObjectClaimDetails.custPUnitCostSecond"
+                            (ngModelChange)="valuechangeReplacement($event)" #QARP_unitCost="ngModel" pattern="[0-9]+([\.][0-9]+)?" [disabled]="disableClaim" (change)="createNewClaimObjectClaimDetails.custPUnitCostSecond =formatCost(createNewClaimObjectClaimDetails.custPUnitCostSecond)">
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-3">
+                      <div class="form-group">
+                        <label>Quantity</label>
+                        <div class="input-group">
+                          <input type="text" maxlength="6" class="form-control" id="custQuantitySecond" name="custQuantitySecond"
+                            [(ngModel)]="createNewClaimObjectClaimDetails.custQuantitySecond"
+                            (ngModelChange)="valuechangeReplacement($event)" onPaste="return false" ondrop="return false"  onkeypress='return event.charCode >= 48 && event.charCode <= 57' [disabled]="disableClaim">
+                            <div class="input-group-append">
+                              <span class="input-group-text">Units</span>
+                            </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-3">
+                      <div class="form-group">
+                        <label>Total Cost</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">{{countryObject.Symbol}}</span>
+                          </div>
+                          <input  type="text" class="form-control" id="custTotalCostSecond" name="custTotalCostSecond" [(ngModel)]="createNewClaimObjectClaimDetails.custTotalCostSecond"
+                                maxlength="16" readonly>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-3">
+                      <div class="form-group">
+                        <label>Responsible Department</label>
+                        <div class="input-group">
+                          <input  *ngIf="custClaimTypeValue!=='Compliance' " type="text" class="form-control" name="custSectionSecondLbl" [(ngModel)]="createNewClaimObjectClaimDetails.custSectionSecondLbl" readonly>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 row">
+              <div class="col-3">
+                <div class="form-group">
+                  <div class="custom-control custom-checkbox">
+                    <input class="custom-control-input" type="checkbox" name="major-remarks" id="major-remarks" [(ngModel)]="createNewClaimObjectClaimDetails.custOtherStatus" [disabled]="disableClaim">
+                    <label class="custom-control-label" for="major-remarks">Remarks</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-9" *ngIf="createNewClaimObjectClaimDetails.custOtherStatus">
+                <div class="form-group">
+                          <label>Description</label>
+                          <textarea type="text" [disabled]="disableClaim" class="form-control" id="custSectionOthersDescription" name="custSectionOthersDescription"
+                            [(ngModel)]="createNewClaimObjectClaimDetails.custSectionOthersDescription"
+                            (ngModelChange)="stateChangesStatus()" maxlength="1024" [disabled]="disableClaim"></textarea>
+                        </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row no-gutters col-12 mt-3" *ngIf="custClaimTypeValue=='Compliance'">
+        <div class="col-12  row">
+          <div class="col-3">
+            <div class="form-group form-check-box">
+              <label class="form-check-label" for="ncan-total-claims-checkbox">Total Number of claims</label>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-group">
+              <input  [disabled]="disableClaim" type="text" class="form-control" id="CusttotalClaims" name="CusttotalClaims"
+                [(ngModel)]="createNewClaimObjectClaimDetails.TotalClaims" maxlength="10" onkeypress='return event.charCode >= 48 && event.charCode <= 57' onPaste="return false" ondrop="return false"  [disabled]="disableClaim">
+            </div>
+          </div>
+        </div>
+        <div class="col-12 row">
+          <div class="col-3">
+            <div class="form-group form-check-box">
+              <label class="form-check-label" for="ncan-total-amount-checkbox">Total Amount</label>
+            </div>
+          </div>
+          <div class="col-3">
+              <div class="form-group not-required"  [ngClass]="{'has-error':(QA_totalAmount.invalid && (QA_totalAmount.dirty || QA_totalAmount.touched))}">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">{{countryObject.Symbol}}</span>
+                  </div>
+                  <input type="text" class="form-control" id="custtotalAmount" name="custtotalAmount" maxlength="10" [(ngModel)]="createNewClaimObjectClaimDetails.TotalAmount" (change)="createNewClaimObjectClaimDetails.TotalAmount = validateTotalAmountCC(createNewClaimObjectClaimDetails.TotalAmount)" #QA_totalAmount="ngModel"
+                  (change)="createNewClaimObjectClaimDetails.TotalAmount = formatCost(createNewClaimObjectClaimDetails.TotalAmount)" 
+                  pattern="[0-9]+([\.][0-9]+)?" [disabled]="disableClaim">
+                </div>
+                <span *ngIf="QA_totalAmount.invalid && (QA_totalAmount.dirty || QA_totalAmount.touched)">Please Enter valid Amount</span>
+              </div>
+            </div>
+        </div>
+      </div>
+      <hr/>
+    </div>
+    <div class="block last" id="block-5" >
+      <h4 class="col-11 text-primary text-uppercase">5. Additional Information</h4>
+      <div class="row col-12" style="padding-bottom: 160px;">
+        <div class="col-4">
+          <div class="form-group">
+            <label>Notes</label>
+            <textarea [disabled]="disableClaim" class="form-control" #custNotes="ngModel" placeholder="{{disableClaim ? '' : 'Description'}}" id="custNotes" name="custNotes"
+              [(ngModel)]="createNewClaimObjectClaimDetails.custNotes"
+              maxlength="1024"></textarea>
+          </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label>Feedback for improvement</label>
+                <textarea [disabled]="disableClaim" class="form-control" #custFeedbackImprovement="ngModel" placeholder="{{disableClaim ? '' : 'Description'}}"  id="custFeedbackImprovement"
+                    name="custFeedbackImprovement" [(ngModel)]="createNewClaimObjectClaimDetails.custFeedbackImprovement" maxlength="1024"></textarea>
+            </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group not-required" *ngIf="sendEmailToFlag">
+            <label>Sent Email To</label>
+            <ng-select [items]="emailList"
+              bindLabel="Address"
+              bindValue="Address"
+              [addTag]="addCustomEmail"
+              [multiple]="true"
+              name="additional-email"
+              [disabled]="disableClaim"
+              [placeholder]="disableClaim ? '' : 'Enter multiple email Ids separated by comma'"
+              [(ngModel)]="createNewClaimObjectClaimDetails.custSentEmailTo" (change)="validateemail(createNewClaimObjectClaimDetails.custSentEmailTo)">
+            </ng-select>
+             <span *ngIf="(createNewClaimObjectClaimDetails.custSentEmailTo && createNewClaimObjectClaimDetails.custSentEmailTo.length && !validmail) && !disableClaim">Please Enter valid Email</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-fixed hidden"></div>
+  <div class="footer-fixed" *ngIf="!disableClaim">
+    <div class="container">
+      <div class="d-flex justify-content-between">
+        <div>
+          <ng-container *ngIf="claimstatus == 'Draft' || formMode == 'Createnewclaim'">
+            <button type="button" class="btn btn-outline-light"  name="reset-button" (click)="showResetConfirm(resetConfirmModal)"  [disabled]="apiProcessing">Reset</button>
+            <button type="button" class="btn btn-outline-light"  name="save-button" (click)="onDraftClick('false')" [disabled]="apiProcessing">Save as draft</button>
+          </ng-container>
+        </div>
+        <div>
+          <button type="submit" class="btn btn-light"  name="submit-button"  (click)="onSubmitClick('true')" [disabled]="apiProcessing">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<!--Reset Popup Start-->
+<ng-template #resetConfirmModal>
+  <div class="modal-body text-center">
+    <p>Reset will clear all values entered before saving. Do you want to Continue?</p>
+    <button type="button" class="btn btn-default" (click)="modalRef.hide();">No</button>
+    <button type="button" class="btn btn-primary" (click)="onResetYes()" >Yes</button>
+  </div>
+</ng-template>
+<!--Reset Popup End-->
+
+<!--Browse Popup Start - Pallet Ticket-->
+<ng-template #filePalletUploadModal>
+  <div class="modal-header">
+    <h5 class="modal-title">File Name</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ul class="list-group  list-group-flush text-break-letter">
+      <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let palletTicket of palletTicketFileUploadDetail; let i = index">
+        <span *ngIf="titleofView === 'View Claim' || claimStaus === 'Draft'" class="cursor-pointer" (click)="openfile(palletTicket.path)">{{palletTicket.name}}</span>
+        <span *ngIf="titleofView !== 'View Claim'&& claimStaus !== 'Draft'"  (click)="openfile(palletTicket.path)">{{palletTicket.name}}</span>
+        <span class="icon-trash cursor-pointer" *ngIf="!disableClaim" (click)="onPalletChange(palletTicket.name, false, palletTicket.AttachmentID)"></span>
+      </li>
+    </ul>
+    <div class="row  mt-2">
+        <div class="col-12 text-right">
+            <button class="btn btn-primary" type="button" (click)="modalRef.hide();">Ok</button>
+        </div>
+    </div>
+  </div>
+</ng-template>
+<!--Browse Popup End - Pallet Ticket-->
+
+
+<!--Browse Popup Start - Compliance Upload-->
+<ng-template #complianceUploadModal>
+  <div class="modal-header">
+    <h5 class="modal-title">File Name</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item d-flex justify-content-between" *ngFor="let complianceAttachments of complianceFileUploadDetail; let i = index">
+        <span *ngIf="titleofView === 'View Claim' || claimStaus === 'Draft'" class="cursor-pointer" (click)="openfile(complianceAttachments.path)">{{complianceAttachments.name}}</span>
+        <span *ngIf="(titleofView !== 'View Claim'&& claimStaus !== 'Draft')||cmpflag " (click)="openfile(complianceAttachments.path)">{{complianceAttachments.name}}</span>
+        <span class="icon-trash cursor-pointer" *ngIf="!disableClaim" (click)="onComplianceChange(complianceAttachments.name, false, complianceAttachments.AttachmentID)"></span>
+      </li>
+    </ul>
+    <div class="row mt-3">
+        <div class="col-12 text-right">
+            <button class="btn btn-primary" type="button" (click)="modalRef.hide();">Ok</button>
+        </div>
+    </div>
+  </div>
+</ng-template>
+<!--Browse Popup End - Compliance Upload-->
+
+
+<!--Browse Popup Start - Master Carton-->
+<ng-template #fileMasterCartonUploadModal>
+  <div class="modal-header">
+    <h5 class="modal-title">File Name</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ul class="list-group list-group-flush text-break-letter">
+      <li class="list-group-item  d-flex justify-content-between"  *ngFor="let masterCarton of masterCartonBarcodeFileUploadDetail; let i = index">
+        <span *ngIf="titleofView === 'View Claim' || claimStaus === 'Draft'" class="cursor-pointer" (click)="openfile(masterCarton.path)">{{masterCarton.name}}</span>
+        <span *ngIf="titleofView !== 'View Claim' && claimStaus !== 'Draft'" (click)="openfile(masterCarton.path)">{{masterCarton.name}}</span>
+        <span class="icon-trash cursor-pointer" *ngIf="!disableClaim" (click)="onCartonChange(masterCarton.name, false, masterCarton.AttachmentID)"></span>
+      </li>
+    </ul>
+    <div class="row mt-3">
+        <div class="col-12 text-right">
+            <button class="btn btn-primary" type="button" (click)="modalRef.hide();">Ok</button>
+        </div>
+    </div>
+  </div>
+</ng-template>
+<!--Browse Popup End - Master Carton -->
+
+
+<!--Compliance Upload PopUp View-->
+<ng-template #complianceUploadViewModel>
+  <div class="modal-header">
+    <h4 *ngFor="let complianceAttachments of complianceFileUploadDetail; let i = index" class="modal-title pull-left" >{{complianceAttachments.name}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="excel-file-popup border mb-2">
+      <table class="compliance-excel-table table">
+        <tr>
+          <th>Month</th>
+          <th>Date of Reciept or Deduction</th>
+          <th>Customer</th>
+          <th>Customer Claim #</th>
+          <th >Date of occurrence</th>
+          <th> Claim Amount </th>
+          <th >Account #</th>
+          <th >Sales Rep</th>
+          <th >CSR</th>
+          <th>Shipping</th>
+          <th>Description of Claim</th>
+          <th >Claim Type</th>
+          <th>Divison</th>
+          <th>Comments/ Action Plan</th>
+          <th>Department</th>
+        </tr>
+        <tr *ngFor="let complianceData of complianceTableData; let i = index">
+          <td>{{complianceData.Month}}</td>
+          <td>{{complianceData.ReceiptDate}}</td>
+          <td>{{complianceData.CustomerName}}</td>
+          <td>{{complianceData.ClaimNumber}}</td>
+          <td>{{complianceData.OccuranceDate}}</td>
+          <td>{{complianceData.ClaimAmount}}</td>
+          <td>{{complianceData.AccountNumber}}</td>
+          <td>{{complianceData.SalesRep}}</td>
+          <td>{{complianceData.CSR}}</td>
+          <td>{{complianceData.Shipping}}</td>
+          <td>{{complianceData.Shipping}}</td>
+          <td>{{complianceData.ClaimType}}</td>
+          <td>{{complianceData.Division}}</td>
+          <td>{{complianceData.Comments}}</td>
+          <td>{{complianceData.Department}}</td>
+        </tr>
+      </table>
+    </div>
+    <div class="row">
+        <div class="col-12 text-right">
+            <button class="btn btn-primary" type="button" *ngIf="!disableClaim" (click)="complianceUploaddelete(complianceFileUploadDetail)">Delete</button>
+            <button class="btn btn-primary" type="button" (click)="modalRef.hide();">Ok</button>
+        </div>
+    </div>
+  </div>
+</ng-template>
+<!--Compliance Upload PopUp View-->
+
+<!-- Browse Popup Start - Uploader Defective Change -->
+<ng-template #fileUploaderDefectivPopUpModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">File Name</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" *ngIf="uploaderDefectiveDetail.length > 0">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item d-flex justify-content-between" *ngFor="let uploaderDefective of uploaderDefectiveDetail; let i = index">
+            <span *ngIf="titleofView === 'View Claim' || claimStaus === 'Draft'" class="cursor-pointer" (click)="openfile(uploaderDefective.path)">{{uploaderDefective.name}}</span>
+            <span *ngIf="titleofView !== 'View Claim' && claimStaus !== 'Draft'" (click)="openfile(uploaderDefective.path)">{{uploaderDefective.name}}</span>
+            <span class="icon-trash cursor-pointer" *ngIf="!disableClaim" (click)="onUploaderDefectiveChange(uploaderDefective.name, false, uploaderDefective.AttachmentID)"></span>
+        </li>
+      </ul>
+    <div class="row mt-2">
+          <div class="col-12 text-right">
+            <button class="btn btn-primary" type="button" (click)="modalRef.hide();">Ok</button>
+          </div>
+      </div>
+  </div>
+</ng-template>
+<!-- Browse Popup End -->
+
+<!-- Save Warning Popup Start -->
+<ng-template #SaveWarningPopupShowModal>
+  <div class="modal-body">
+    <p>Changes not saved will be lost. Are you sure you want to leave the page?</p>
+    <div class="row">
+      <div class="col-6 text-right">
+          <button class="btn btn-sm" type="button" (click)="modalRef.hide()">No</button>
+      </div>
+      <div class="col-6 text-left">
+          <button class="btn btn-primary btn-sm" (click)="onSaveWarningYesClick()" type="button">Yes</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- Save Warning Popup End -->
+
+<!-- InvoiceSearch Popup Start -->
+<ng-template #InvoiceSearchPopUpViewModal>
+  <div class=" modal-body" >
+    <div  class="popup-container browseDialog">
+      <!-- <div class="col-12"  *ngFor="let InvoiceSearchData of searchInvoiceResults.ES_HEADER; let i = index" > -->
+        <div class="row pop-custom-header srch-head">
+          <div class="col-5" >
+            <p  class="align-left cust-p inv-p">Invoice Number </p>
+            <div class="input-group" #popper1 [popper]="popper2Content" [popperShowOnStart]="false" [popperTrigger]="'hover'" [popperDisabled]="!disableClaim || !createNewClaimObject.custInvoiceNo"
+              [popperPlacement]="'bottom'">
+              <input pasteNumberOnly type="text" class="form-control" name="invoiceHeader" maxlength="1024" [(ngModel)]="createNewClaimObject.custInvoiceNo"  (blur)="bDetailsValidate('invoice')" [placeholder]="disableClaim?'':'Enter multiple invoice no. seperated by comma'" onkeypress='return event.charCode >= 48 && event.charCode <= 57 || event.charCode == 44' ondrop="return false" (ngModelChange)="invoiceNumNgModValChange()" [disabled]="disableClaim">
+              <div class="input-group-append cursor-pointer" *ngIf="!disableClaim  && createNewClaimObject.custInvoiceNo.split(',').length ==1">
+                <button class="input-group-text input-group-text-nw" (click)="invoiceSearchClick('','popupSearch')">
+                  <i class="icon-search"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-6" >
+            <p  class="align-left inv-p" >Customer Name <br> 
+              <span>{{invoiceCustomerName}} </span>
+            </p>
+          </div>
+          <div class="col-1 pos-relative" >
+            <i class="icon-close" style="font-size: 1.5rem;padding-top: 5px;" (click)="closeInvoiceSearchPopup()"></i>
+          </div>
+        </div>
+        <div class="invoice-search-result srch-rslt-table pop-scroll" style="max-height: 70vh;    overflow: auto;    margin-bottom: 1rem;">
+          <table *ngIf="searchInvoiceResults1 && searchInvoiceResults1.length > 0" class="table-pop-invoice">
+            <thead>
+              <th *ngIf="searchInvoiceResults.ET_INV_DETAILS" class="prod-details-th">Product Details</th>
+              <th *ngIf="searchInvoiceResults.ET_INV_DETAILS"  style="padding-left: 1.5rem;">Brand</th>
+            </thead>
+            <tr *ngFor="let InvoiceData of searchInvoiceResults.ET_INV_DETAILS; let i = index" >
+              <td class="inline radio-btn-container" *ngIf="InvoiceData" style="padding-left: 0;">
+                <div class="form-check" style="padding-left: 0;">
+                  <input  [(ngModel)]="createNewClaimObjectClaimDetails.invoiceSelection" name="invoiceSelection-{{i}}" value="InvoiceData-{{i}}" type="radio" (click)="invoiceSearchSelected(InvoiceData)" id="InvoiceData-{{i}}">
+                  <label class="prod-label" for="InvoiceData-{{i}}">{{InvoiceData.MAKTX}}</label>
+                </div>
+              </td>
+              <!-- <td class="srch-prod-td" *ngIf="InvoiceData"><label for="InvoiceData-{{i}}"></label></td> -->
+              <td style="padding-left: 1.5rem;">
+                <label class="brand-label" for="InvoiceData-{{i}}">{{InvoiceData.ZBRDES}}</label>
+              </td>
+            </tr>
+          </table>
+          <h3 class="no-rel-fnd" *ngIf="searchInvoiceResults1 && searchInvoiceResults1.length==0">No results found</h3>
+        </div>
+        <div class="row">
+          <div class="col-12 form-footer text-right">
+            <button class="btn btn-primary pull-right" *ngIf="searchInvoiceResults1 && searchInvoiceResults1.length > 0" type="button" (click)="invoiceSearchPopUpViewclose(createNewClaimObjectClaimDetails.invoiceSelection);modalRef.hide();" >Select</button>
+          </div>
+        </div>
+      <!-- </div> -->
+    </div>
+  </div>
+</ng-template>
+<!-- InvoiceSearch Popup End -->
+
+
+<router-outlet></router-outlet>
+
+<app-loader id="appLoader" [hidden]="!loading"></app-loader>

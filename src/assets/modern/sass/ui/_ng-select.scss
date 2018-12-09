@@ -1,0 +1,40 @@
+.ng-select{
+
+  .ng-control{
+    background-color: transparent !important;
+    min-height: 1.8rem !important;
+  }
+
+  .ng-value-container{
+    display: flex !important;
+    align-items: flex-start !important;
+    min-height: 1.8rem !important;
+    padding-top: 0.2rem !important;
+    .ng-placeholder{
+      color: rgba(1, 1, 1, 0.5);
+    }
+  }
+
+  .ng-arrow-zone{
+    background: transparent $custom-select-indicator no-repeat left center;
+    background-size: $custom-select-bg-size;
+    width: rem(25);
+    height: rem(25);
+    padding-right: rem(5);
+    .ng-arrow{
+      display: none !important;
+    }
+  }
+
+  &.focused .ng-control{
+    box-shadow: none !important;
+  }
+}
+
+.ng-select.form-control{
+  padding: 0;
+
+  .ng-control{
+    border: none;
+  }
+}

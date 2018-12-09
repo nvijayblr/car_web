@@ -1,0 +1,55 @@
+.search-result-wrapper .d-flex, .search-result-wrapper .icon-download, .search-result-wrapper .icon-print {
+	cursor: pointer;
+}
+.search-result-wrapper .page-size {
+	float: right;
+	width: 100px;
+	margin: 8px 0 5px;
+}
+.popup-container.print-popup {
+	border: 1px solid #000;
+}
+.popup-container.print-popup .print-claim-inner {
+    width: 100%;
+    background: #fff;
+    padding: 1.25rem 1.25rem;
+    border-top: 1px solid #ccc;
+    margin-top: 22px;
+}
+.popup-container.print-popup .print-claim-container {
+    background: white;
+    overflow: hidden;
+    padding: 0;
+    margin: 10px;
+    border: 0;
+    border-radius: 0;
+}
+.print-claim-container table tr:nth-child(odd) td {
+    padding-bottom: 0;
+}
+.print-claim-container table tr.caption td {
+    color: #adadad;
+}
+.print-claim-container table tr td {
+    font-size: 1rem;
+    padding: 0.5rem;
+}
+.print-claim-container table tr:nth-child(even) td {
+    padding-bottom: 2rem;
+}
+.claim-print-preview table tr.caption td {
+    color: #929292;
+    font-size: .8rem;
+}
+.claim-mdl-br {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin: 10px 0 0 0;
+}
+.br-bottom-h5 {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+.claim-print-preview table tr td {
+    font-size: 0.8rem;
+}

@@ -1,0 +1,43 @@
+// Form groups
+//
+// Designed to help with the organization and spacing of vertical forms. For
+// horizontal forms, use the predefined grid classes.
+
+.form-group {
+  margin-bottom: $form-group-margin-bottom;
+
+  &.required {
+
+    > label:first-child{
+
+      position: relative;
+
+      &:after{
+        content: '*';
+        color: $red;
+        position: absolute;
+        right: -0.5rem;
+        top: 0;
+      }
+    }
+
+    > span:last-child{
+      color: $red;
+      font-size: $display5-size;
+      bottom: 0;
+    }
+  }
+  &.not-required{
+    > span:last-child{
+      color: $red;
+      font-size: $display5-size;
+      bottom: 0;
+    }
+  }
+}
+
+
+.form-text {
+  display: block;
+  margin-top: $form-text-margin-top;
+}

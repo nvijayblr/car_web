@@ -1,0 +1,220 @@
+<div class="fixed-nav-header" id="fixed-nav-header">
+  <div class="container first">
+    <div class="row mt-1 border-top">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-back" [routerLink]="['/internal/claim']"></li>
+                <li class="breadcrumb-item"><a> {{'accidentDeclarationPage.pageHead' | translate}}</a></li>
+              </ol>
+            </nav>
+          </div>
+          <div class="col d-flex flex-row-reverse" *ngIf="accidentClaim.ClaimStatusId == 1 && moduleWeightage &&  moduleWeightage.ICLMCR>=30">
+            <div class="form-group mt-2 mb-0">
+              <button type="button" class="btn btn-primary " [routerLink]="['/internal/claim/accident/'+accidentClaim.ReferenceNo]">{{'accidentDeclarationPage.button.edit' | translate}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tab-header" id="tabHeader">
+      <div class="col-12" >
+        <div class="row">
+          <a [class.active]="activeTab=='block-1'" (click)="onAnchorClick(1)" class="active"><i data-line="1"></i> {{'accidentDeclarationPage.basicDetails.label' | translate}}</a>
+          <a [class.active]="activeTab=='block-2'" (click)="onAnchorClick(2)" ><i data-line="2"></i>  {{'accidentDeclarationPage.incidentDetails.label' | translate}} </a>
+          <a [class.active]="activeTab=='block-3'" (click)="onAnchorClick(3)"><i data-line="3"></i> {{'accidentDeclarationPage.injuryDetails.label' | translate}} </a>
+        </div>
+      </div>
+  </div>
+</div>
+
+<div class="container last application-view" id="scrollable-page">
+  <div id="block-1" class="block">
+    <h4 class="col-11 text-primary text-uppercase">1. {{'accidentDeclarationPage.basicDetails.label' | translate}}</h4>
+    <div class="row col-11">
+      <div class="col-4">
+        <div class="form-group">
+          <label for="reference-no">{{'accidentDeclarationPage.basicDetails.referenceNo' | translate}}</label>
+          <span class="form-control" data-style="text" name = "reference-no">{{accidentClaim.ReferenceNo}}</span>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="form-group">
+          <label for="incident-date">{{'accidentDeclarationPage.basicDetails.dateOfIncident' | translate}}</label>
+          <div class="input-group">
+              <span class="form-control" data-style="text" name="incident-date">{{accidentClaim.IncidentDate | date:"MM/dd/yyyy"}}</span>
+              <div class="input-group-append">
+                  <span class="input-group-text"> <i class="icon-calendar"></i> </span>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="form-group">
+          <label for="incident-time">{{'accidentDeclarationPage.basicDetails.timeOfIncident' | translate}}</label>
+          <ngb-timepicker [(ngModel)]="accidentClaim.IncidentTime" name="incident-time" [meridian]="true" [spinners]="false" disabled></ngb-timepicker>
+        </div>
+      </div>
+    </div>
+    <div class="row col-11">
+      <div class="col-4">
+        <div class="form-group">
+          <label for="injured-employee-name">{{'accidentDeclarationPage.basicDetails.injuredEmployeeName' | translate}}</label>
+          <span class="form-control" data-style="text" name="injured-employee-name" required>{{accidentClaim.EmployeeName}}</span>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="form-group">
+          <label for="employee-no">{{'accidentDeclarationPage.basicDetails.employeeNo' | translate}}</label>
+          <span class="form-control" data-style="text" name="employee-no">{{accidentClaim.EmployeeNo}}</span>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="form-group">
+          <label for="employment-type">{{'accidentDeclarationPage.basicDetails.employementType' | translate}}</label>
+          <span class="form-control" data-style="text" name="employment-type">{{accidentClaim.EmploymentTypeId}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="row col-11">
+      <div class="col-4">
+        <div class="form-group">
+          <label for="employee-mini-co">{{'accidentDeclarationPage.basicDetails.employeeMiniCo' | translate}}</label>
+          <span class="form-control" data-style="text" name="employee-mini-co">{{accidentClaim.EmplyeeMinCo}}</span>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="form-group">
+
+          <label for="claim-status"> {{'accidentDeclarationPage.basicDetails.claimStatus' | translate}}</label>
+              <span  class="form-control-plaintext font-weight-bold">{{accidentClaim.claimstatus}}</span>
+        </div>
+      </div>
+    </div>
+    <hr>
+  </div>
+  <div id="block-2" class="block">
+    <h4 class="col-11 text-primary text-uppercase">2. {{'accidentDeclarationPage.incidentDetails.label' | translate}}</h4>
+    <div class="row col-11">
+      <div class="col-4">
+        <div class="form-group">
+          <label for="send-to">{{'accidentDeclarationPage.incidentDetails.sendTo' | translate}}</label>
+          <span class="form-control" data-style="text" name="employee-mini-co">{{accidentClaim.IncidentDetail.SendToId}}</span>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="form-group ">
+          <label for="incident-reported-by">{{'accidentDeclarationPage.incidentDetails.incidentReportedBy' | translate}}</label>
+          <span class="form-control" data-style="text">{{accidentClaim.IncidentDetail.ReportedBy}}</span>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="form-group">
+          <label for="precise-location">{{'accidentDeclarationPage.incidentDetails.incidentLocation' | translate}}</label>
+          <span class="form-control" data-style="textarea">{{accidentClaim.IncidentDetail.Location}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="row col-11">
+      <div class="col-12">
+        <div class="form-group">
+          <label for="incident-description">{{'accidentDeclarationPage.incidentDetails.incidentDescription' | translate}}</label>
+          <span class="form-control"  data-style="textarea">{{accidentClaim.IncidentDetail.Description}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="row col-11">
+      <div class="col-12">
+        <div class="form-group">
+          <label for="immediate-actions">{{'accidentDeclarationPage.incidentDetails.immediateActions' | translate}}</label>
+          <span class="form-control"  data-style="textarea">{{accidentClaim.IncidentDetail.ImmediateAction}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="row col-11">
+      <div class="col-12">
+        <div class="form-group">
+          <label for="additional-email"> {{'accidentDeclarationPage.incidentDetails.sendAdditionalEmail' | translate}}</label>
+          <span class="form-control"  data-style="text">{{accidentClaim.IncidentDetail.EmailTo}}</span>
+        </div>
+      </div>
+    </div>
+    <hr>
+  </div>
+  <div id="block-3" class="block">
+    <h4 class=" col-11 text-primary text-uppercase">3. {{'accidentDeclarationPage.injuryDetails.label' | translate}}</h4>
+    <div class="row col-11">
+      <div class="col-4">
+        <div class="form-group">
+            <label for="injury-nature">{{'accidentDeclarationPage.injuryDetails.injuryNature' | translate}}</label>
+            <span class="form-control"  data-style="text">{{accidentClaim.InjuryDetail.InjuryNatureId}}</span>
+        </div>
+      </div>
+      <div class="col-4">
+          <div class="form-group">
+              <label for="injury-location">{{'accidentDeclarationPage.injuryDetails.injuryLocation' | translate}}</label>
+              <span class="form-control" data-style="text">{{accidentClaim.InjuryDetail.InjuryLocationId}}</span>
+          </div>
+      </div>
+      <div class="col-4">
+        <div class="form-group">
+          <label for="ppe">{{'accidentDeclarationPage.injuryDetails.ppeWearingCorrect' | translate}}</label>
+          <span class="form-control" data-style="text">{{accidentClaim.InjuryDetail.Ppe}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="row col-11">
+      <div class="col-4">
+     <div class="form-group">
+       <label for="car-closed-by">{{'accidentDeclarationPage.injuryDetails.carClosedBy' | translate}}</label>
+       <span class="form-control" data-style="text"></span>
+     </div>
+   </div>
+   <div class="col-4">
+       <div class="form-group">
+           <label for="car-closed-date">{{'accidentDeclarationPage.injuryDetails.carClosedDate' | translate}}</label>
+           <div class="input-group">
+             <span class="form-control"  data-style="text" name="car-closed-date"></span>
+             <div class="input-group-append">
+                 <span class="input-group-text"> <i class="icon-calendar"></i> </span>
+             </div>
+           </div>
+       </div>
+   </div>
+      <div class="col-4">
+          <div class="form-group">
+              <label for="Attach Photo" *ngIf="(accidentClaim.InjuryDetail.Attachment && accidentClaim.InjuryDetail.Attachment.length)">{{'accidentDeclarationPage.injuryDetails.attachPhoto' | translate}}</label>
+              <div class="row">
+                <div class="col-4" *ngIf="(accidentClaim.InjuryDetail.Attachment && accidentClaim.InjuryDetail.Attachment.length)">
+                  <button type="button" class="btn btn-light" (click)="viewAttachmentList(attachmentList)">
+                      {{accidentClaim.InjuryDetail.Attachment.length}}&nbsp; {{'accidentDeclarationPage.injuryDetails.fileAdded' | translate}}
+                      <i class="icon-eye"></i> </button>
+                </div>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #attachmentList>
+    <div class="modal-header">
+      <h5 class="modal-title">{{'accidentDeclarationPage.injuryDetails.fileNames' | translate}}</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <ul class="list-group list-group-flush" >
+        <li class="list-group-item  d-flex justify-content-between align-items-center cursor-pointer" *ngFor="let item of accidentClaim.InjuryDetail.Attachment" (click)="attachmentclick(item.FilePath)">
+            {{item.FileName}}
+        </li>
+      </ul>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" type="button"  (click)="modalRef.hide()">{{'accidentDeclarationPage.button.ok' | translate}}</button>
+    </div>
+</ng-template>

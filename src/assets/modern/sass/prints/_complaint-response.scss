@@ -1,0 +1,48 @@
+.print.complaint-response{
+  .container{
+    @extend .text-break-word;
+    @extend .border;
+    @extend .pt-4;
+    @extend .pb-4;
+    border-color: $black !important;
+
+    .logo-container{
+      @extend .col-12;
+      @extend .d-flex;
+      @extend .justify-content-center;
+      @extend .mt-3;
+    }
+
+    h5{
+      @extend .text-center;
+      @extend .text-uppercase;
+    }
+
+    > hr{
+      @extend .row;
+    }
+
+    table{
+      @extend .width-full;
+
+      tbody{
+        @extend .width-full;
+
+        tr{
+          @extend .width-full;
+
+          td{
+            text-align: left;
+            vertical-align: top;
+            padding-right: $grid-gutter-width / 4;
+          }
+
+          &[role^="table-head"] td{
+            color: $gray-600 !important;
+            padding-top: 1rem;
+          }
+        }
+      }
+    }
+  }
+}

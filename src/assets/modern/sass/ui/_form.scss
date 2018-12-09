@@ -1,0 +1,46 @@
+
+form.application,
+.application-view{
+
+  .form-control,
+  .ng-select .ng-control{
+    background-color: $form-application-input-bg !important;
+    color: $form-application-input-color;
+
+    &::placeholder {
+      color: $form-application-input-placeholder-color;
+      opacity: 1;
+    }
+  }
+
+  .input-group-text{
+    background-color: $form-application-input-bg;
+  }
+
+  span.strict{
+    @extend .text-danger;
+  }
+
+  span.error{
+    @extend .text-danger;
+  }
+
+  span.form-control{
+    word-wrap: break-word;
+    word-break: break-all;
+
+    &[data-style=text]{
+      min-height: 2rem;
+    }
+    &[data-style=textarea]{
+      min-height: 4rem;
+    }
+  }
+
+  .close{
+    position: absolute;
+    z-index: 1;
+    top: 22%;
+    right: 1rem;
+  }
+}

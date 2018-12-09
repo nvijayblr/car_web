@@ -1,0 +1,798 @@
+<div class="fixed-nav-header capa-header" id="fixed-nav-header">
+  <div class="container first">
+    <div class="row mt-1 border-top">
+      <div class="container">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-back" (click)="goSearchview()"></li>
+            <li class="breadcrumb-item"><a> Corrective Action and Preventive Action</a></li>
+            <li class="breadcrumb-item-right">
+                <button class="btn btn-primary btn-sm" *ngIf="claimButtonStatus==1"  (click)="viewClaim()"  >View Claim</button>
+                <button class="btn btn-primary btn-sm" *ngIf=" responseButtonStatus==2" (click)="createOrViewValidation()" >Create Validation</button>
+                <button class="btn btn-primary btn-sm" *ngIf="responseButtonStatus==1" (click)="createOrViewValidation()" >View Validation</button>
+            </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <div class="tab-header capa" id="tabHeader">
+      <div class="col-12" >
+        <div class="row">
+          <a class="col-2" data-target="#block-1" [class.active]="activeTab=='block-1'" (click)="onAnchorClick(1)">
+            <i data-line="1"></i>
+            <span>Basic Details</span>
+          </a>
+          <a data-target="#block-2" [class.active]="activeTab=='block-2'" (click)="onAnchorClick(2)" >
+            <i data-line="2"></i>
+            <span>Complaint Details</span>
+          </a>
+          <a data-target="#block-3" [class.active]="activeTab=='block-3'" (click)="onAnchorClick(3)">
+            <i data-line="3"></i>
+            <span>Primary Investigation By QC</span>
+          </a>
+          <a  data-target="#block-4" [class.active]="activeTab=='block-4'" (click)="onAnchorClick(4)">
+            <i data-line="4"></i>
+            <span>Correction & Interim Containment Action</span>
+          </a>
+          <a data-target="#block-5" [class.active]="activeTab=='block-5'" (click)="onAnchorClick(5)">
+            <i data-line="5"></i>
+            <span>Cause Analysis</span>
+          </a>
+          <a  data-target="#block-6" [class.active]="activeTab=='block-6'" (click)="onAnchorClick(6)">
+            <i data-line="6"></i>
+            <span>Permanent Corrective Action</span>
+          </a>
+          <a data-target="#block-7" [class.active]="activeTab=='block-7'" (click)="onAnchorClick(7)">
+            <i data-line="7"></i>
+            <span>Standardisation</span>
+          </a>
+          <a data-target="#block-8" [class.active]="activeTab=='block-8'" (click)="onAnchorClick(8)">
+            <i data-line="8"></i>
+            <span>Horizontal Deployment</span>
+          </a>
+          <a data-target="#block-9" [class.active]="activeTab=='block-9'" (click)="onAnchorClick(9)">
+            <i data-line="9"></i>
+            <span>Leader Approval</span>
+          </a>
+        </div>
+      </div>
+  </div>
+</div>
+
+<form class="application" id="scrollable-page" (change)="submitClick=false">
+  <div class="container last">
+    <div class="block" id="block-1">
+      <h4 class="col-11 text-primary text-uppercase">1. Basic Details</h4>
+      <div class="row col-11">
+          <div class="col">
+              <div class="row">
+                  <div class="col-3">
+                    <div class="form-group">
+                      <label for="date">Date</label>
+                      <div class="input-group">
+                            <input type="text" class="form-control" placeholder=""  #fdp="bsDatepicker"  bsDatepicker [bsValue]="bsValue" aria-describedby="basic-addon2" name="claimInitatorFromdate1" [(ngModel)]="capaCreateObject.DateSelected" disabled>
+                            <div class="input-group-append">
+                              <!-- (click)="fdp.toggle()" -->
+                              <span class="input-group-text" id="basic-addon2"> <i class="icon-calendar"></i> </span>
+                            </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                      <div class="form-group">
+                          <label>CAPA No.</label>
+                          <input type="text" class="form-control" name="RcaNo" [(ngModel)]="capaCreateObject.RcaNo" value="RCA-AME-17-01-01" disabled>
+                      </div>
+                  </div>
+                  <div class="col-3" *ngIf="capaCreateObject.carNo">
+                      <div class="form-group">
+                          <label>CAR No.</label>
+                          <input type="text" name="carNo" [(ngModel)]="capaCreateObject.carNo" class="form-control" value="CAR-AME-17-01-01" disabled>
+                      </div>
+                  </div>
+                  <div class="col-3" *ngIf="capaCreateObject.IrNo">
+                      <div class="form-group">
+                          <label>IR No.</label>
+                          <input type="text" name="IrNo" [(ngModel)]="capaCreateObject.IrNo" class="form-control" value="IR-AME-17-01-01" disabled>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+    <div class="block" id="block-2">
+      <h4 class="col-11 text-primary text-uppercase">2. Complaint Details</h4>
+      <div class="row col-11">
+        <div class="col-9">
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label>Name of Customer</label>
+                        <input type="text" name="customerName" #customerName [(ngModel)]="capaCreateObject.customerName" class="form-control" value="Customer1" [disabled] ="(capaCreateObject.carNo)||(currentstatus == 4)" placeholder="{{!customerName.disabled ? 'Enter Name' : ''}}" maxlength="80">
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                      <div class="select-down">
+                        <label>Country</label>
+                        <select [(ngModel)]="capaCreateObject.country" name="country" class="form-control" disabled>
+                            <option value="{{country.CountryID}}" *ngFor="let country of CountryList; let inx = index" [selected]="inx == 0">{{country.CountryName}}</option>
+                        </select>
+                      </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" #email [(ngModel)]="capaCreateObject.email" class="form-control" value="Email" [disabled] ="(capaCreateObject.carNo)||(currentstatus == 4)"  placeholder="{{!email.disabled ? 'Enter Email' : ''}}"  maxlength="80">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <div class="select-down">
+                            <label>Brand</label>
+                            <select class="custom-select form-control" name="brand" [(ngModel)]="capaCreateObject.brand" [disabled] ="(capaCreateObject.carNo)||(currentstatus == 4)">
+                                <option value="0" selected>Select</option>
+                                <option *ngFor="let brand of brandList; let i = index" value="{{brand.BrandID}}">{{brand.BrandName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label>Product Description</label>
+                        <input type="text" name="productDescription" #productDescription [(ngModel)]="capaCreateObject.productDescription" class="form-control" value="Product Description" [disabled] ="(capaCreateObject.carNo)||(currentstatus == 4)" placeholder="{{!productDescription.disabled ? 'Product Description' : ''}}"
+                        maxlength="1024">
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label>Commercial Code</label>
+                        <input type="text" name="commercialCode" #commercialCode  placeholder="{{!commercialCode.disabled ? 'Commercial Code' : ''}}"  maxlength="15" [(ngModel)]="capaCreateObject.commercialCode" class="form-control" value="Commercial Code" onkeypress='return ((event.charCode >= 48 && event.charCode <= 57) || (event.charCode >= 65 &&event.charCode <= 90)||(event.charCode >= 97 && event.charCode <= 122))' [disabled]="(currentstatus == 4)">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+              <div class="col-4">
+                          <div class="form-group">
+                            <label>Delivered items</label>
+                            <div class="input-group">
+                              <input type="text" name="deliveredItemsNo" maxlength="9" [(ngModel)]="capaCreateObject.deliveredItemsNo" class="form-control" value="10" onkeypress='return event.charCode >= 48 && event.charCode <= 57' [disabled] ="(capaCreateObject.carNo)||(currentstatus == 4)">
+                              <div class="input-group-append">
+                                <span class="input-group-text">Units</span>
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+              <div class="col-4">
+                          <div class="form-group">
+                              <label>Defective items</label>
+                              <div class="input-group">
+                                <input type="text" name="defectedItemsNo" maxlength="9" [(ngModel)]="capaCreateObject.defectedItemsNo" class="form-control" value="2" style="padding-left: 6px;padding-right: 6px;" onkeypress='return event.charCode >= 48 && event.charCode <= 57' [disabled] ="(capaCreateObject.carNo)||(currentstatus == 4)" [ngClass]="{'error':(capaCreateObject.deliveredItemsNo < capaCreateObject.defectedItemsNo) && submitClick}">
+                                <div class="input-group-append">
+                                    <span class="input-group-text" [ngClass]="{'error':(capaCreateObject.deliveredItemsNo < capaCreateObject.defectedItemsNo) && submitClick}">Units</span>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+              <div class="col-4">
+                    <div class="form-group">
+                        <label>Drawing Number &amp; Rev <i class="txt-blue">(If Available)</i></label>
+                        <input type="text" name="drawingNo" #drawingNo [(ngModel)]="capaCreateObject.drawingNo" class="form-control" placeholder="{{!drawingNo.disabled ? 'Drawing Number &amp; Rev' : ''}}" [disabled] ="(capaCreateObject.carNo)||(currentstatus == 4)" maxlength="10">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="form-group">
+                <label>Complaint Description</label>
+                <textarea  name="complaintDescription" style="min-height: 12rem;" [(ngModel)]="capaCreateObject.complaintDescription"
+                    class="form-control textarea-large" #complaintz placeholder="{{!complaintz.disabled ? 'Complaint Description' : ''}}"  [disabled] ="(capaCreateObject.carNo)||(currentstatus == 4)" maxlength="1024">
+                </textarea>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="block" id="block-3">
+      <h4 class="col-11 text-primary text-uppercase">3. Primary Investigation by QC</h4>
+      <div class="row col-11">
+          <div class="col-3">
+              <div class="form-group">
+                  <label>Primary Investigation</label>
+                  <textarea [rows]="5"  #primaryInvestigation placeholder="{{!primaryInvestigation.disabled ? 'Investigation' : ''}}" name="primaryInvestigation" [(ngModel)]="capaCreateObject.primaryInvestigation" class="form-control textarea-med" maxlength="1024" [disabled] ="(capaCreateObject.carNo)||(currentstatus == 4)">
+                  </textarea>
+              </div>
+          </div>
+          <div class="col-9">
+              <div class="row">
+                  <div class="col-4">
+                      <div class="form-group">
+                          <label>Complaint Valid?</label>
+                          <div class="input-group">
+                            <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="customRadio1" class="custom-control-input"  name="complaintStatus" [value]="true" [(ngModel)]="capaCreateObject.complaintValid"
+                                [checked]="capaCreateObject.complaintValid==true" [disabled] ="(capaCreateObject.carNo)||(currentstatus == 4)">
+                            <label class="custom-control-label" for="customRadio1">Yes</label>
+                          </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="customRadio2" class="custom-control-input" name="complaintStatus" [value]="false" [(ngModel)]="capaCreateObject.complaintValid"
+                                [checked]="capaCreateObject.complaintValid=='false'" [disabled] ="(capaCreateObject.carNo)||(currentstatus == 4)">
+                            <label class="custom-control-label" for="customRadio2">No</label>
+                          </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-4">
+                      <div class="form-group">
+                          <label>Inspection Report Ref.</label>
+                          <input type="text" class="form-control" value="" name="inspectionRef" maxlength="256" [(ngModel)]="capaCreateObject.inspectionRef"  placeholder="{{placeholderShow ? 'Inspection Report Ref.' : ''}}" [disabled]="(currentstatus == 4)">
+                      </div>
+                  </div>
+                  <div class="col-4">
+                      <div class="form-group">
+                          <div class="select-down">
+                              <label>Concerned Department</label>
+                              <!--<input type="text" class="form-control" placeholder="Concerned Department">-->
+
+                              <select class="custom-select form-control" name="concernedDepartment" [(ngModel)]="capaCreateObject.concernedDepartment" [disabled]="(currentstatus == 4)">
+                                  <option value="0" selected>Select</option>
+                                  <option *ngFor="let deptList of departments; let i = index" value="{{deptList.DepartmentID}}">{{deptList.DepartmentName}}</option>
+                              </select>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-4">
+                      <div class="form-group">
+                          <label>Compensation Details</label>
+                          <input type="text" class="form-control" name="compensationDetails" maxlength="256" [(ngModel)]="capaCreateObject.compensationDetails"  placeholder="{{placeholderShow ? 'Compensation Details' : ''}}" [disabled]="(currentstatus == 4)">
+                      </div>
+                  </div>
+                  <div class="col-4">
+                      <div class="form-group">
+                          <label>Defect Code</label>
+                          <input type="text"  class="form-control" name="defectCode" [(ngModel)]="capaCreateObject.defectCode" maxlength="256"  placeholder="{{placeholderShow ? 'Defect Code' : ''}}" [disabled]="(currentstatus == 4)">
+                      </div>
+                  </div>
+                  <div class="col-4">
+                      <div class="form-group">
+                          <label>Lead for Resolution</label>
+                          <input type="text"  class="form-control" name="resolutionLead" [(ngModel)]="capaCreateObject.resolutionLead" maxlength="256"  placeholder="{{placeholderShow ? 'Lead for Resolution' : ''}}" [disabled]="(currentstatus == 4)">
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+    <div class="block" id="block-4">
+      <h4 class="col-12 text-primary text-uppercase d-flex justify-content-between">
+        4. Correction and Interim Containment Action
+        <button class="btn btn-link btn-sm text-success btn-icon" (click)="onAddContainmentClick(capaCreateObject.correctionAction)" *ngIf="currentstatus!=4 && isLevelOne"> <i class="icon-plus"></i> Add New</button>
+      </h4>
+      <ng-container  *ngIf="addContainment=='true' && capaCreateObject.correctionAction.length>0">
+        <div class="row position-relative" *ngFor="let item of capaCreateObject.correctionAction  let i = index; trackBy:trackByIndex">
+          <button type="button" class="close" aria-label="Close" (click)="closeCorrection(i)"  *ngIf="currentstatus!=4 && isLevelOne"><span aria-hidden="true">&times;</span></button>
+          <div class="col-12">
+            <div class="row col">
+              <div class="col-6">
+              <div class="form-group">
+                  <label>Action</label>
+                  <textarea [rows]="5" class="form-control" [name]="'action-'+i" [maxlength]="1024" [(ngModel)]="item.CorrectionActionName"  [placeholder]="placeholderShow ? 'Action' : ''" [disabled]="(currentstatus == 4)"></textarea>
+                </div>
+            </div>
+              <div class="col-6">
+              <div class="row">
+                <div class="col-8">
+                  <div class="form-group info-wrapper">
+                      <label>Function</label>
+                        <input type="text" class="form-control" [name]="'function-'+i" [(ngModel)]="item.CorrectionActionFunction" [maxlength]="1024" [placeholder]="placeholderShow ? 'Function' : ''" [disabled]="(currentstatus == 4)">
+                        <i class="icon-info" [popper]="correctionActionFunRef"
+                            [popperTrigger]="'hover'"
+                            [popperPlacement]="'bottom'" *ngIf="item.CorrectionActionFunction.length > 48"></i>
+                        <popper-content #correctionActionFunRef>
+                            {{item.CorrectionActionFunction}}
+                        </popper-content>
+                    </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label>Target Date</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder=""  #fdp="bsDatepicker"  bsDatepicker [bsValue]="bsValue" aria-describedby="basic-addon2" name="containmentTargetDate_{{i}}" [(ngModel)]="item.TargetDate" [minDate]="minDate" [bsConfig]="{showWeekNumbers: false}" readonly [disabled]="(currentstatus == 4)" >
+                        <div class="input-group-append">
+                          <span *ngIf="currentstatus != 4" class="input-group-text" id="basic-addon2" (click)="fdp.toggle()"> <i class="icon-calendar"></i> </span>
+                          <span *ngIf="currentstatus == 4" class="input-group-text" id="basic-addon2"> <i class="icon-calendar"></i> </span>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-8">
+                  <div class="form-group info-wrapper">
+                      <label>Owner  </label>
+                        <input type="text" class="form-control" [name]="'response-'+i" [(ngModel)]="item.CorrectionActionResponse" [maxlength]="1024"  [placeholder]="placeholderShow ? 'Owner' : ''"
+                        [disabled]="(currentstatus == 4)">
+                        <i class="icon-info" [popper]="CorrectionActionResponseRef"
+                            [popperTrigger]="'hover'"
+                            [popperPlacement]="'bottom'" *ngIf="item.CorrectionActionResponse.length > 48">
+                        </i>
+                        <popper-content #CorrectionActionResponseRef>
+                            {{item.CorrectionActionResponse}}
+                        </popper-content>
+                    </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group required">
+                    <label>Status</label>
+                    <select class="form-control" [(ngModel)]="item.Status" [name]="'CICAstatus-'+i" [disabled]="(currentstatus == 4)" [ngClass]="{'error':((item.CorrectionActionFunction || item.CorrectionActionName || item.TargetDate || item.CorrectionActionResponse) && (item.Status !='2') && (submitClick))}">
+                        <option value="0">Select</option>
+                        <option [value]="status.Id" *ngFor="let status of capaActionStatus">{{status.Name}}</option>
+                    </select>
+                    <span *ngIf="((item.CorrectionActionFunction || item.CorrectionActionName || item.TargetDate || item.CorrectionActionResponse) && (item.Status !='2') && (submitClick))">
+                        Please Close the Status.
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <div class="block" id="block-5">
+      <h4 class="col-11 text-primary text-uppercase">5. Cause Analysis</h4>
+      <div class="row col-11">
+          <div class="col-4">
+            <div class="form-group">
+              <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" class="custom-control-input"  id="radio7" name="causeAnalysis" [(ngModel)]="capaCreateObject.value" [value]="true" [checked]="causeId==1" [disabled]="(currentstatus == 4)">
+              <label class="custom-control-label" for="radio7">5-Why</label>
+            </div>
+              <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" class="custom-control-input"  id="radio8" name="causeAnalysis" [(ngModel)]="capaCreateObject.value"  [checked]="causeId==2" [value]="false" [disabled]="(currentstatus == 4)">
+              <label class="custom-control-label" for="radio8">Other/Attachment</label>
+            </div>
+            </div>
+          </div>
+          <div class="col-2">
+              <button class="btn btn-link" *ngIf="capaCreateObject.value==true"  (click)="onWhyClick(whyShowModal)">Click here for 5-Why template</button><span *ngIf="whyShow =='show'"></span>
+              <div class="form-group " *ngIf="capaCreateObject.value==false">
+                  <label>Attach File</label>
+                  <button class="btn btn-primary btn-inline custom-file" [disabled]="(currentstatus == 4)"  (click)="fishboneAttach.click()">
+                      <input type="file" class="custom-file-input hidden" name="fishboneAttach" #fishboneAttach ng2FileSelect [uploader]="uploaderCAPASampleAttach" id="fishboneAttach" />
+                      <label class="custom-file-label" for="customFile"></label>
+                  </button>
+              </div>
+          </div>
+          <div *ngIf="(uploadFileName != '' && capaCreateObject.value==false)"  class="col d-inline-block text-truncate mt-2">
+              <strong *ngIf="uploadFilePath==''" style="margin-left: 10px;">{{uploadFileName}}</strong>
+              <a *ngIf="uploadFilePath!==''" [href]="uploadFilePath" style="margin-left: 10px;" target="_blank">{{uploadFileName}}</a>
+          </div>
+          <div class="col-4 hidden">
+              <div class="form-group browse-container">
+                  <label>&nbsp;</label>
+                  <ul class="inline">
+                      <li>
+                          <button type="button" class="btn btn-blue" [disabled]="(currentstatus == 4)">Browse</button>
+
+                      </li>
+
+                  </ul>
+              </div>
+          </div>
+      </div>
+    </div>
+    <div class="block" id="block-6">
+      <h4 class="col-12 text-primary text-uppercase d-flex justify-content-between">
+        6. Permanent Corrective Actions
+        <button class="btn btn-link btn-sm text-success btn-icon" (click)="onAddCorrectionClick()" *ngIf="currentstatus!=4 && isLevelOne"> <i class="icon-plus"></i> Add New</button>
+      </h4>
+      <ng-container *ngIf="addStandardization =='true' && capaCreateObject.PermanentCorrectiveAction.length>0">
+        <div class="row position-relative" *ngFor="let item of capaCreateObject.PermanentCorrectiveAction  let i = index; trackBy:trackByIndex">
+          <button type="button" class="close" aria-label="Close"  (click)="closePermanentCorrection(i)" ><span aria-hidden="true">&times;</span></button>
+          <div class="col-12">
+            <div class="row col">
+              <div class="col-6">
+                <div class="form-group">
+                  <label>Action</label>
+                  <textarea [rows]="5" [name]="'correctiveAction-'+i" [(ngModel)]="item.CorrectionActionName" class="form-control" [maxlength]="1024"  [placeholder]="placeholderShow? 'Action' :''" [disabled]="(currentstatus == 4)"></textarea>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="form-group info-wrapper">
+                          <label>Function</label>
+                          <input type="text" [name]="'correctiveFunction-'+i" [(ngModel)]="item.CorrectionActionFunction" class="form-control" [maxlength]="1024" [placeholder]="placeholderShow ? 'Function' : ''" [disabled]="(currentstatus == 4)">
+                            <i class="icon-info" [popper]="CorrectionActionFunctionRef2" [popperTrigger]="'hover'" [popperPlacement]="'bottom'" *ngIf="item.CorrectionActionFunction.length > 48"></i>
+                            <popper-content #CorrectionActionFunctionRef2>
+                                {{item.CorrectionActionFunction}}
+                            </popper-content>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                          <label>Target Date</label>
+                          <div class="input-group">
+                                <input type="text" class="form-control" placeholder=""  #fdp="bsDatepicker"  bsDatepicker [bsValue]="bsValue" aria-describedby="basic-addon2" name="correctionTargetDate_{{i}}" [minDate]="minDate" [bsConfig]="{showWeekNumbers: false}" [(ngModel)]="item.TargetDate" readonly [disabled]="(currentstatus == 4)">
+                                <div class="input-group-append">
+                                  <span *ngIf="currentstatus != 4" class="input-group-text" id="basic-addon2" (click)="fdp.toggle()"> <i class="icon-calendar"></i> </span>
+                                  <span *ngIf="currentstatus == 4" class="input-group-text" id="basic-addon2"> <i class="icon-calendar"></i> </span>
+                                </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-8">
+                        <div class="form-group info-wrapper">
+                            <label>Owner</label>
+                            <input type="text" [name]="'correctiveResponse-'+i" [(ngModel)]="item.CorrectionActionResponse" class="form-control" maxlength="1024"  [placeholder]="placeholderShow ? 'Owner':''" [disabled]="(currentstatus == 4)">
+                            <i class="icon-info"
+                                [popper]="CorrectionActionResponseRef"
+                                [popperTrigger]="'hover'"
+                                [popperPlacement]="'bottom'"
+                                *ngIf="item.CorrectionActionResponse.length > 48">
+                            </i>
+                             <popper-content #CorrectionActionResponseRef>
+                                {{item.CorrectionActionResponse}}
+                            </popper-content>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group required">
+                          <label>Status</label>
+                          <select class="form-control"  [(ngModel)]="item.Status" [name]="'correctiveStatus-'+i" [disabled]="(currentstatus == 4)" [ngClass]="{'error':((item.CorrectionActionFunction || item.CorrectionActionName || item.TargetDate || item.CorrectionActionResponse) && (item.Status !='2') && (submitClick))}">
+                              <option value="0">Select</option>
+                              <option [value]="status.Id" *ngFor="let status of capaActionStatus">{{status.Name}}</option>
+                          </select>
+                          <span *ngIf="((item.CorrectionActionFunction || item.CorrectionActionName || item.TargetDate || item.CorrectionActionResponse) && (item.Status !='2') && (submitClick))">
+                              Please Close the Status.
+                          </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <div class="block" id="block-7">
+      <h4 class="col-12 text-primary d-flex justify-content-between">
+        7. STANDARDISATION - Updation of relevant documents
+        <button class="btn btn-link btn-sm text-success btn-icon" (click)="onAddStandardizationClick()" *ngIf="currentstatus!=4 && isLevelOne"> <i class="icon-plus"></i> Add New</button>
+      </h4>
+      <ng-container *ngIf="addStandardization =='true' && capaCreateObject.DocumentStandardisation.length>0">
+        <div class="row position-relative" *ngFor="let item of capaCreateObject.DocumentStandardisation  let i = index; trackBy:trackByIndex">
+          <button type="button" class="close" aria-label="Close"  (click)="closeStandardization(i)"  *ngIf="currentstatus!=4 && isLevelOne"><span aria-hidden="true">&times;</span></button>
+          <div class="col-12">
+            <div class="row col">
+              <div class="col-6">
+                <div class="form-group">
+                    <label>Document No with revision</label>
+                    <textarea rows="5" class="form-control" [name]="'standardizationdocwithNoRevision-'+i" [(ngModel)]="item.DocumentStandardisationAction" [disabled]="(currentstatus == 4)"
+                    [placeholder]="placeholderShow ? 'Document No with revision' : ''" [maxlength]="1024"> ></textarea>
+                </div>
+            </div>
+              <div class="col-6">
+              <div class="row">
+                  <div class="col-8">
+                      <div class="form-group info-wrapper">
+                        <label>Function</label>
+                          <input type="text" [name]="'standardizationFunction-'+i" [(ngModel)]="item.DocumentStandardisationFunction" class="form-control" [disabled]="(currentstatus == 4)"
+                          [placeholder]="placeholderShow ? 'Function' : ''"  [maxlength]="1024">
+                          <i class="icon-info" [popper]="DocumentStandardisationFunctionRef"
+                              [popperTrigger]="'hover'"
+                              [popperPlacement]="'bottom'" *ngIf="item.DocumentStandardisationFunction.length > 48">
+                          </i>
+                          <popper-content #DocumentStandardisationFunctionRef>
+                              {{item.DocumentStandardisationFunction}}
+                          </popper-content>
+                      </div>
+                  </div>
+                  <div class="col-4">
+                      <div class="form-group">
+                        <label>Target Date</label>
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder=""  #fdp="bsDatepicker"  bsDatepicker [bsValue]="bsValue" aria-describedby="basic-addon2" name="documentTargetDate_{{i}}" [minDate]="minDate" [bsConfig]="{showWeekNumbers: false}" [(ngModel)]="item.TargetDate" readonly [disabled]="(currentstatus == 4)">
+                          <div class="input-group-append">
+                            <span *ngIf="currentstatus != 4" class="input-group-text" id="basic-addon2" (click)="fdp.toggle()"> <i class="icon-calendar"></i> </span>
+                            <span *ngIf="currentstatus == 4" class="input-group-text" id="basic-addon2"> <i class="icon-calendar"></i> </span>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-8">
+                      <div class="form-group info-wrapper">
+                        <label>Owner</label>
+                        <input type="text" [name]="'standardizationResponse-'+i" [(ngModel)]="item.DocumentStandardisationResponse" class="form-control" maxlength="1024"  [placeholder]="placeholderShow ? 'Owner':''" [disabled]="(currentstatus == 4)">
+                        <i class="icon-info"
+                            [popper]="DocumentStandardisationResponseRef"
+                            [popperTrigger]="'hover'"
+                            [popperPlacement]="'bottom'" *ngIf="item.DocumentStandardisationResponse.length > 48">
+                        </i>
+                         <popper-content #DocumentStandardisationResponseRef>
+                            {{item.DocumentStandardisationResponse}}
+                        </popper-content>
+                      </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="form-group required">
+                      <label>Status</label>
+                      <select class="form-control"  [(ngModel)]="item.Status" [name]="'standardizationStatus-'+i" [disabled]="(currentstatus == 4)" [ngClass]="{'error':((item.DocumentStandardisationFunction || item.DocumentStandardisationAction || item.TargetDate || item.DocumentStandardisationResponse) && (item.Status !='2') && (submitClick))}">
+                          <option value="0">Select</option>
+                          <option [value]="status.Id" *ngFor="let status of capaActionStatus">{{status.Name}}</option>
+                      </select>
+                      <span *ngIf="((item.DocumentStandardisationFunction || item.DocumentStandardisationAction || item.TargetDate || item.DocumentStandardisationResponse) && (item.Status !='2') && (submitClick))">
+                          Please Close the Status.
+                      </span>
+                    </div>
+                  </div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <div class="block" id="block-8">
+      <h4 class="col-12 text-primary d-flex justify-content-between">
+        8. HORIZONTAL DEPLOYMENT - Implementation of the action to similar products/processes
+        <button class="btn btn-link btn-sm btn-icon text-success" (click)="onAddHorizontalClick()" *ngIf="currentstatus!=4 && isLevelOne"> <i class="icon-plus"></i> Add New</button>
+      </h4>
+      <ng-container  *ngIf="addHorizontalDeployment =='true' && capaCreateObject.HorizontalDeployment.length>0">
+        <div class="row position-relative" *ngFor="let item of capaCreateObject.HorizontalDeployment  let i = index; trackBy:trackByIndex">
+          <button type="button" class="close" aria-label="Close"  (click)="closeHorizotaldeploy(i)"  *ngIf="currentstatus!=4 && isLevelOne"><span aria-hidden="true">&times;</span></button>
+          <div class="col-12">
+            <div class="row col">
+              <div class="col-6">
+              <div class="form-group">
+                <label>Action</label>
+                <textarea rows="5" class="form-control" [name]="'horizontalAction-'+i"  [maxlength]="1024" [(ngModel)]="item.HorizontalDeploymentAction" [placeholder]="placeholderShow ? 'Action' : ''"  [disabled]="(currentstatus == 4)"></textarea>
+              </div>
+            </div>
+              <div class="col-6">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="form-group info-wrapper">
+                          <label>Function</label>
+                            <input type="text" class="form-control" [name]="'horizontalFunction-'+i"  maxlength="1024" [(ngModel)]="item.HorizontalDeploymentFunction"  [placeholder]="placeholderShow ? 'Function' : ''"  [disabled]="(currentstatus == 4)">
+                            <i class="icon-info"
+                                [popper]="HorizontalDeploymentFunctionRef"
+                                [popperTrigger]="'hover'"
+                                [popperPlacement]="'bottom'" *ngIf="item.HorizontalDeploymentFunction.length > 48">
+                            </i>
+                            <popper-content #HorizontalDeploymentFunctionRef>
+                                {{item.HorizontalDeploymentFunction}}
+                            </popper-content>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                          <label>Target Date</label>
+                          <div class="input-group">
+                                <input type="text" class="form-control" placeholder=""  #fdp="bsDatepicker"  bsDatepicker [bsValue]="bsValue" aria-describedby="basic-addon2" name="horizontalTargetDate_{{i}}" [minDate]="minDate" [bsConfig]="{showWeekNumbers: false}" readonly [(ngModel)]="item.TargetDate" [disabled]="(currentstatus == 4)">
+                                <div class="input-group-append" readonly>
+                                  <span *ngIf="currentstatus != 4" class="input-group-text" id="basic-addon2" (click)="fdp.toggle()"> <i class="icon-calendar"></i> </span>
+                                  <span *ngIf="currentstatus == 4" class="input-group-text" id="basic-addon2"> <i class="icon-calendar"></i> </span>
+                                </div>
+                          </div>
+                        </div>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="col-8">
+                        <div class="form-group info-wrapper">
+                          <label>Owner</label>
+                             <input type="text" class="form-control" [name]="'horizontalResponse-'+i"  maxlength="1024" [(ngModel)]="item.HorizontalDeploymentResponse"  [placeholder]="placeholderShow ? 'Owner' : ''" [disabled]="(currentstatus == 4)">
+                             <i class="icon-info"
+                                 [popper]="HorizontalDeploymentResponseRef"
+                                 [popperTrigger]="'hover'"
+                                 [popperPlacement]="'bottom'" *ngIf="item.HorizontalDeploymentResponse.length > 48">
+                             </i>
+                             <popper-content #HorizontalDeploymentResponseRef>
+                                {{item.HorizontalDeploymentResponse}}
+                            </popper-content>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group required">
+                          <label>Status</label>
+                          <select class="form-control" [(ngModel)]="item.Status" [name]="'horizontalStatus-'+i" [disabled]="(currentstatus == 4)" [ngClass]="{'error':((item.HorizontalDeploymentFunction || item.HorizontalDeploymentAction || item.TargetDate || item.HorizontalDeploymentResponse) && (item.Status !='2') && (submitClick))}">
+                              <option value="0">Select</option>
+                              <option [value]="status.Id" *ngFor="let status of capaActionStatus">{{status.Name}}</option>
+                          </select>
+                          <span *ngIf="((item.HorizontalDeploymentFunction || item.HorizontalDeploymentAction || item.TargetDate || item.HorizontalDeploymentResponse) && (item.Status !='2') && (submitClick))">
+                              Please Close the Status.
+                          </span>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <div class="block last" id="block-9">
+      <div class="row col-11">
+            <div class="col-12">
+                <div class="form-group">
+                    <h3 class="text-primary">9. U.A / SBU Leader Approval<span>(If requires compensation)</span></h3>
+                    <label>Accepted</label>
+                    <div class="input-group">
+                      <div class="custom-control custom-radio custom-control-inline">
+                          <input class="custom-control-input" type="radio" id="radio9" [(ngModel)]="capaCreateObject.leaderApproval" [value]="'true'" name="leaderApproval"
+                              [checked]="capaCreateObject.leaderApproval=='true'"  [disabled]="(currentstatus == 4)">
+                          <label class="custom-control-label" for="radio9">Yes</label>
+                      </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                          <input class="custom-control-input" type="radio" id="radio10" [(ngModel)]="capaCreateObject.leaderApproval" [value]="'false'" name="leaderApproval"
+                              [checked]="capaCreateObject.leaderApproval=='false'"  [disabled]="(currentstatus == 4)">
+                          <label class="custom-control-label" for="radio10">No</label>
+                      </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+      <div class="row col-11">
+        <div class="col-12">
+            <div class="form-group required">
+                <h3 class="sec-title">Verification of completion and effectiveness of corrective actions</h3>
+                <input type="text" class="form-control" name="verificationAction"  maxlength="1024" [(ngModel)]="capaCreateObject.verificationAction"  placeholder="{{placeholderShow ? 'Actions' : ''}}" [ngClass]="{'error':capaCreateObject.verificationAction=='' && submitClick}" [disabled]="(currentstatus == 4)">
+                <span *ngIf="!capaCreateObject.verificationAction && submitClick">
+                    Please enter actions.
+                </span>
+            </div>
+        </div>
+      </div>
+      <div class="row col-11">
+        <div class="col-2">
+            <div class="form-group required">
+                <label>Verified By</label>
+                <input type="text" class="form-control" name="verifiedBy"  maxlength="1024" [(ngModel)]="capaCreateObject.verifiedBy"  placeholder="{{placeholderShow ? 'Verified By' : ''}}"  [disabled]="(currentstatus == 4)"
+                    [ngClass]="{'error':capaCreateObject.verifiedBy==''&&submitClick}">
+                <span *ngIf="!capaCreateObject.verifiedBy && submitClick">
+                    Please enter verified by.
+                </span>
+            </div>
+        </div>
+        <div class="col-2">
+          <div class="form-group">
+              <label for="closeDate">Close Out Date</label>
+              <div class="input-group">
+                    <input type="text" class="form-control" placeholder=""  #tdp="bsDatepicker"  bsDatepicker [bsValue]="bsValue" aria-label="Claim Initator To date" aria-describedby="basic-addon2" name="claimInitatorTodate" [(ngModel)]="capaCreateObject.closeDate" disabled>
+                    <div class="input-group-append">
+                      <!-- (click)="tdp.toggle()" -->
+                      <span class="input-group-text" id="basic-addon2"> <i class="icon-calendar"></i> </span>
+                    </div>
+              </div>
+          </div>
+        </div>
+        <div class="col-8">
+            <div class="form-group not-required">
+                <label>Sent Email To</label>
+                <ng-select [items]="users"
+                  bindLabel="Address"
+                  bindValue="Address"
+                  [addTag]="addCustomEmail"
+                  [multiple]="true"
+                  [disabled]="(currentstatus == 4)"
+                  name="additional-email"
+                  placeholder="{{placeholderShow ? 'Enter multiple email Ids separated by comma' : ''}}"
+                  [(ngModel)]="capaCreateObject.SendEmailsTo"
+                  (change)="validateEmail(capaCreateObject.SendEmailsTo)"
+                  [ngClass]="{'error':capaCreateObject.SendEmailsTo && capaCreateObject.SendEmailsTo.length && !validmail}">
+                </ng-select>
+                <span *ngIf="capaCreateObject.SendEmailsTo && capaCreateObject.SendEmailsTo.length && !validmail">Please enter valid email</span>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-fixed"  *ngIf="currentstatus!=4 && isLevelOne">
+    <div class="container">
+      <div class="d-flex justify-content-between">
+          <div>
+              <button type="button" class="btn btn-outline-light"  name="reset-button" (click)="onResetClick(resetConfirmModal)" [disabled]="apiProcessing">Reset</button>
+              <button type="button" class="btn btn-outline-light"  name="save-button" (click)="saveCAPAClick('Draft')" [disabled]="apiProcessing">Save as draft</button>
+          </div>
+          <div>
+              <button type="submit" class="btn btn-light"  name="submit-button" (click)="closeCAPAClick('Closed', closeConfirmModal)" [disabled]="apiProcessing">Close CAPA</button>
+          </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<!--whyShow Popup Start-->
+<ng-template #whyShowModal>
+  <div class="modal-body">
+    <div class="row border-bottom">
+      <div class="col-4 pb-4 border-right">
+        <h5 class="modal-title pull-left">Previously Submitted 5-Why Analysis </h5>
+      </div>
+      <div class="col pb-8 d-flex justify-content-between">
+        <h5 class="modal-title pull-left">5 Why Analysis</h5>
+        <div *ngIf="currentstatus ==4 || !isLevelOne">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="onWhyCancel()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <div *ngIf="currentstatus!=4 && isLevelOne">
+        <button class="btn btn-primary btn-sm" type="button" (click)="addNewFiveWhy()">Add New</button>
+      </div>
+      </div>
+    </div>
+    <tabset  [vertical]="true" class="vertical-tab">
+      <ng-container *ngFor="let fiveWhy of fiveWhyObject; let inx = index" >
+          <tab [active]="(inx == fyeLength)?true:fase" heading="{{fiveWhy.Name}}">
+              <div class="col-12">
+                  <div class="row">
+                      <div class="col-12">
+                        <div class="form-group">
+                          <h5>Problem Statement</h5>
+                          <textarea class="form-control" maxlength="1024" [(ngModel)]="fiveWhy.ProblemStatement" [disabled]="(currentstatus == 4)||(fiveWhy.IsDisabled)"></textarea>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-6">
+                          <h5>Occurance Failure Mode</h5>
+                          <div  class="container-fix mb-3"  *ngFor="let question of questions; let inx = index; trackBy:trackByIndex" >
+                            <input  *ngIf="question.AnalysisQuestionModelID == 1" type="text" class="form-control" name="answersOccuranceFailure-{{inx}}" maxlength="1024"  placeholder="{{placeholderShow ? question.AnalysisQuestionDescription : ''}}"  [(ngModel)]="fiveWhy.Answer[question.AnalysisQuestionID]" [disabled]="(currentstatus == 4) ||(fiveWhy.IsDisabled)">
+                          </div>
+                      </div>
+                      <div class="col-6">
+                          <h5>Detection Failure Mode</h5>
+                          <div  class="container-fix mb-3"  *ngFor="let question of questions; let inx = index; trackBy:trackByIndex" >
+                              <input  *ngIf="question.AnalysisQuestionModelID == 2" type="text" class="form-control" name="answersDetectionFailure-{{inx}}" maxlength="1024"  placeholder="{{placeholderShow ? question.AnalysisQuestionDescription : ''}}" [(ngModel)]="fiveWhy.Answer[question.AnalysisQuestionID]" [disabled]="(currentstatus == 4)||(fiveWhy.IsDisabled)">
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row d-flex flex-row-reverse" *ngIf="currentstatus!=4 && isLevelOne">
+                    <div class="form-group">
+                        <button class="btn btn-primary-bordered" type="button" (click)="onWhyCancel()">Cancel</button>
+                        <button class="btn btn-primary" type="button" (click)="onWhySubmit()">Submit</button>
+                  </div>
+                  </div>
+              </div>
+          </tab>
+      </ng-container>
+    </tabset>
+
+  </div>
+</ng-template>
+<!--whyShow Popup Start-->
+
+<!--Reset Popup Start-->
+<ng-template #resetConfirmModal>
+  <div class="modal-body text-center">
+    <p>Reset will clear all values entered before saving. Do you want to Continue?</p>
+    <button type="button" class="btn btn-default" (click)="modalRef.hide();">No</button>
+    <button type="button" class="btn btn-primary" (click)="modalRef.hide(); onResetYes()" >Yes</button>
+  </div>
+</ng-template>
+<!--Reset Popup End-->
+
+<!--Close confirm Popup Start-->
+<ng-template #closeConfirmModal>
+  <div class="modal-body text-center">
+    <p>Are you sure you want to close?</p>
+    <button type="button" class="btn btn-default" (click)="modalRef.hide();">No</button>
+    <button type="button" class="btn btn-primary" (click)="modalRef.hide(); onResetYescapa('Closed')" >Yes</button>
+  </div>
+</ng-template>
+<!--Close confirm Popup End-->
+
+
+<app-loader id="appLoader" [hidden]="!loading"></app-loader>

@@ -1,0 +1,61 @@
+<div class="login">
+  <div class="width-30 bg-white">
+    <div class="container">
+      <div class="col mb-2">
+        <form class="width-60 mx-auto form-inline">
+          <label>Language :</label>
+          <div class="form-group ml-2">
+            <select class="form-control form-control-sm" name="claimTypeSelectedValue" [(ngModel)]="creds.LanguageCulture">
+                <option [value]="item.Culture" *ngFor="let item of languageList">{{item.Name}}</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="col mb-2 d-flex justify-content-center">
+        <img src="./assets/images/logo-arc.svg" width="20%" alt="ARC">
+      </div>
+      <div class="col">
+        <h2 class="text-center">Sign into your account</h2>
+        <form name="formLogin" (ngSubmit)="gotoLandingPage(creds)" class="width-full">
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> <i class="icon-user"></i> </span>
+              </div>
+              <input  tabindex="1" type="text" placeholder="Username" name="username" class="form-control" [(ngModel)]="creds.username">
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="icon-password"></i></span>
+              </div>
+              <input tabindex="2" type="password" placeholder="Password" name="password" class="form-control" [(ngModel)]="creds.password">
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="icon-domain"></i></span>
+              </div>
+              <ng-select name="DomainID" id="DomainID" [items]=domainData
+                         bindLabel="Name"
+                         bindValue="Id"
+                         placeholder="Please Choose a Domain"
+                         [(ngModel)]="creds.domainID"
+                         [clearable] ="false"
+                         class="form-control"
+                         tabindex="3">
+              </ng-select>
+            </div>
+            <div class="input-group mb-3">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" tabindex="5" class="custom-control-input" id="rememberme"  name="rememberme" [(ngModel)]="rememberme">
+                <label class="custom-control-label" for="rememberme">Remember Me</label>
+              </div>
+            </div>
+            <input type="submit" tabindex="4" class="btn btn-primary btn-block" value="Login" autofocus>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<router-outlet></router-outlet>
+<app-loader id="appLoader" [hidden]="!loading"></app-loader>

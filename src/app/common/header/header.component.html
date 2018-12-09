@@ -1,0 +1,47 @@
+<header class="app-header">
+  <div class="container">
+    <div class="brand">
+      <a><img class="logo" src="./assets/modern/img/brand-arc.svg" alt="" style="display:none;"></a>
+      <div class="title-container">
+        <h4 class="app-title">Claim Processing Application<span class="env">{{constant.envTitle}}</span> <span class="ver"> {{constant.softVersion}}</span> </h4>
+      </div>
+    </div>
+    <div class="user-section">
+      <div class="user-info">
+        <span class="username">{{username}}</span>
+        <a (click)="openModal(logoutConfirm)" class="logout"><i class="icon-logout"></i></a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- <link rel="stylesheet" href="/assets/css/screen.css" > -->
+
+<!--logout popup start-->
+<!-- <div class="popup {{logoutPopup}}" *ngIf="logoutPopup== 'show'">
+  <div class="popup-overlay"></div>
+  <div class="popup-container logout-popup">
+    <div class="popup-content">
+      <h4 class="pop-title">Logout!</h4>
+      <div class="pop-body">
+        <p>Are you sure you want to logout?</p>
+      </div>
+      <button class="btn btn-blue" (click)="onLogoutOkClick()" type="button">Yes</button>
+
+      <button class="btn btn-blue" (click)="onLogoutCancelClick()" type="button">No</button>
+    </div>
+  </div>
+</div> -->
+<!--logout popup end-->
+<!--backdrop start-->
+<!-- <div class="backdrop {{logoutPopup}}"></div> -->
+<!--backdrop end-->
+
+<ng-template #logoutConfirm>
+  <div class="modal-body text-center">
+    <h6 class="modal-title pull-left">{{'header.logoutTitle'|translate}}</h6>
+    <p>{{'header.logoutMessage'|translate}}</p>
+    <button type="button" class="btn btn btn-sm" (click)="confirm()" >{{'header.yesLable'|translate}}</button>
+    <button type="button" class="btn btn-primary btn-sm" (click)="decline()" >{{'header.noLabel'|translate}}</button>
+  </div>
+</ng-template>

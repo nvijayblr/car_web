@@ -1,0 +1,67 @@
+hr {
+	margin: 0;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+.block h4 {
+	margin: 0;
+	padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+.fixed-nav-header {
+    position: fixed;
+    z-index: 100;
+    width: 100%;
+    top: 0px;
+}
+
+.cust-p {
+    margin:0 0 0 0;
+}
+.prod-details-th {
+    padding: 10px 0 5px 0;
+}
+.inv-p {
+    color: #706f6f;
+    font-size: 15px;
+    margin: 0 0 5px 0;
+}
+.table-pop-invoice th {
+    color: #706f6f;
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.prod-label {
+    color: #706f6f;
+    font-size: 14px;
+    font-weight: 500;
+}
+.brand-label {
+    color: #178ee9;
+    font-size: 14px;
+    font-weight: 500;
+}
+.table-pop-invoice {
+    margin: 10px 0;
+}
+.input-group-text-nw {
+    background: transparent;
+    outline: none;
+}
+
+.input-group-text-nw:focus {
+    outline: none;
+}
+.inv-p span {
+    position: relative;
+    top: 10px;
+}
+.no-rel-fnd {
+    text-align: center;
+    margin: 10px 0;
+    position: relative;
+    top: 10px;
+    color: #706f6f;
+}

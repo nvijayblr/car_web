@@ -1,0 +1,17 @@
+// Breadcrumbs
+
+$breadcrumb-padding-y:              .75rem !default;
+$breadcrumb-padding-x:              0 !default;
+$breadcrumb-item-padding:           .5rem !default;
+
+$breadcrumb-margin-bottom:          1rem !default;
+
+$breadcrumb-bg:                     $white !default;
+$breadcrumb-divider-color:          $gray-600 !default;
+$breadcrumb-active-color:           $gray-600 !default;
+$breadcrumb-divider:                "/" !default;
+$breadcrumb-back:                   "<" !default;
+$breadcrumb-back-arrow-color:       $primary !default;
+$breadcrumb-icon-font-family:       $font-family-icons;
+
+$breadcrumb-font-size:              $display4-size;

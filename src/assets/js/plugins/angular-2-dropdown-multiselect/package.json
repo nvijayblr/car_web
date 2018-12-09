@@ -1,0 +1,119 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "angular-2-dropdown-multiselect@file:angular-2-dropdown-multiselect",
+        "scope": null,
+        "escapedName": "angular-2-dropdown-multiselect",
+        "name": "angular-2-dropdown-multiselect",
+        "rawSpec": "file:angular-2-dropdown-multiselect",
+        "spec": "E:\\ARC\\bitbuct-ARC-Frntend\\LoginApp\\angular-2-dropdown-multiselect",
+        "type": "directory"
+      },
+      "E:\\ARC\\bitbuct-ARC-Frntend\\LoginApp"
+    ]
+  ],
+  "_from": "angular-2-dropdown-multiselect",
+  "_id": "angular-2-dropdown-multiselect@1.6.3",
+  "_inCache": true,
+  "_location": "/angular-2-dropdown-multiselect",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "angular-2-dropdown-multiselect@file:angular-2-dropdown-multiselect",
+    "scope": null,
+    "escapedName": "angular-2-dropdown-multiselect",
+    "name": "angular-2-dropdown-multiselect",
+    "rawSpec": "file:angular-2-dropdown-multiselect",
+    "spec": "E:\\ARC\\bitbuct-ARC-Frntend\\LoginApp\\angular-2-dropdown-multiselect",
+    "type": "directory"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "file:angular-2-dropdown-multiselect",
+  "_shasum": "3a487ab8ab6c52ab4d87f9abc040bf1139434e86",
+  "_shrinkwrap": null,
+  "_spec": "angular-2-dropdown-multiselect@file:angular-2-dropdown-multiselect",
+  "_where": "E:\\ARC\\bitbuct-ARC-Frntend\\LoginApp",
+  "author": {
+    "name": "Simon Lindh"
+  },
+  "bugs": {
+    "url": "https://github.com/softsimon/angular-2-dropdown-multiselect/issues"
+  },
+  "contributors": [
+    {
+      "name": "Alex Malkevich",
+      "email": "malkevich.alex@gmail.com"
+    }
+  ],
+  "dependencies": {},
+  "description": "Customizable dropdown multiselect in Angular 2 with bootstrap css.",
+  "devDependencies": {
+    "@angular/common": "^4.0.0",
+    "@angular/compiler": "^4.0.0",
+    "@angular/compiler-cli": "^4.0.0",
+    "@angular/core": "^4.0.0",
+    "@angular/forms": "^4.0.0",
+    "@angular/platform-browser": "^4.0.0",
+    "@angular/platform-server": "^4.0.0",
+    "@types/core-js": "^0.9.41",
+    "@types/jasmine": "^2.5.47",
+    "@types/node": "^7.0.15",
+    "angular2-inline-template-style": "^1.1.0",
+    "chokidar": "^1.6.1",
+    "codelyzer": "^2.0.0",
+    "copyfiles": "^1.2.0",
+    "ncp": "^2.0.0",
+    "npm-run-all": "^4.0.2",
+    "rimraf": "^2.6.1",
+    "rollup": "^0.41.6",
+    "rollup-globals-regex": "^0.0.3",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rxjs": "^5.1.0",
+    "tslib": "^1.6.1",
+    "typescript": "^2.2.2",
+    "uglifyjs": "^2.4.10",
+    "zone.js": "^0.7.6"
+  },
+  "gitHead": "b68d7e34c45dbc148cb7a6d0efd9ca53d18f0482",
+  "homepage": "http://softsimon.github.io/angular-2-dropdown-multiselect",
+  "keywords": [
+    "angular 2",
+    "dropdown",
+    "multi select"
+  ],
+  "license": "MIT",
+  "main": "dist/bundles/dropdown.umd.js",
+  "module": "dist/index.js",
+  "name": "angular-2-dropdown-multiselect",
+  "optionalDependencies": {},
+  "peerDependencies": {
+    "@angular/common": "^4.0.0",
+    "@angular/core": "^4.0.0",
+    "@angular/forms": "^4.0.0",
+    "tslib": "^1.6.1"
+  },
+  "readme": "# AngularX Dropdown Multiselect for Bootstrap CSS\r\n\r\nWorks with Angular Final and AOT compilation\r\n\r\nCustomizable dropdown multiselect in AngularX, TypeScript with bootstrap css.\r\n\r\nSee demo: http://softsimon.github.io/angular-2-dropdown-multiselect\r\n\r\n## Dependencies\r\n* Bootstrap CSS 3 or 4\r\n* Font Awesome (optional)\r\n\r\n## Quick start options\r\n\r\n* [Download the latest release](https://github.com/softsimon/angular-2-dropdown-multiselect/releases).\r\n* Clone the repo: `git clone https://github.com/softsimon/angular-2-dropdown-multiselect.git`.\r\n* Install with [Bower](http://bower.io): `bower install angular-2-dropdown-multiselect --save`.\r\n* Install with [npm](https://www.npmjs.com): `npm install angular-2-dropdown-multiselect --save`.\r\n\r\n## Usage\r\n\r\nImport `MultiselectDropdown` into your @NgModule.\r\n\r\n```js\r\nimport { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';\r\n\r\n@NgModule({\r\n  // ...\r\n  imports: [\r\n    MultiselectDropdownModule,\r\n  ]\r\n  // ...\r\n})\r\n```\r\n\r\nDefine options in your consuming component:\r\n\r\n```js\r\nimport { IMultiSelectOption } from 'angular-2-dropdown-multiselect';\r\n\r\nexport class MyClass implements OnInit {\r\n    optionsModel: number[];\r\n    myOptions: IMultiSelectOption[];\r\n\r\n    ngOnInit() {\r\n        this.myOptions = [\r\n            { id: 1, name: 'Option 1' },\r\n            { id: 2, name: 'Option 2' },\r\n        ];\r\n    }\r\n    onChange() {\r\n        console.log(this.optionsModel);\r\n    }\r\n}\r\n```\r\n\r\nIn your template, use the component directive:\r\n\r\n```html\r\n<ss-multiselect-dropdown [options]=\"myOptions\" [(ngModel)]=\"optionsModel\" (ngModelChange)=\"onChange($event)\"></ss-multiselect-dropdown>\r\n```\r\n\r\n## Customize\r\n\r\nImport the `IMultiSelectOption` and `IMultiSelectTexts` interfaces to enable/override settings and text strings:\r\n```js\r\n\r\n// Default selection\r\noptionsModel: number[] = [1, 2];\r\n\r\n// Settings configuration\r\nmySettings: IMultiSelectSettings = {\r\n    enableSearch: true,\r\n    checkedStyle: 'fontawesome',\r\n    buttonClasses: 'btn btn-default btn-block',\r\n    dynamicTitleMaxItems: 3,\r\n    displayAllSelectedText: true\r\n};\r\n\r\n// Text configuration\r\nmyTexts: IMultiSelectTexts = {\r\n    checkAll: 'Select all',\r\n    uncheckAll: 'Unselect all',\r\n    checked: 'item selected',\r\n    checkedPlural: 'items selected',\r\n    searchPlaceholder: 'Find',\r\n    searchEmptyResult: 'Nothing found...',\r\n    searchNoRenderText: 'Type in search box to see results...',\r\n    defaultTitle: 'Select',\r\n    allSelected: 'All selected',\r\n};\r\n\r\n// Labels / Parents\r\nmyOptions: IMultiSelectOption[] = [\r\n    { id: 1, name: 'Car brands', isLabel: true },\r\n    { id: 2, name: 'Volvo', parentId: 1 },\r\n    { id: 3, name: 'Honda', parentId: 1 },\r\n    { id: 4, name: 'BMW', parentId: 1 },\r\n    { id: 5, name: 'Colors', isLabel: true },\r\n    { id: 6, name: 'Blue', parentId: 5 },\r\n    { id: 7, name: 'Red', parentId: 5 },\r\n    { id: 8, name: 'White', parentId: 5 }\r\n];\r\n\r\n```\r\n\r\n```html\r\n<ss-multiselect-dropdown [options]=\"myOptions\" [texts]=\"myTexts\" [settings]=\"mySettings\" [(ngModel)]=\"optionsModel\"></ss-multiselect-dropdown>\r\n```\r\n### Settings\r\n| Setting              | Description                                                        | Default Value     |\r\n| -------------------- | ------------------------------------------------------------------ | ----------------  |\r\n| pullRight            | Float the dropdown to the right                                    | false             |\r\n| enableSearch         | Enable searching the dropdown items                                | false             |\r\n| checkedStyle         | Style of checked items one of 'checkboxes', 'glyphicon' or 'fontawesome'  | 'checkboxes'      |\r\n| buttonClasses        | CSS classes to apply to the trigger button                         | 'btn btn-default' |\r\n| itemClasses          | CSS classes to apply to items                                      | ''                |\r\n| containerClasses     | CSS classes to apply to container div                              | 'dropdown-inline' |\r\n| selectionLimit       | Maximum number of items that may be selected (0 = no limit)        | 0                 |\r\n| autoUnselect         | Unselect the previous selection(s) once selectionLimit is reached  | false             |\r\n| closeOnSelect        | If enabled, dropdown will be closed after selection                | false             |\r\n| showCheckAll         | Display the `checkAll` item to select all options                  | false             |\r\n| showUncheckAll       | Display the `uncheckAll` item to unselect all options              | false             |\r\n| fixedTitle           | Use the default title (do not apply the dynamic title)             | false             |\r\n| dynamicTitleMaxItems | The maximum number of options to display in the dynamic title      | 3                 |\r\n| maxHeight            | The maximum height for the dropdown (including unit)               | '300px'           |\r\n| displayAllSelectedText | Display the `allSelected` text when all options are selected    | false             |\r\n| searchRenderLimit    | If `enableSearch=true` and total amount of items more then `searchRenderLimit` (0 - No limit) then render items only when user typed more then or equal `searchRenderAfter` charachters    | 0             |\r\n| searchRenderAfter    | Amount of characters to trigger rendering of items                 | 1                 |\r\n| searchMaxLimit       | If more than zero will render only first N options in search results | 0             |\r\n| searchMaxRenderedItems | Used with searchMaxLimit to further limit rendering for optimization. Should be less than searchMaxLimit to take effect | 0             |\r\n| displayAllSelectedText | Display the `allSelected` text when all options are selected     | false             |\r\n| closeOnClickOutside  | Close dropdown when clicked outside                                | true              |\r\n| isLazyLoad           | An event, ```onLazyLoad```, triggers on scrolling to a specified distance from the bottom of the dropdown, allowing additional data to load | false             |\r\n| loadViewDistance     | Distance from bottom of dropdown to trigger lazy load, in units of dropdown viewport height | 1             |\r\n| stopScrollPropagation | Scrolling the dropdown will not overflow to document              | false             |\r\n| selectAddedValues    | Additional lazy loaded ```Select All``` values are checked when added on scrolling | false             |\r\n| ignoreLabels         | Ignore label options when counting selected options                | false             |\r\n\r\n### Texts\r\n| Text Item             | Description                                | Default Value     |\r\n| --------------------- | ------------------------------------------ | ----------------  |\r\n| checkAll              | The text for the \"check all\" option        | 'Check all'       |\r\n| uncheckAll            | The text for the \"uncheck all\" option      | 'Uncheck all'     |\r\n| checked               | Text for \"checked\" with single item selected (used in dynamic title)    | 'checked' |\r\n| checkedPlural         | Text for \"checked\" with multiple items selected (used in dynamic title) | 'checked' |\r\n| searchPlaceholder     | Text initially displayed in search input   | 'Search...'       |\r\n| defaultTitle          | Title displayed in button before selection | 'Select'          |\r\n| allSelected           | Text displayed when all items are selected (must be enabled in options) | 'All selected' |\r\n| searchEmptyResult     | Text displayed when no items are rendered  | 'Nothing found...' |\r\n| searchNoRenderText    | Text displayed when items rendering disabled by the `searchRenderLimit` option | 'Type in search box to see results...' |\r\n\r\n## Other examples\r\n\r\n### Single select\r\nAlthough this dropdown is designed for multiple selections, a common request is to only allow a single selection without requiring the user to unselect their previous selection each time. This can be accomplished by setting selectionLimit to 1 and autoUnselect to true.\r\n```\r\n{\r\n  ...\r\n  selectionLimit: 1,\r\n  autoUnselect: true,\r\n  ...\r\n}\r\n```\r\n\r\n### Lazy Loading\r\n\r\nThis Plunker link demonstrates an implementation of lazy loading: [Lazy loading Plunker](https://plnkr.co/edit/fsZHbth4kzLI79hohcMG?p=preview)\r\n\r\nIf using search during lazy load, the search term must be supplied to the back end to return the appropriate number of results. Standard inline search will not work, since the front end does not know how many items to load to retrieve the desired number of matches.\r\n\r\nIf ```selectAddedValues``` is set to ```true``` for lazy loading, all values loaded to the checklist are checked when matching ```Select All``` criteria. If a search is used with ```Select All```, each search is added to a collection to be matched against when scrolling in. If ```selectAddedValues``` is false, only presently viewed matches will check on ```Select All```.\r\n\r\nIf a user searches countries on ```al``` and clicks ```Select All```, all matches will be selected as they load in on scrolling. If the user clears the search box, only matches to ```al``` will select upon scrolling in all country values.\r\n\r\nIf the user then searches ```an``` and clicks ```Select All```, all matches to ```an``` and ```al``` will select upon scrolling in. If the user then clicks ```Unselect All``` while ```an``` is the search criteria, all matches to ```an``` will clear, except those that match ```al```, which is still stored.\r\n\r\nClicking ```Select All``` or ```Unselect All``` with no search criteria present will clear all previously stored searches. Any search match that is manually unchecked will remain unchecked unless matched by a new search ```Select All```.\r\n\r\nThe implementor will be responsible for completing checks when the form is submitted. This could possibly either consist of completing the load of all lazy load checklists before submitting or sending checked items and search criteria to a back-end api to complete.\r\n\r\n### Use model driven forms with ReactiveFormsModule:\r\n\r\n```js\r\nimport { IMultiSelectOption } from 'angular-2-dropdown-multiselect';\r\n\r\nexport class MyClass implements OnInit {\r\n    model: number[];\r\n    myOptions: IMultiSelectOption[] = [\r\n        { id: 1, name: 'Option 1' },\r\n        { id: 2, name: 'Option 2' },\r\n    ];\r\n\r\n    ngOnInit() {\r\n        this.myForm = this.formBuilder.group({\r\n            optionsModel: [1, 2], // Default model\r\n        });\r\n\r\n        this.myForm.controls['optionsModel'].valueChanges\r\n            .subscribe((selectedOptions) => {\r\n                // changes\r\n            });\r\n    }\r\n}\r\n```\r\n\r\n```html\r\n<form [formGroup]=\"myForm\">\r\n    <ss-multiselect-dropdown [options]=\"myOptions\" formControlName=\"optionsModel\"></ss-multiselect-dropdown>\r\n</form>\r\n```\r\n\r\n## Developing\r\n\r\nPull requests are welcome!\r\n\r\n## License\r\n\r\n[MIT]\r\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/softsimon/angular-2-dropdown-multiselect.git"
+  },
+  "scripts": {
+    "build": "npm-run-all -s build:*",
+    "build:main": "npm run ng-copy && npm run ng-inline && npm run ngc",
+    "build:umd": "rollup -c rollup.config.js",
+    "ng-copy": "copyup src/index.ts dist/tmp && ncp src dist/tmp",
+    "ng-inline": "ng2-inline -u 1 -o dist/tmp -r src/**/*.component.ts",
+    "ngc": "ngc -p tsconfig.release.json",
+    "postbuild": "npm run prepare-package",
+    "postbuild:main": "rimraf dist/tmp",
+    "postbuild:umd": "uglifyjs -c --screw-ie8 --comments -o dist/bundles/dropdown.umd.min.js dist/bundles/dropdown.umd.js",
+    "prebuild": "rimraf dist",
+    "prepare-package": "node scripts/release.js"
+  },
+  "typings": "dist/index.d.ts",
+  "version": "1.6.3"
+}

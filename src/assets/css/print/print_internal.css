@@ -1,0 +1,150 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+/* line 5, ../../../../../../../../../../../../Ruby24-x64/lib/ruby/gems/2.4.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+/* line 22, ../../../../../../../../../../../../Ruby24-x64/lib/ruby/gems/2.4.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+html {
+  line-height: 1;
+}
+
+/* line 24, ../../../../../../../../../../../../Ruby24-x64/lib/ruby/gems/2.4.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+ol, ul {
+  list-style: none;
+}
+
+/* line 26, ../../../../../../../../../../../../Ruby24-x64/lib/ruby/gems/2.4.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* line 28, ../../../../../../../../../../../../Ruby24-x64/lib/ruby/gems/2.4.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+/* line 30, ../../../../../../../../../../../../Ruby24-x64/lib/ruby/gems/2.4.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+q, blockquote {
+  quotes: none;
+}
+/* line 103, ../../../../../../../../../../../../Ruby24-x64/lib/ruby/gems/2.4.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+q:before, q:after, blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+/* line 32, ../../../../../../../../../../../../Ruby24-x64/lib/ruby/gems/2.4.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+a img {
+  border: none;
+}
+
+/* line 116, ../../../../../../../../../../../../Ruby24-x64/lib/ruby/gems/2.4.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+  display: block;
+}
+/* Pixel to REM  Start*/
+/* Pixel to REM  End*/
+@font-face {
+  font-family: 'Arial-BoldMT';
+  src: url("../../fonts/arial-mt-bold/Arial-BoldMT.eot?#iefix") format("embedded-opentype"), url("../../fonts/arial-mt-bold/Arial-BoldMT.woff") format("woff"), url("../../fonts/arial-mt-bold/Arial-BoldMT.ttf") format("truetype"), url("../../fonts/arial-mt-bold/Arial-BoldMT.svg#Arial-BoldMT") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'ArialMT';
+  src: url("../../fonts/arial-mt/ArialMT.eot?#iefix") format("embedded-opentype"), url("../../fonts/arial-mt/ArialMT.woff") format("woff"), url("../../fonts/arial-mt/ArialMT.ttf") format("truetype"), url("../../fonts/arial-mt/ArialMT.svg#ArialMT") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+/* line 10, ../../sass/screen.scss */
+.print-claim-wrapper {
+  width: 50rem;
+  margin: 0px auto;
+  margin-top:50px;
+}
+
+/* line 14, ../../sass/screen.scss */
+.print-claim-container {
+  font-family: sans-serif !important;
+  background: white;
+  overflow: hidden;
+  padding: 2rem;
+  margin: 1rem;
+  border: thin solid #000000;
+  border-radius: 0;
+}
+/* line 31, ../../sass/screen.scss */
+.print-claim-container #downloadPdfBtn {
+  margin-right: 4rem;
+}
+/* line 34, ../../sass/screen.scss */
+.print-claim-container .print-claim-header {
+  width: 100%;
+  text-align: center;
+  padding-bottom: 2rem;
+}
+/* line 39, ../../sass/screen.scss */
+.print-claim-container .print-claim-header img {
+  max-width: 3.75rem;
+}
+/* line 42, ../../sass/screen.scss */
+.print-claim-container .print-claim-header h1 {
+  color: #312857;
+  margin: 0.625rem 0;
+  font-size: 1.25rem;
+}
+/* line 49, ../../sass/screen.scss */
+.print-claim-container .print-claim-content {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  margin-left: -2rem;
+  margin-right: -2rem;
+  padding-top: 2rem;
+  border-top: solid thin #d1d1d1;
+}
+/* line 58, ../../sass/screen.scss */
+.print-claim-container table {
+  width: 100%;
+  border: none !important;
+}
+/* line 62, ../../sass/screen.scss */
+.print-claim-container table tr.caption td {
+  color: #adadad;
+}
+/* line 65, ../../sass/screen.scss */
+.print-claim-container table tr td {
+  font-size: 1rem;
+  padding: 0.5rem;
+}
+/* line 71, ../../sass/screen.scss */
+.print-claim-container table tr:nth-child(even) td {
+  padding-bottom: 2rem;
+}
+/* line 76, ../../sass/screen.scss */
+.print-claim-container table tr:nth-child(odd) td {
+  padding-bottom: 0;
+}

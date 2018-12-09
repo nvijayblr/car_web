@@ -1,0 +1,102 @@
+.tab-popup{
+  width:72rem;
+  padding: 0 0.625rem !important;
+}
+
+.tab-wrapper{
+  min-height: 36rem;
+}
+tabs{
+  padding: 0 !important;
+  min-height: 31rem !important;
+  position: relative;
+  display: block !important;
+  height: auto;
+  width: 100%;
+  flex-direction:inherit !important;
+
+  ul.tabs__tab-bar{
+        width: 33.33333333%;
+        align-self: inherit !important;
+        border-radius: 0 !important;
+        overflow: hidden !important;
+        // overflow-x: scroll !important;
+        margin-bottom: 0 !important;
+        // z-index: 0 !important;
+        border: none !important;
+        float: left !important;
+        display: block;
+        border-right:solid 1px #e1dfdf !important;
+        height: 100%;
+        border-top:solid 1px #e1dfdf !important;
+        margin-top: -1.3rem;
+
+        // padding-left: 2.3rem;
+        // margin-left: -2.3rem;
+        //
+        // padding-bottom: 2.3rem;
+        // margin-bottom: -2.3rem;
+
+        li.tabs__tab{
+          width: 100%;
+          border-bottom:solid 1px #e1dfdf;
+          color: $dark-blue !important;
+          width: 100% !important;
+          border-radius: 0 !important;
+          padding: 1rem 1rem !important;
+          padding-left: 2rem !important;
+          height: 3rem !important;
+          &:first-child{
+            display:none !important;
+          }
+          &:last-child{
+
+          }
+        }
+        li.tabs__tab.active{
+          background-color: #fff !important;
+          border-right: 0.3rem solid #0061d6;
+          padding-left: 2rem !important;
+        }
+
+    }
+  tab{
+    width: 66.666667%;
+    align-self: inherit !important;
+    float: right !important;
+    .tabs__panel{
+      background-color: white !important;
+      box-shadow: none !important;
+      padding: 0 2.3rem 1rem 1rem !important;
+    }
+    &:first-child{
+      display:none !important;
+      .tabs__panel{
+        display:none !important;
+      }
+    }
+  }
+  tab.hidden-tab{
+    display:none !important;
+  }
+}
+
+.right-gray-border{
+  border-right:solid 1px #e1dfdf !important;
+  padding-top: 1rem;
+  .left-title{
+    padding-left: 2rem !important;
+    margin-bottom: 0rem;
+  }
+}
+.popup-title.right-title{
+  padding-top: 2.5rem !important;
+  padding-left: 2rem !important;
+}
+
+.add-new-5-why-btn{
+  width: 9rem !important;
+  position: absolute;
+  right: 2rem;
+  top: 2rem;
+}

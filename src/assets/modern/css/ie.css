@@ -1,0 +1,16 @@
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  /* line 3, ../sass/ie.scss */
+  .form-control[type="text"], .form-control[type="time"], .form-control[type="tel"], .form-control[type="url"], .form-control[type="month"], .form-control[type="email"], .form-control[type="number"], .form-control[type="datetime-local"], .form-control[type="date"] {
+    height: 2.2rem;
+  }
+
+  /* line 15, ../sass/ie.scss */
+  textarea.form-control {
+    min-height: 6rem;
+  }
+
+  /* line 18, ../sass/ie.scss */
+  .fixed-nav-header > .container > div {
+    margin-top: 0.1rem;
+  }
+}

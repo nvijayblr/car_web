@@ -1,0 +1,5 @@
+// Get unquoted Output
+
+@function literal($output) {
+  @return unquote($output);
+}

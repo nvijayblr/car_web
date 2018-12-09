@@ -1,0 +1,33 @@
+.op-close {
+	color: #666;
+	margin: 0;
+}
+.btn-val-sec {
+	margin: 10px 0;
+	float: right;
+}
+.fixed-nav-header {
+	position: fixed;
+	z-index: 100;
+	width: 100%;
+	top: 0;
+}
+.block h4.text-primary {
+    margin-top: 0;
+    padding-top: 0.75rem;
+}
+.block hr {
+    margin: 0;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+  
+  .custom-file-input {
+	  position: relative;
+    display: none;
+    cursor: pointer;
+  }
+	.custom-file-hazard label {
+		margin-bottom: 0;
+	}

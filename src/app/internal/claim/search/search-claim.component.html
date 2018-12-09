@@ -1,0 +1,361 @@
+<div class="container">
+  <div class="col ">
+    <div class="row d-flex justify-content-between pb-3">
+      <h5 class="text-primary">{{'searchPage.searchClaims'|translate}}</h5>
+      <div class="btn-group" dropdown placement="bottom right" *ngIf="moduleWeightage.ICLMCR>=30">
+			  <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle btn-icon">
+			    <i class="icon-plus"></i> {{'searchPage.createNewClaim'|translate}}
+			  </button>
+			  <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+          <li class="dropdown-header text-primary" > <h6 class="mt-0 mb-0">{{'searchPage.selectClaimType'|translate}}</h6> </li>
+          <li class="divider dropdown-divider"></li>
+          <li role="menuitem" *ngFor="let item of claimTypesList;">
+            <a class="dropdown-item cursor-pointer" (click)="createNewInternalClaim(item.Id)" >{{item.Name}}</a>
+          </li>
+        </ul>
+
+			</div>
+    </div>
+  </div>
+  <div class="search">
+    <form class="card-body">
+      <div class="d-flex justify-content-between">
+        <div class="width-75">
+          <div class="row">
+            <div class="col-4">{{'searchPage.universalSearch'|translate}}</div>
+            <div class="col-4">{{'searchPage.claimsInitiationDate'|translate}} ( {{'searchPage.from'|translate}} - {{'searchPage.to'|translate}})</div>
+            <div class="col-4">{{'searchPage.claimsType'|translate}}</div>
+          </div>
+          <div class="row" ngForm #claimFilterForm="ngForm">
+            <div class="col-4">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="{{'searchPage.universalSearch'|translate}}" name="GlobalSearch" [(ngModel)]="searchFilters.GlobalSearch">
+              </div>
+            </div>
+            <div class="col-2 dash">
+              <div class="form-group">
+								<div class="input-group">
+								  <input type="text" class="form-control" placeholder="mm/dd/yy" #fdp="bsDatepicker" bsDatepicker [bsValue]="bsValue" name="ClaimInitationFromDate" [(ngModel)]="searchFilters.ClaimInitationFromDate" (ngModelChange)="initiateDateValidate(searchFilters.ClaimInitationFromDate, searchFilters.ClaimInitationToDate)" readonly>
+								  <div class="input-group-append">
+								    <span class="input-group-text" id="basic-addon2" (click)="fdp.toggle()"> <i class="icon-calendar"></i> </span>
+								  </div>
+								</div>
+              </div>
+            </div>
+            <div class="col-2">
+							<div class="form-group">
+								<div class="input-group">
+								  <input type="text" class="form-control" placeholder="mm/dd/yy"  #tdp="bsDatepicker"  bsDatepicker [bsValue]="bsValue" aria-label="Recipient's username" aria-describedby="basic-addon2" name="ClaimInitationToDate" [(ngModel)]="searchFilters.ClaimInitationToDate" (ngModelChange)="initiateDateValidate(searchFilters.ClaimInitationFromDate, searchFilters.ClaimInitationToDate)" readonly>
+								  <div class="input-group-append">
+								    <span class="input-group-text" id="basic-addon2"  (click)="tdp.toggle()"> <i class="icon-calendar"></i> </span>
+								  </div>
+								</div>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                <select class="form-control" name="ClaimType" [(ngModel)]="searchFilters.ClaimType">
+                  <option value="0" selected>{{'searchPage.select'|translate}}</option>
+                  <option *ngFor="let item of claimTypesList;" value="{{item.Id}}">{{item.Name}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="advanceSearch === true">
+            <div class="col-4">
+              <div class="form-group">
+                <label for="carNumber">{{'searchPage.referenceNo'|translate}}</label>
+                <input type="text" name="ReferenceNo" class="form-control" placeholder="{{'searchPage.referenceNo'|translate}}" [(ngModel)]="searchFilters.ReferenceNo">
+               </div>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                <label for="claimStatus">{{'searchPage.claimStatus'|translate}}</label>
+                <select class="form-control" id="claimStatus" name="ClaimStatus" [(ngModel)]="searchFilters.ClaimStatus">
+                  <option value="0" selected>{{'searchPage.select'|translate}}</option>
+                  <option *ngFor="let item of claimStatusList;" value="{{item.Id}}">{{item.Name}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                <label for="EmployeeName">{{'searchPage.employeeName'|translate}}</label>
+                <input type="text" name="EmployeeName" class="form-control" placeholder="{{'searchPage.employeeName'|translate}}" [(ngModel)]="searchFilters.EmployeeName">
+               </div>
+            </div>
+          </div>
+        </div>
+        <div class="vertical-line"></div>
+        <div class="d-flex align-items-center">
+          <div class="ml-auto p-2">
+            <input type="submit" class="btn btn-primary mr-2" value="{{'searchPage.search'|translate}}" (click)="applySearch(searchFilters)" />
+            <button type="button" class="btn btn-outline-primary" (click)="applyReset()">{{'searchPage.reset'|translate}}</button>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <button type="button" class="btn btn-link advanced-search-btn" (click)="onSearchExpandCollapse()">
+            {{searchExpandCollapseText}} <i class="{{updownArrow}}"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="container">
+  <ng-container *ngIf="pagination.totalItems">
+    <div class="col-12 mt-3 mb-3">
+      <div class="row d-flex justify-content-between ">
+        <h5>{{'searchPage.searchResults'|translate}} - <span class="text-secondary">( {{pagination.totalItems}} {{'searchPage.resultsFound'|translate}} )</span></h5>
+
+        <div class="form-inline m-0 mt-2">
+          <label for="page-size" class=" mr-2 text-muted">{{'searchPage.show'|translate}}</label>
+          <select class="form-control-sm page-size mr-2" name="PageSize" [(ngModel)]="searchFilters.PageSize" (change)="applySearch(searchFilters)">
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+          <label for="page-size" class=" mr-2 text-muted">{{'searchPage.recordsPerPage'|translate}}</label>
+        </div>
+      </div>
+    </div>
+    <table class="table search-result">
+      <thead>
+        <tr>
+          <th scope="col ">
+            <div class="d-flex align-items-center" (click)="applySorting('ReferenceNo');">
+              <span class="d-flex align-items-start">{{'searchPage.referenceNo'|translate}}</span>
+              <i class="icon-grid-sort d-flex align-items-end"></i>
+            </div>
+          </th>
+          <th scope="col" class="width-18">
+            <div class="d-flex align-items-center" (click)="applySorting('Employeename');">
+              {{'searchPage.employeeName'|translate}} <i class="icon-grid-sort"></i>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex align-items-center" (click)="applySorting('ClaimInitiationDate');">
+              {{'searchPage.claimInitiationDate'|translate}} <i class="icon-grid-sort"></i>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex align-items-center" (click)="applySorting('ClaimStatus');">
+              {{'searchPage.claimStatus'|translate}} <i class="icon-grid-sort"></i>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex align-items-center" (click)="applySorting('DaysOpen');">
+              {{'searchPage.daysOpen'|translate}} <i class="icon-grid-sort"></i>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex align-items-center" (click)="applySorting('ClaimType');">
+              {{'searchPage.claimsType'|translate}} <i class="icon-grid-sort"></i>
+            </div>
+          </th>
+          <th scope="col" class="width-6">{{'searchPage.actions'|translate}}</th>
+          <th scope="col">{{'searchPage.response'|translate}}</th>
+          <th scope="col">{{'searchPage.CAPA'|translate}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let claim of claimLists"  class="cursor-pointer" >
+          <td scope="row"  (click)='onEdit(claim)' >{{claim.ReferenceNo}}</td>
+          <td class="text-break-letter" (click)='onEdit(claim)'>{{claim.Employeename}}</td>
+          <td (click)='onEdit(claim)'>{{claim.ClaimInitiationDate | date:'MM/dd/yyyy'}}</td>
+          <td (click)='onEdit(claim)'><i class="status-{{claim.ClaimStatus|spaceToHyphen}}"></i> {{claim.ClaimStatus}}</td>
+          <td (click)='onEdit(claim)'>{{claim.DaysOpen}}</td>
+          <td (click)='onEdit(claim)'>{{claim.ClaimType}}</td>
+          <td class="d-flex justify-content-between">
+            <i class="icon-download" (click)="downloadClaimPDF(claim.ClaimTypeId,claim.ReferenceNo)"></i>
+            <i class="icon-print"  *ngIf="claim.ClaimTypeId==1" (click)="showDownloadPrintPreview(claim, 'PRINT', claimAccidentPrintPreview)"></i>
+            <i class="icon-print" *ngIf="claim.ClaimTypeId==2" (click)="showDownloadPrintPreview(claim, 'PRINT',claimHazardPrintPreview)"></i>
+            <i class="icon-trash" *ngIf="moduleWeightage.ICLMCR>=30" (click)="deleteClaimClicked(claim.ReferenceNo,deleteClaimPopup)"></i>
+          </td>
+          <td><i class="icon-doc-checked" disabled style="cursor:default;"></i></td>
+          <td><i class="icon-doc" disabled style="cursor:default;"></i></td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
+
+  <div *ngIf="!pagination.totalItems"  [hidden]="loading" style=" margin-top: 10%;">
+    <h4 class="text-center">{{'searchPage.noRecordsFound'|translate}}</h4>
+  </div>
+
+  <pagination *ngIf="pagination.totalItems"
+    previousText= '&lsaquo;'
+    nextText= '&rsaquo;'
+    firstText="&laquo;" lastText="&raquo;"
+    [boundaryLinks]= "true"
+    [totalItems]="pagination.totalItems"
+    [(ngModel)]="pagination.currentPage"
+    [maxSize]="pagination.maxPages"
+    [itemsPerPage]="pagination.itemsPerPage"
+    (pageChanged)="paginationChanged($event)" [hidden]="loading">
+  </pagination>
+
+</div>
+
+
+<ng-template #claimAccidentPrintPreview>
+  <div class="modal-body claim-print-preview text-break-letter" id="printSectionId">
+    <div class="row">
+      <div class="col-11 d-flex flex-row-reverse">
+        <button (click)="printClaim('printSectionId')" class="btn btn-primary btn-sm pull-right"  *ngIf="popupMode=='PRINT'">{{'printPage.printThisPage'|translate}}</button>
+        <button (click)="downloadClaimPDF(claimDetails.ReferenceNo)" class="btn btn-primary btn-sm pull-right"  *ngIf="popupMode=='DOWNLOAD'">{{'printPage.downloadPDF'|translate}}</button>
+      </div>
+      <div class="col-1">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+
+<div class="claim-mdl-br">
+    <div class="col-12 d-flex justify-content-center">
+      <img src="assets/images/logo.png" alt="" width="55" height="69"/>
+    </div>
+    <h5 class="text-center text-uppercase br-bottom-h5">{{printClaimDetails.ClaimType}}</h5>
+
+    <div class="col-12 claim-print-preview">
+      <table>
+        <tr class="caption">
+          <td width="50%">{{'printPage.referenceNo'|translate}}:</td><td width="50%">{{'printPage.dateAndTime'|translate}}:</td>
+        </tr>
+        <tr>
+          <td>{{claimDetails.ReferenceNo}}</td><td>{{claimDetails.IncidentDate}} {{claimDetails.IncidentTime}}</td>
+        </tr>
+        <tr class="caption">
+          <td>{{'printPage.injuredEmployeeName'|translate}}:</td><td>{{'printPage.typeOfEmployment'|translate}}:</td>
+        </tr>
+        <tr>
+          <td>{{claimDetails.EmployeeName}}</td><td>{{claimDetails.EmploymentType}}</td>
+        </tr>
+        <tr class="caption">
+          <td>{{'printPage.employeeNumberMiniCo'|translate}}:</td><td>{{'printPage.incindentReportedBy'|translate}}:</td>
+        </tr>
+        <tr>
+          <td>{{claimDetails.EmployeeNo}}<span *ngIf="claimDetails.EmployeeNo"> ,</span>{{claimDetails.EmployeeMiniCo}}</td><td>{{claimDetails.ReportedBy}}</td>
+        </tr>
+        <tr class="caption">
+          <td  colspan="2">{{'printPage.incidentLocation'|translate}}:</td>
+        </tr>
+        <tr >
+          <td colspan="2">{{claimDetails.IncidentLocation}}</td>
+        </tr>
+        <tr class="caption">
+          <td  colspan="2">{{'printPage.incidentDescription'|translate}}:</td>
+        </tr>
+        <tr>
+          <td  colspan="2">{{claimDetails.Description}}</td>
+        </tr>
+        <tr class="caption">
+          <td  colspan="2">{{'printPage.immediateActions'|translate}}:</td>
+        </tr>
+        <tr>
+          <td  colspan="2">{{claimDetails.ImmediateAction}}</td>
+        </tr>
+        <tr class="caption">
+          <td>{{'printPage.natureOfInjury'|translate}}:</td><td>{{'printPage.locationOfInjury'|translate}}:</td>
+        </tr>
+        <tr>
+          <td>{{claimDetails.InjuryNature}}</td><td>{{claimDetails.InjuryLocation}}</td>
+        </tr>
+        <tr class="caption">
+          <td  colspan="2">{{'printPage.wearingCorrectPPE'|translate}}:</td>
+        </tr>
+        <tr>
+          <td colspan="2">{{claimDetails.PPE}}</td>
+        </tr>
+      </table>
+    </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #claimHazardPrintPreview>
+  <div class="modal-body claim-print-preview text-break-letter" id="printSectionId">
+      <div class="row">
+          <div class="col-11 d-flex flex-row-reverse">
+            <button (click)="printClaim('printSectionId')" class="btn btn-primary btn-sm pull-right"  *ngIf="popupMode=='PRINT'">{{'printPage.printThisPage'|translate}}</button>
+            <button (click)="downloadClaimPDF(claimDetails.ReferenceNo)" class="btn btn-primary btn-sm pull-right"  *ngIf="popupMode=='DOWNLOAD'">{{'printPage.downloadPDF'|translate}}</button>
+          </div>
+          <div class="col-1">
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+
+<div class="claim-mdl-br">
+        <div class="col-12 d-flex justify-content-center">
+            <img src="assets/images/logo.png" alt="" width="55" height="69"/>
+          </div>
+          <h5 class="text-center text-uppercase br-bottom-h5">{{printClaimDetails.ClaimType}}</h5>
+
+          <div class="col-12 claim-print-preview">
+            <table>
+                 <tr class="caption">
+          <td width="50%">{{'printPage.referenceNo'|translate}}:</td>
+          <td width="50%">{{'printPage.observedDate'|translate}}:</td>
+        </tr>
+        <tr>
+          <td>{{claimDetails.ReferenceNo}}</td>
+          <td>{{claimDetails.ObservedDateTime | date:'MM/dd/yyyy'}}</td>
+        </tr>
+
+        <tr class="caption">
+          <td width="50%">{{'printPage.employeeName'|translate}}:</td>
+          <td width="50%">{{'printPage.employeeNumberMiniCo'|translate}}:</td>
+        </tr>       
+         <tr>
+            <td>{{claimDetails.EmployeeName}}</td>
+            <td>{{claimDetails.EmployeeNo}}<span *ngIf="claimDetails.EmployeeNo && claimDetails.EmployeeMiniCo"> ,</span>{{claimDetails.EmployeeMiniCo}}</td>
+          </tr>
+
+        <tr class="caption">
+            <td colspan="2">{{'printPage.hazardLocation'|translate}}:</td>
+        </tr>
+        <tr>
+            <td>{{claimDetails.Location}}</td> 
+       </tr>
+        <tr class="caption">
+          <td width="50%">{{'printPage.hazardNature'|translate}}:</td>
+          <td width="50%">{{'printPage.hazardEstimatedPriority'|translate}}:</td>
+        </tr>
+        <tr>
+          <td>{{claimDetails.HazardNature}}</td>
+          <td>{{claimDetails.EstimatedPriority}}</td>
+        </tr>
+        <tr class="caption">
+            <td colspan="2">{{'printPage.hazardDescription'|translate}}:</td>
+        </tr>
+        <tr>
+          <td colspan="2">{{claimDetails.Description}}</td>
+        </tr>
+        <tr class="caption">
+          <td width="50%">{{'printPage.correctiveAction'|translate}}:</td>
+        </tr>
+        <tr>
+          <td>{{claimDetails.CorrectiveAction}}</td>
+        </tr>
+            </table>
+ </div>
+
+          </div>
+  </div>
+</ng-template>
+
+<ng-template #deleteClaimPopup>
+    <div class="modal-body text-center">
+    <h4 class="modal-title pull-left">{{'deleteClaimPopupText.title' |translate}}: {{currentReferenceNo}}</h4>
+    <p>{{'deleteClaimPopupText.body' |translate}}</p>
+    <button type="button" class="btn btn-primary" (click)="confirmDeleteClaim()">{{'deleteClaimPopupText.deleteButton' |translate}}</button>
+    <button type="button" class="btn btn-default" (click)="modalRef.hide();">{{'deleteClaimPopupText.cancelButton' |translate}}</button>
+  </div>
+</ng-template>
+
+<app-loader id="appLoader" [hidden]="!loading"></app-loader>

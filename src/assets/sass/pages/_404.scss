@@ -1,0 +1,47 @@
+.not-found{
+  width: 100%;
+  height: 100%;
+  @include flexbox;
+  align-items: center;
+  .error-404{
+    width: 45%;
+    border: 1px solid $border-color;
+    margin: 0px auto;
+    border-radius: 3px;
+    text-align: left;
+    padding: 0.5rem 0;
+    position: relative;
+      .logo{
+        @include flexbox;
+        width: 100%;
+        height: 80%;
+        margin: 10% 0;
+        align-items: center;
+        border-right: 1px solid $border-color;
+        max-width: inherit !important;
+        img{
+          width: 50%;
+          margin: 0px auto;
+        }
+      }
+      h1{
+        width: 100%;
+        font-size: 5rem;
+      }
+      h3{
+        width: 100%;
+        color: $red;
+      }
+      p{
+        width: 100%;
+        line-height: 1.5rem;
+        color: $red;
+        font-size: 1.08rem;
+      }
+      button{
+        position: absolute;
+        right: 0;
+        bottom: -3.5rem;
+      }
+  }
+}

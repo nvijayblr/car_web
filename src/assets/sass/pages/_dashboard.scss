@@ -1,0 +1,182 @@
+.search-container {
+    width: 100%;
+    padding: rem(30) rem(40);
+    border: 1px solid $border-color;
+    border-radius: rem(4);
+    @include vendor-prefix(box-shadow, 0px 1px 3px 0 rgba(0, 0, 0, 0.08));
+}
+
+.search-left {
+    border-right: 1px solid $border-color;
+}
+
+.search-right {
+    ul {
+        li:last-child {
+            margin-left: rem(10);
+        }
+    }
+}
+
+.advance-search {
+    color: $accordion-header-color;
+    font-size: $font-normal-size;
+    letter-spacing: $font-letter-spacing;
+    cursor: pointer;
+    i {
+        margin-left: rem(12);
+        font-size: rem(8);
+    }
+}
+
+.search-result-header {
+    padding: rem(30) 0;
+    width: 100%;
+    p {
+        margin: 0;
+        font-size: rem(17);
+        color: $accordion-header-color;
+        font-weight: bold;
+    }
+    span {
+        font-size: $font-normal-size;
+        letter-spacing: $font-letter-spacing;
+        color: $blue;
+    }
+}
+
+.search-result {
+    width: 100%;
+    table {
+        width: 100%;
+        border: 1px solid #dbe1e5;
+        border-radius: rem(4);
+        margin-bottom: rem(30);
+        tr {
+            border-bottom: 1px solid $border-color;
+            &:hover {
+                background: #f5f5f5;
+            }
+            &:not(:first-child) {}
+        }
+        th {
+            background: $accordion-header-bg;
+            padding: rem(20);
+            font-family: $font-regular;
+            //color: $dark-blue;
+            color:$black;
+            font-size: rem(16);
+            text-align: left;
+            font-weight: bold;
+            a {
+                font-weight: bold;
+                position: relative;
+                display: inline-block;
+                user-select: none;
+                &:before,
+                &:after {
+                    width: 0;
+                    height: 0;
+                    content: '';
+                    display: block;
+                    border-style: solid;
+                    position: absolute;
+                }
+                &:after {
+                    border-width: 5px 2px 0px 2px;
+                    border-color: #676d78 transparent transparent transparent;
+                    bottom: rem(1);
+                    right: rem(-15);
+                }
+                &:before {
+                    border-width: 0px 2px 5px 2px;
+                    border-color: transparent transparent #676d78 transparent;
+                    top: rem(1);
+                    right: rem(-15);
+                }
+                span {
+                    display: none;
+                }
+            }
+        }
+        td {
+            padding: rem(10) rem(20);
+            color: $input-color;
+            text-align: left;
+            font-size: $font-normal-size;
+            letter-spacing: $font-letter-spacing;
+            &:first-child {
+                color: #368ef8;
+            }
+        }
+    }
+}
+
+.status {
+    width: rem(20);
+    height: rem(20);
+    border-radius: rem(4);
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    margin-right: rem(13);
+    margin-bottom: 0.5rem;
+    &:before {
+        content: '';
+        width: rem(6);
+        height: rem(6);
+        display: block;
+        background: $white;
+        border-radius: rem(4);
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        @include vendor-prefix(transform, translate(-50%, -50%));
+    }
+    &.open {
+        background: #ff335a;
+    }
+    &.closed {
+        background: #41c353;
+    }
+    &.submitted {
+        background: #1abbf0;
+    }
+    &.review{
+        background: #306499;
+    }
+    &.draft {
+        background: #ffd100;
+    }
+    &.reviewed{
+        background:#97dbf4;
+    }
+}
+
+.text-ellipsis {
+    display: block;
+    max-width: rem(150);
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.records-found {
+    padding-top: rem(30);
+    text-align: center;
+    font-size: rem(17);
+    color: $dark-blue;
+}
+
+.actions {
+    i {
+        cursor: pointer;
+        font-size: rem(17);
+        padding: rem(8);
+        color: #576277;
+        border-radius: rem(4);
+        &:hover {
+            color: $blue;
+            background: $border-color;
+        }
+    }
+}

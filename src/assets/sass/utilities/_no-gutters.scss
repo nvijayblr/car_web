@@ -1,0 +1,56 @@
+.g_no{
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.g_np{
+  padding: 0 !important;
+}
+.g_nm{
+  margin: 0 !important;
+}
+
+// No Margin
+.g_nrm{
+  margin-right:0 !important;
+}
+.g_nlm{
+  margin-left: 0 !important;
+}
+.g_ntm{
+  margin-top: 0 !important;
+}
+.g_nbm{
+  margin-bottom: 0 !important;
+}
+
+// No Padding
+.g_nrp{
+  padding-right:0 !important;
+}
+.g_nlp{
+  padding-left: 0 !important;
+}
+.g_ntp{
+  padding-top: 0 !important;
+}
+.g_nbp{
+  padding-bottom: 0 !important;
+}
+
+// No Margin and Padding
+.g_ntpm{
+  @extend .g_ntp;
+  @extend .g_ntm;
+}
+.g_nlpm{
+  @extend .g_nlp;
+  @extend .g_nlm;
+}
+.g_nrpm{
+  @extend .g_nrp;
+  @extend .g_nrm;
+}
+.g_nbpm{
+  @extend .g_nbp;
+  @extend .g_nbm;
+}

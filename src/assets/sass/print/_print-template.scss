@@ -1,0 +1,159 @@
+.close {
+    position: absolute;
+    display: block;
+    right: rem(10);
+    top: rem(10);
+    padding: rem(10);
+    font-size: rem(30);
+    font-weight: bold;
+    cursor: pointer;
+    color: $dark-blue;
+    &:hover {
+        color: $blue;
+    }
+}
+
+.popup-container.print-popup {
+    padding: rem(20) 0 0 0;
+    height: 550px;
+    width: 880px;
+}
+
+.print-claim {
+    width: 100%;
+    background: $white;
+    border-bottom-left-radius: rem(10);
+    border-bottom-right-radius: rem(10);
+    overflow: hidden;
+}
+
+.print-claim-header {
+    width: 100%;
+    text-align: center;
+    img {
+        max-width: rem(60);
+    }
+    h1 {
+        color: $dark-blue;
+        margin: rem(10) 0;
+        font-size: rem(20);
+    }
+}
+
+.print-claim-inner {
+    width: 100%;
+    background: #fcffb2;
+    padding: rem(20) rem(70);
+}
+
+.print-claim-container {
+    /*min-width: rem(900);*/
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: rem(10);
+    border: 1px solid $border-color;
+    padding: rem(10);
+    background: #feffdc;
+    table {
+        width: 100%;
+        border: 1px solid $border-color;
+        border-radius: rem(10);
+        tr {
+            td {
+                padding: rem(10);
+                font-size: rem(15);
+                font-family: $font-regular;
+                span{
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+    .footer-table {
+        border: 0;
+        td {
+            text-align: center;
+            font-weight: 600;
+        }
+    }
+    textarea {
+        resize: none;
+    }
+}
+
+.print-btn {
+    width: auto !important;
+    margin-bottom: rem(20);
+}
+
+.print-popup-claim{
+  height: auto !important;
+  width: 50% !important;
+  margin-top: 20% !important;
+}
+
+.print-claim-container{
+  $black: #000000;
+  $margin: 2rem;
+  $bordor-color: #adadad;
+  $font-size: rem(20);
+  $border-color-light:#d1d1d1;
+  $dark-blue: #312857;
+
+  background: white;
+  overflow: hidden;
+  padding: $margin;
+  margin: $margin - 1;
+  border: thin solid $black;
+  border-radius: 0;
+
+  #downloadPdfBtn{
+    margin-right: $margin * 2;
+  }
+  .print-claim-header {
+      width: 100%;
+      text-align: center;
+      padding-bottom: $margin;
+
+      img {
+          max-width: rem(60);
+      }
+      h1 {
+          color: $dark-blue;
+          margin: rem(10) 0;
+          font-size: rem(20);
+      }
+  }
+
+  .print-claim-content{
+    padding-left: $margin;
+    padding-right: $margin;
+    margin-left: - $margin;
+    margin-right: - $margin;
+    padding-top: $margin;
+    border-top: solid thin $border-color-light;
+  }
+
+  table{
+    width: 100%;
+    border: none !important;
+    tr.caption{
+      td{color: $bordor-color;}
+    }
+    tr{
+      td{
+        font-size: $font-size;
+      }
+    }
+    tr:nth-child(even) {
+      td{
+        padding-bottom: $margin;
+      }
+    }
+    tr:nth-child(odd) {
+      td{
+        padding-bottom: 0;
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+/* Top nav starts here */
+.page-nav{
+    padding-top: rem(100);
+    margin:rem(30) rem(61) 0;
+    display: inline-block;
+    li{
+        display: inline-block;
+        margin-right:rem(19);
+        a{
+            color: rgba(87, 98, 119, 0.8);
+            font-family:$font-regular;
+            line-height:rem(35);
+            border: solid 1px rgba(87,98,119,.3);
+            padding: 0 rem(20);
+            display: inline-block;
+            border-radius:rem(18.5);
+            min-width:rem(185);
+            text-align: center;
+            text-decoration: none;
+        }
+        &.current a{
+            border-color:#fff;
+            box-shadow: 0 0 rem(10) 0 rgba(59, 59, 97, 0.14);
+            color:#00a950;
+        }
+    }
+}
+/* Top nav ends here */

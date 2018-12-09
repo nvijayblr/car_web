@@ -1,0 +1,30 @@
+
+[class^="status-"], [class*=" status-"] {
+  position: relative;
+
+  &::before{
+    content: '';
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    border-radius: $status-icon-border-radius;
+    border: $status-icon-border-width solid $status-icon-base-color;
+    width: $status-icon-width;
+    height: $status-icon-height;
+    display: inline-block;
+    margin-bottom: $status-icon-margin-y;
+    background-color: $status-icon-base-color;
+  }
+  &::after{
+    content: '';
+    width: $status-icon-width / 3;
+    height: $status-icon-height / 3;
+    left: calc(50% - (#{$status-icon-height} / 6));
+    top: calc(50% - (#{$status-icon-height} / 6));
+    position: absolute;
+    background-color: $white;
+    @extend .rounded-circle;
+  }
+}
+
+@include generate-status-icon($status-icon);

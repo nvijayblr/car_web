@@ -1,0 +1,235 @@
+{
+    "header": {
+        "applicationName": "Claim Processing Application",
+        "logoutTitle": "Logout !",
+        "logoutMessage": "Are you sure you want to logout?",
+        "yesLable": "Yes",
+        "noLabel": "No",
+        "claimsMenu": "CLAIMS",
+        "capaMenu": "CAPA"
+    },
+    "landingPage": {
+        "externalMessage": "Create, View & Manage different types of claims like Consumer, Customer & Complaints etc",
+        "internalMessage": "Create, View & Manage Hazards and Accidents declaration and Intimation",
+        "externalButton": "External",
+        "internalButton": "Internal"
+    },
+    "searchPage": {
+        "selectClaimType": "Select a Claim Type",
+        "createNewClaim": "Create New Claim",
+        "accidentDeclaration": "Accident Declaration",
+        "hazardIdentification": "Hazard Identification",
+        "searchClaims": "Search Claims",
+        "universalSearch": "Universal Search",
+        "search": "Search",
+        "reset": "Reset",
+        "claimsInitiationDate": "Claims Initiation Date",
+        "from": "From",
+        "to": "To",
+        "claimsType": "Claims Type",
+        "claimStatus": "Claim Status",
+        "employeeName": "Employee Name",
+        "select": "Select",
+        "advancedSearch": "Advanced Search",
+        "basicSearch": "Basic Search",
+        "searchResults": "Search Results",
+        "itemsPerPage": "Items Per Page",
+        "show":"Show",
+        "recordsPerPage":" records per page",
+        "resultsFound": "Results Found",
+        "referenceNo": "Reference No.",
+        "claimInitiationDate": "Claim Initiation Date",
+        "daysOpen": "Days Open",
+        "actions": "Actions",
+        "response": "Response",
+        "CAPA": "CAPA",
+        "noRecordsFound": "No Records Found",
+        "toDateGreaterThanFrom": "Initiation To Date must be greater than or equal to Initiation From Date",
+        "printThisPage": "Print this page"
+    },
+    "printPage": {
+        "printThisPage": "Print this page",
+        "downloadPDF": "Download PDF",
+        "accidentDeclaration": "ACCIDENT DECLARATION",
+        "referenceNo": "Reference No",
+        "dateAndTime": "Date and time of Incident",
+        "injuredEmployeeName": "Name of Injured Employee",
+        "typeOfEmployment": "Type of employment",
+        "employeeNumberMiniCo": "Employee Number & Mini-Co",
+        "incindentReportedBy": "Incident reported by",
+        "incidentLocation": "Precise location of the incident",
+        "incidentDescription": "Description of the incident",
+        "immediateActions": "Immediate actions carried out at the scene of the incident",
+        "natureOfInjury": "Nature of Injury",
+        "locationOfInjury": "Location of Injury",
+        "wearingCorrectPPE": "Was the victim wearing correct PPE? If so, what?",
+        "immediateAction": "Immediate action carried out at the scene of the incident",
+        "hazardDeclaration": "HAZARD DECLARATION",
+        "employeeName":"Name of Employee Requesting Action",
+        "observedDate":"Date Of incident",
+        "hazardLocation": "Precise location of the identified hazard",
+        "hazardNature":"Nature of Hazard",
+        "hazardEstimatedPriority":"Estimated Priority",
+        "hazardDescription": "Description of the incident",
+        "correctiveAction":"Corrective Action Requested"
+    },
+    "accidentDeclarationPage": {
+        "pageHead": "Accident Declaration",
+        "basicDetails": {
+            "label": " Basic Details",
+            "referenceNo": "Reference Number",
+            "dateOfIncident": "Date of Incident",
+            "timeOfIncident": "Time Of Incident",
+            "injuredEmployeeName": "Name of Injured Employee",
+            "employeeNo": "Employee No.",
+            "employementType": "Type of Employment",
+            "employeeMiniCo": "Employee Mini-Co.",
+            "claimStatus": "Claim Status"
+        },
+        "incidentDetails": {
+            "label": "Incident Details",
+            "sendTo": "Send to",
+            "incidentReportedBy": "Incident Reported By",
+            "incidentLocation": "Precise location of the Incident",
+            "incidentDescription": "Description of Incident",
+            "immediateActions": "Immediate actions carried out at the scene of the incident",
+            "sendAdditionalEmail": "Send Additional Email to"
+        },
+        "injuryDetails": {
+            "label": "Injury Details",
+            "injuryNature": "Nature of Injury",
+            "injuryLocation": "Location of Injury",
+            "ppeWearingCorrect": "Was the victim wearing correct PPE? If so, what?",
+            "carClosedBy": "CAR Closed By",
+            "carClosedDate": "CAR Closed Date",
+            "attachPhoto": "Attach Photo",
+            "fileAdded": "File Added",
+            "noImage":"No Images selected",
+            "fileNames":"File names",
+            "description":"Description"
+        },
+        "validation": {
+            "dateOfIncident": "Please choose a valid date",
+            "timeOfIncident": "Please choose a valid time",
+            "injuredEmployeeName": "Please enter valid name",
+            "employeeNo": "Please enter valid employee no.",
+            "employementType": "This is a required field",
+            "sendTo": "Please enter valid data",
+            "incidentReportedBy": "Please enter valid data",
+            "incidentLocation": "Please enter valid location",
+            "incidentDescription": "Please enter valid description",
+            "injuryNature": "This is a required field",
+            "injuryLocation": "This is a required field",
+            "error": "Error",
+            "genMessage": "Oops! something went wrong.",
+            "warning": "Warning",
+            "missingFields": "Please enter valid fields",
+            "dateOfIncidentToaster": "Date of Incident should be less than or equal to CAR closed date",
+            "noChange": "There are no changes, data is already saved",
+            "claim":"Claim",
+            "saveSuccess":"Saved Successfully",
+            "updateSuccess":"Updated Successfully",
+            "submitSuccess":"Submitted Successfully",
+            "success": "Success"
+        },
+        "button":{
+            "reset":"Reset",
+            "saveasDraft":"Save as Draft",
+            "submit":"Submit",
+            "select":"Select",
+            "edit":"Edit",
+            "ok":"Ok"
+        },
+        "resetForm":{
+            "resetFormModal":"Reset will clear all values entered before saving. Do you want to Continue?",
+            "yes":"Yes",
+            "no":"No"
+        }
+    },
+    "deleteClaimPopupText":{
+        "title":"Delete claim",
+        "body":"After deleting a claim you will not see it in search results or reports. Please click delete to continue",
+        "deleteButton":"Delete",
+        "cancelButton":"Cancel"
+    },
+
+    "hazardDeclarationPage": {
+        "pageHead": "Hazard Identification",
+        "basicDetails": {
+            "label": " Basic Details",
+            "referenceNo": "Reference No.",
+            "dateOfObservation": "Date of Observation",
+            "employeeName": "Name of Employee Requesting Action",
+            "employeeNo": "Employee No.",
+            "employeeMiniCo": "Employee Mini-Co.",
+            "claimStatus": "Claim Status"
+        },
+        "placeholder":{
+            "employeeName": "Name of Employee",
+            "hazardLocation":"Location",
+            "hazardDescription":"Enter hazard description here",
+            "sendAdditionalEmail":"Enter multiple emails separated by commas"
+        },
+
+        "hazardDetails": {
+            "label": "Hazard Details",
+            "hazardLocation": "Precise location of identified hazard",
+            "hazardNature": "Nature Of Hazard",
+            "hazardDescription": "Description of Hazard"
+        },
+        "correctiveAction": {
+            "label": "Corrective Action",
+            "correctiveActionRequested": "Corrective Action Requested",
+            "sendTo": "Send To",
+            "estimatedPriority": "Estimated Priority",
+            "carClosedBy": "CAR Closed By",   
+            "sendAdditionalEmail": "Send Additional Email to",
+            "emailToRecipients":"Send Additional Email to",         
+            "carClosedDate": "CAR Closed Date",
+            "attachPhoto": "Attach Photo",
+            "fileAdded": "File Added",
+            "noImage":"No Images selected",
+            "fileNames":"File names",
+            "description":"Description"
+        },
+        "validation": {
+            "dateOfObservation": "Please choose a valid date",
+            "employeeName": "Please enter valid name",
+            "employeeNo": "Please enter valid employee no",
+            "hazardLocation": "Please enter valid location",
+            "hazardNature": "This is a required field",
+            "hazardDescription":"Please enter description",
+            "correctiveAcionRequested":"Please enter action requested",
+            "sendTo": "This is a required field",
+            "estimatedPriority":"Please select priority",
+            "error": "Error",
+            "genMessage": "Oops! something went wrong.",
+            "warning": "Warning",
+            "missingFields": "Please enter valid fields",
+            "dateOfIncidentToaster": "Date of Incident should be less than or equal to CAR closed date",
+            "noChange": "There are no changes, data is already saved",
+            "claim":"Claim",
+            "saveSuccess":"Saved Successfully",
+            "updateSuccess":"Updated Successfully",
+            "submitSuccess":"Submitted Successfully",
+            "success": "Success"
+        },
+        "button":{
+            "reset":"Reset",
+            "saveasDraft":"Save as Draft",
+            "submit":"Submit",
+            "select":"Select",
+            "edit":"Edit",
+            "ok":"Ok",
+            "validation":"Validation",
+            "capa":"CAPA",
+            "browse":"Browse"
+        },
+        "resetForm":{
+            "resetFormModal":"Reset will clear all values entered before saving. Do you want to Continue?",
+            "yes":"Yes",
+            "no":"No"
+        }
+    }
+
+}

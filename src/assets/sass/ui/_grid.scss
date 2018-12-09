@@ -1,0 +1,56 @@
+.row {
+    @include flexbox;
+    @include flex-flow(row wrap);
+    margin-left: rem(-10);
+    margin-right: rem(-10);
+}
+
+[class^="col-"] {
+    float: left;
+    padding-left: rem(10);
+    padding-right: rem(10);
+}
+
+.col-1 {
+    width: 8.333333%;
+}
+
+.col-2 {
+    width: 16.66666666%;
+}
+
+.col-3 {
+    width: 25%;
+}
+
+.col-4 {
+    width: 33.33333333%;
+}
+
+.col-5 {
+    width: 41.666667%;
+}
+
+.col-6 {
+    width: 50%;
+}
+
+.col-7{
+  width: 14.285714%;
+}
+
+.col-8 {
+    width: 66.666667%;
+}
+
+.col-9 {
+    width: 75%;
+}
+
+.col-10 {
+    width: 83.333333%;
+}
+
+.col-12 {
+    width: 100%;
+}

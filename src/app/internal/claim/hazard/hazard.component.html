@@ -1,0 +1,298 @@
+<div class="fixed-nav-header" id="fixed-nav-header">
+  <div class="container first">
+    <div class="row mt-1 border-top">
+      <div class="container">
+        <nav aria-label="breadcrumb">
+          <div class="row">
+            <div class="col-6">
+                 <ol class="breadcrumb">
+            <li class="breadcrumb-back" [routerLink]="['/internal/claim']"></li>
+            <li class="breadcrumb-item"><a>{{'hazardDeclarationPage.pageHead' | translate}}</a></li>
+          </ol>
+            </div>
+            <div class="col-6" *ngIf="IsCapaLevelOne">
+               <div class="btn-val-sec">
+              <button type="button" class="btn btn-primary">{{'hazardDeclarationPage.button.validation' | translate}}</button>
+            <button type="button" class="btn btn-primary">{{'hazardDeclarationPage.button.capa' | translate}}</button>
+          </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <div class="tab-header" id="tabHeader">
+      <div class="col-12" >
+        <div class="row">
+          <a data-target="#block-1" [class.active]="activeTab=='block-1'" (click)="onAnchorClick(1)"><i data-line="1"></i>{{'hazardDeclarationPage.basicDetails.label' | translate}}</a>
+          <a data-target="#block-2" [class.active]="activeTab=='block-2'" (click)="onAnchorClick(2)" ><i data-line="2"></i>{{'hazardDeclarationPage.hazardDetails.label' | translate}}</a>
+          <a data-target="#block-3" [class.active]="activeTab=='block-3'" (click)="onAnchorClick(3)"><i data-line="3"></i>{{'hazardDeclarationPage.correctiveAction.label' | translate}}</a>
+        </div>
+      </div>
+  </div>
+
+</div>
+
+<form class="application" id="scrollable-page" #formHazard="ngForm"  (ngSubmit)="submitClaim()"> 
+<div class="container last">
+   <div id="block-1" class="block">
+ <h4 class="col-11 text-primary text-uppercase">{{'hazardDeclarationPage.basicDetails.label' | translate}}</h4>
+ <div class="row col-11">
+     <div class="col-4">
+          <div class="form-group">
+            <label for="reference-no">1. {{'hazardDeclarationPage.basicDetails.referenceNo' | translate}}</label>
+            <input type="text" class="form-control" name = "reference-no" [placeholder]="'hazardDeclarationPage.basicDetails.referenceNo' | translate" [value]="hazardClaim.ReferenceNo" disabled>
+          </div>
+        </div>
+              <div class="col-4">
+          <div class="form-group required">
+            <label for="observation-date">{{'hazardDeclarationPage.basicDetails.dateOfObservation' | translate}}</label>
+            <div class="input-group">
+                <input type="text" name="observation-date" #incidentDate = "bsDatepicker" bsDatepicker  [(ngModel)]="hazardClaim.ObservedDate" [bsConfig]="incidentDateConfig" class="form-control" required/>
+                <div class="input-group-append">
+                    <span class="input-group-text" (click)="incidentDate.toggle()"> <i class="icon-calendar"></i> </span>
+                </div>
+                <span *ngIf="!hazardClaim.ObservedDate">
+                    {{'hazardDeclarationPage.validation.dateOfObservation' | translate}}
+                </span>
+            </div>
+   
+          </div>
+        </div>
+
+             <div class="col-4">
+          <div class="form-group required">
+            <label for="employee-name">{{'hazardDeclarationPage.basicDetails.employeeName' | translate}}</label>
+            <input type="text" name="employee-name" class="form-control"   #employeeName="ngModel" [placeholder]="'hazardDeclarationPage.placeholder.employeeName' | translate" [(ngModel)]="hazardClaim.EmployeeName" required maxlength="64">
+            <span *ngIf="employeeName.invalid && (employeeName.dirty || employeeName.touched)&& isSubmited ">
+                {{'hazardDeclarationPage.validation.employeeName' | translate}}
+           </span>
+          </div>
+        </div>
+ </div>
+
+ <div class="row col-11">
+     <div class="col-4">
+          <div class="form-group required">
+            <label for="employee-no">{{'hazardDeclarationPage.basicDetails.employeeNo' | translate}}</label>
+            <input type="text" class="form-control" name="employee-no" #employeeNo="ngModel"  [placeholder]="'hazardDeclarationPage.basicDetails.employeeNo' | translate" pattern="[a-zA-Z0-9]+" [(ngModel)]="hazardClaim.EmployeeNo" maxlength="64">
+            <span *ngIf="employeeNo.invalid && (employeeNo.dirty || employeeNo.touched) && isSubmited">
+                {{'hazardDeclarationPage.validation.employeeNo' | translate}}
+            </span>
+          </div>
+        </div>
+  
+        <div class="col-4">
+          <div class="form-group">
+            <label for="employee-mini-co">{{'hazardDeclarationPage.basicDetails.employeeMiniCo' | translate}}</label>
+            <input type="text" class="form-control" name="employee-mini-co"  [placeholder]="'hazardDeclarationPage.basicDetails.employeeMiniCo' | translate" [(ngModel)]="hazardClaim.EmplyeeMinCo" maxlength="64">
+          </div>
+        </div>
+
+        <div class="col-4">
+            <div class="form-group" *ngIf="hazardClaim.ClaimStatusId">
+              <label for="claim-status">
+                   {{'hazardDeclarationPage.basicDetails.claimStatus' | translate}}
+              </label>
+              <ng-container *ngFor="let item of claimStatusList">
+                  <span *ngIf="hazardClaim.ClaimStatusId == item.Id" class="form-control-plaintext font-weight-bold">{{item.Name}}</span>
+              </ng-container>
+            </div>
+        </div>
+ </div>
+ <hr>
+   </div>
+     <div id="block-2" class="block">
+   <h4 class="col-11 text-primary text-uppercase">2. {{'hazardDeclarationPage.hazardDetails.label' | translate}}</h4>
+    <div class="row col-11">
+          <div class="col-4">
+            <div class="form-group required">
+              <label  for="precise-location">{{'hazardDeclarationPage.hazardDetails.hazardLocation' | translate}}</label>
+              <textarea class="form-control" name="precise-location" #preciseLocation="ngModel" [placeholder]="'hazardDeclarationPage.placeholder.hazardLocation' | translate" [(ngModel)]="hazardClaim.HazardDetail.Location" rows="1" required maxlength="64"></textarea>
+              <span *ngIf="preciseLocation.invalid && (preciseLocation.dirty || preciseLocation.touched) && isSubmited">
+                  {{'hazardDeclarationPage.validation.hazardLocation' | translate}}
+              </span>
+            </div>
+          </div>
+
+          <div class="col-8">
+            <div class="form-group required">
+              <label for="hazard-nature">{{'hazardDeclarationPage.hazardDetails.hazardNature' | translate}}</label>
+              
+                  <select class="form-control" name="hazard-nature" #hazardNature="ngModel" [(ngModel)]="hazardClaim.HazardDetail.HazardNatureId" required>
+                  <option value="null">{{'hazardDeclarationPage.button.select' | translate}}</option>
+                  <option *ngFor="let item of hazardsNature" [ngValue]="item.Id">{{item.Name}}</option>
+                </select>
+                <span *ngIf=" (hazardNature.dirty || hazardNature.touched) && (!hazardClaim.HazardDetail.HazardNatureId || hazardClaim.HazardDetail.HazardNatureId =='null') && isSubmited">
+                  {{'hazardDeclarationPage.validation.hazardNature' | translate}}
+                </span>
+            </div>
+        </div>
+    </div>
+
+     <div class="row col-11">
+        <div class="col-12">
+          <div class="form-group required ">
+            <label for="hazard-description"> {{'hazardDeclarationPage.hazardDetails.hazardDescription' | translate}}</label>
+            <textarea class="form-control" name="hazard-description" #hazardDescription="ngModel" [placeholder]="'hazardDeclarationPage.placeholder.hazardDescription' | translate" [(ngModel)]="hazardClaim.HazardDetail.Description" required maxlength="1024"></textarea>
+            <span *ngIf="hazardDescription.invalid && (hazardDescription.dirty || hazardDescription.touched)&& isSubmited ">
+                {{'hazardDeclarationPage.validation.hazardDescription' | translate}}
+            </span>
+          
+          </div>
+        </div>
+     </div>
+      <hr>
+   </div>
+     <div id="block-3" class="block last">
+     <h4 class="col-11 text-primary text-uppercase">3.  {{'hazardDeclarationPage.correctiveAction.label' | translate}}</h4>
+      <div class="row col-11">
+             <div class="col-12">
+          <div class="form-group">
+            <label for="corrective-action">{{'hazardDeclarationPage.correctiveAction.correctiveActionRequested' | translate}}</label>
+            <textarea class="form-control" name="corrective-action" #correctiveAction="ngModel" [placeholder]="'hazardDeclarationPage.correctiveAction.correctiveActionRequested' | translate" [(ngModel)]="hazardClaim.CorrectiveAction.ActionRequested" rows="1"  maxlength="1024"></textarea>
+            <span *ngIf="correctiveAction.invalid && (correctiveAction.dirty || correctiveAction.touched) && isSubmited">
+              {{'hazardDeclarationPage.validation.correctiveAcionRequested' | translate}}
+          </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row col-11">
+        <div class="col-4">
+          <div class="form-group required">
+            <label for="send-to">{{'hazardDeclarationPage.correctiveAction.sendTo' | translate}}</label>
+            <select class="form-control" name="send-to" #sendTo="ngModel" [(ngModel)]="hazardClaim.CorrectiveAction.SendTo" required>
+                <option value="null">{{'hazardDeclarationPage.button.select' | translate}}</option>
+                <option *ngFor="let item of sendToEmailList" [ngValue]="item.Id">{{item.Name}}</option>
+            </select>
+            <span *ngIf="(!hazardClaim.CorrectiveAction.SendTo || hazardClaim.CorrectiveAction.SendTo =='null') && (sendTo.dirty || sendTo.touched) && isSubmited">
+                {{'hazardDeclarationPage.validation.sendTo' | translate}}
+            </span>
+          </div>
+        </div>
+
+            <div class="col-8">
+          <div class="form-group">
+            <label for="estimated-priority">{{'hazardDeclarationPage.correctiveAction.estimatedPriority' | translate}}</label>
+            <select class="form-control" name="estimated-priority" #estimatedPriority="ngModel" [(ngModel)]="hazardClaim.CorrectiveAction.EstimatedPriority" >
+                <option value="null">{{'hazardDeclarationPage.button.select' | translate}}</option>
+                <option *ngFor="let item of estimatedPriorityList" [ngValue]="item.Id">{{item.Name}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+       <div class="row col-11">
+        <div class="col-12">
+          <div class="form-group not-required">
+            <label for="additional-email">{{'hazardDeclarationPage.correctiveAction.sendAdditionalEmail' | translate}}</label>
+            <ng-select [items]="users"
+              bindLabel="Address"
+              bindValue="Address"
+              [addTag]="addCustomEmail"
+              [multiple]="true"
+              name="additional-email"
+              [placeholder]="'hazardDeclarationPage.placeholder.sendAdditionalEmail' | translate"
+              [(ngModel)]="hazardClaim.CorrectiveAction.EmailTo" (change)="validateemail(email)">
+            </ng-select>
+            <span *ngIf="hazardClaim.CorrectiveAction.EmailTo && hazardClaim.CorrectiveAction.EmailTo.length>0 && !validmail">Please enter valid email</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row col-11">
+        <div class="col-4">
+         <div class="form-group">
+           <label for="car-closed-by">
+              {{'hazardDeclarationPage.correctiveAction.carClosedBy' | translate}}
+           </label>
+           <input type="text" class="form-control" name="car-closed-by"  [placeholder]="'hazardDeclarationPage.correctiveAction.carClosedBy' | translate" disabled>
+        
+          </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label for="car-closed-date">
+                    {{'hazardDeclarationPage.correctiveAction.carClosedDate' | translate}}
+                </label>
+                <div class="input-group">
+                  <input type="text" class="form-control" name="car-closed-date"  disabled />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="form-group">
+                <label for="Attach Photo">
+                    {{'hazardDeclarationPage.correctiveAction.attachPhoto' | translate}}
+                </label>
+                <div class="row">
+                  <div class="col-5">
+                    <div class="btn btn-primary custom-file-hazard">
+                        <label for="attach-photo" >{{'hazardDeclarationPage.button.browse' | translate}}</label>
+                        <input type="file" class="custom-file-input"  name="attach-photo" ng2FileSelect [uploader]="attachPhoto" id="attach-photo" multiple>
+                        <!-- <input type="file" class="custom-file-input" name="attach-photo" ng2FileSelect [uploader]="attachPhoto" id="attach-photo" multiple />
+                        <label class="custom-file-label" for="customFile">Browses</label> -->
+                    </div>
+                  </div>
+                  <div class="col-4" *ngIf="attachPhoto.queue.length || (hazardClaim.CorrectiveAction.Attachment && hazardClaim.CorrectiveAction.Attachment.length)">
+                      <button type="button" class="btn btn-light" (click)="viewAttachmentList(attachmentList)">
+                          {{ attachPhoto.queue.length + hazardClaim.CorrectiveAction.Attachment.length}}&nbsp; {{'hazardDeclarationPage.correctiveAction.fileAdded' | translate}}
+                          <i class="icon-eye"></i> </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+   </div>
+</div>
+
+  <div class="footer-fixed">
+    <div class="container">
+      <div class="d-flex justify-content-between">
+          <div>
+              <button type="button" class="btn btn-outline-light"  name="reset-button" (click)="confirmResetWindow(resetFormModal)" [disabled]="apiProcessing">{{'hazardDeclarationPage.button.reset' | translate}}</button>
+              <button type="button" class="btn btn-outline-light"  name="save-button" (click)="saveAsDraft()" [disabled]="apiProcessing">{{'hazardDeclarationPage.button.saveasDraft' | translate}}</button>
+          </div>
+          <div>
+              <button type="submit" class="btn btn-light"  name="submit-button" [disabled]="apiProcessing">{{'hazardDeclarationPage.button.submit' | translate}}</button>
+          </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+
+<ng-template #attachmentList>
+    <div class="modal-header">
+      <h5 class="modal-title">{{'hazardDeclarationPage.correctiveAction.fileAdded' | translate}}</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <ul class="list-group list-group-flush text-break-letter" *ngIf="attachPhoto.queue.length ||(hazardClaim.CorrectiveAction.Attachment && hazardClaim.CorrectiveAction.Attachment.length)">
+        <li class="list-group-item  d-flex justify-content-between align-items-center" *ngFor="let item of attachPhoto.queue">{{ item?.file?.name }} <span class="badge-pill"  (click)="item.remove()"> <i class="icon-trash cursor-pointer"></i> </span></li>
+        <li class="list-group-item  d-flex justify-content-between align-items-center" *ngFor="let item of hazardClaim.CorrectiveAction.Attachment;let inx = index">
+            {{item.FileName}}
+            <span class="badge-pill"  (click)="deleteAttachment(item.AttachmentID,inx)"> <i class="icon-trash"></i> </span>
+        </li>
+      </ul>
+      <span *ngIf="!attachPhoto.queue.length && hazardClaim.CorrectiveAction.Attachment.length == 0 ">No Images selected</span>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" type="button"  (click)="modalRef.hide()">{{'hazardDeclarationPage.button.ok' | translate}}</button>
+    </div>
+</ng-template>
+
+
+<ng-template #resetFormModal>
+  <div class="modal-body text-center">
+    <p>{{'hazardDeclarationPage.resetForm.resetFormModal' | translate}}</p>
+    <button type="button" class="btn btn-default" (click)="resetFormModel(formHazard)" >{{'hazardDeclarationPage.resetForm.yes' | translate}}</button>
+    <button type="button" class="btn btn-primary" (click)="resetFormRef.hide()" >{{'hazardDeclarationPage.resetForm.no' | translate}}</button>
+  </div>
+</ng-template>
+
+<app-loader id="appLoader" [hidden]="!loading"></app-loader>

@@ -1,0 +1,12 @@
+
+
+
+@mixin generate-status-icon($status-icon) {
+
+  @each $key, $value in $status-icon {
+    .status-#{$key} {
+      &::before { border-color: #{$value}; background-color: #{$value};}
+    }
+  }
+
+}

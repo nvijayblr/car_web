@@ -1,0 +1,36 @@
+.vertical-tab{
+  @extend .row;
+  .nav,
+  .tab-content{
+  }
+  .nav{
+    @extend .col-4;
+    @extend .border-bottom-0;
+    @extend .border-right;
+
+    .nav-item{
+      @extend .row;
+      margin-top: 0.08rem;
+      a.nav-link{
+        width: 100%;
+        color: $black !important;
+        background-color: inherit !important;
+        border: none !important;
+        &:focus{
+          border: none !important;
+        }
+      }
+      @extend .border-bottom;
+    }
+    .nav-item.active{
+      background-color: $gray-100;
+
+      a.nav-link.active{
+        color: $blue !important;
+      }
+    }
+  }
+  .tab-content{
+    @extend .col-8;
+  }
+}

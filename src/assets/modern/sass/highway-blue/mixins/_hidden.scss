@@ -1,0 +1,7 @@
+// stylelint-disable declaration-no-important
+
+// Hidden
+
+@mixin hidden() {
+  display: none !important;
+}

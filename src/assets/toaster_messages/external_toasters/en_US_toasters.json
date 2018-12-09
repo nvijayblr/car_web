@@ -1,0 +1,14 @@
+{
+    "CLSAS" : "Claim {claim_no} saved successfully",
+    "CLCRS" : "Claim {claim_no} submitted successfully",
+    "CDNE"  : "Claim does not exists",
+    "VE"    : "Validation Error",
+    "PERF"  : "Enter all required fields",
+    "SUCCESS"  : "Success!",
+    "SORRYMSG" : "Sorry, Some thing went wrong, Please try after some time",
+    "FAILURE"  : "Failed!",
+    "RESETSUCCESS" : "Reset successfully!",
+    "DRAFTSUCCESS" : "Current record saved in draft!",
+    "NOCHANGES" : "There are no changes, data is already saved!",
+    "NO_NETWORK_FOUND" : "No network found.Please check your internet connection."
+}

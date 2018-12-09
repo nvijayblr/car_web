@@ -1,0 +1,56 @@
+
+.claim-print-preview{
+  $black: #000000;
+  $margin: 0.5rem;
+  $bordor-color: #adadad;
+  $font-size: rem(14);
+  $border-color-light:#d1d1d1;
+  $dark-blue: #312857;
+
+  table{
+    width: 100%;
+    border: none !important;
+    tr.caption{
+      td{color: $bordor-color;}
+    }
+    tr{
+      td{
+        vertical-align: top;
+        font-size: $font-size;
+        text-align: left;
+      }
+    }
+    tr:nth-child(even) {
+      td{
+        padding-bottom: $margin * 2;
+      }
+    }
+    tr:nth-child(odd) {
+      td{
+        padding-bottom: 0;
+      }
+    }
+  }
+}
+
+.excel-file-popup{
+    height: 70vh;
+    overflow: auto;
+    .compliance-excel-table{
+      td,
+      th{
+        padding: 0.2rem;
+        vertical-align: top;
+        text-align: left;
+      }
+    }
+}
+
+table.compliance-excel-table{
+  width: 100% !important;
+  font-size: 70%;
+
+  th{
+    background-color: $shade;
+  }
+}

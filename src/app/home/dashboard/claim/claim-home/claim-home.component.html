@@ -1,0 +1,588 @@
+<div class="container">
+  <div class="col ">
+    <div class="row d-flex justify-content-between pb-3">
+      <h5 class="text-primary">Search Claim</h5>
+      <div class="btn-group" dropdown placement="bottom right" *ngIf="isClaimLevelOne">
+        <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle btn-icon">
+          <i class="icon-plus"></i> Create New Claim
+        </button>
+        <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+          <li class="dropdown-header text-primary" > <h6 class="mt-0 mb-0">Select a Claim Type</h6> </li>
+          <li class="divider dropdown-divider"></li>
+          <li role="menuitem" *ngFor="let claimItems of claimTypeList;">
+            <a class="dropdown-item cursor-pointer" (click)="gotoCreateANewCalim(claimItems.SectionID)" >{{claimItems.Section}}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="search">
+    <form class="card-body">
+      <div class="d-flex justify-content-between">
+        <div class="width-75">
+          <div class="row">
+            <div class="col-4">
+              <div class="form-group">
+                <label>Universal Search</label>
+                <input type="text" class="form-control" name="GlobalSerach" placeholder="Universal Search" [(ngModel)]="searchCalimObject.GlobalSerach">
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                <label>Claim Initiation Date ( From - To )</label>
+                <div class="row">
+                  <div class="col-6 dash">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <input type="text" class="form-control" placeholder="mm/dd/yy"  #fdp="bsDatepicker"  bsDatepicker [bsValue]="bsValue" aria-label="Claim Initator From date" aria-describedby="basic-addon2" name="claimInitatorFromdate" [(ngModel)]="searchCalimObject.claimInitatorFromdate" (ngModelChange)="initiateDateValidate(searchCalimObject.claimInitatorFromdate, searchCalimObject.claimInitatorTodate)" readonly>
+                        <div class="input-group-append">
+                          <span class="input-group-text" id="basic-addon2"  (click)="fdp.toggle()"> <i class="icon-calendar"></i> </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <input type="text" class="form-control" placeholder="mm/dd/yy"  #tdp="bsDatepicker"  bsDatepicker [bsValue]="bsValue" aria-label="Claim Initator To date" aria-describedby="basic-addon2" name="claimInitatorTodate" [(ngModel)]="searchCalimObject.claimInitatorTodate" (ngModelChange)="initiateDateValidate(searchCalimObject.claimInitatorFromdate, searchCalimObject.claimInitatorTodate)" readonly>
+                        <div class="input-group-append">
+                          <span class="input-group-text" id="basic-addon2"  (click)="tdp.toggle()"> <i class="icon-calendar"></i> </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                <div class="select-down">
+                <label>Claim Type</label>
+                <select class="custom-select custom-select-over form-control" name="claimTypeSelectedValue" [(ngModel)]="searchCalimObject.claimTypeSelectedValue">
+                    <option value="0" selected>Select</option>
+                     <option *ngFor="let claimItems of claimTypeList; let i = index" value="{{claimItems.SectionID}}">{{claimItems.Section}}</option>
+                </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="advanceSearch === true">
+              <div class="col-4">
+                  <div class="form-group">
+                    <label>CAR No.</label>
+                    <input type="text" class="form-control" placeholder="CAR No." name="CARNo" [(ngModel)]="searchCalimObject.CARNo">
+                  </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label>Invoice No.</label>
+                  <input type="text" class="form-control" placeholder="Invoice No." name="invoiceNum" [(ngModel)]="searchCalimObject.invoiceNum">
+                </div>
+              </div>
+              <div class="col-2">
+                <div class="form-group">
+                  <div class="select-down">
+                  <label >Claim Status</label>
+                  <select class="custom-select form-control" name="claimStatusSelectedValue" [(ngModel)]="searchCalimObject.claimStatusSelectedValue">
+                      <option value="0" selected>Select</option>
+                      <option *ngFor="let claimItems of claimStatusList; let i = index" value="{{claimItems.ClaimSatatusId}}">{{claimItems.ClaimSatus}}</option>
+                  </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-2">
+                <div class="form-group">
+                  <div class="select-down">
+                  <label>Claim Level</label>
+                  <select class="custom-select form-control" name="claimCategorySelectedValue" [(ngModel)]="searchCalimObject.claimCategorySelectedValue">
+                      <option value="0" selected>Select</option>
+                      <option *ngFor="let claimItems of claimCategoryList; let i = index" value="{{claimItems.ClaimCategoryId}}">{{claimItems.ClaimCategory}}</option>
+                  </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label>Customer Name</label>
+                  <input type="text" class="form-control" name="custName" placeholder="Customer Name" [(ngModel)]="searchCalimObject.custName">
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label>Initiator Name</label>
+                  <input type="text" class="form-control" name="Initiator" placeholder="Initiator Name" [(ngModel)]="searchCalimObject.Initiator">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            
+          </div>
+        <div class="vertical-line"></div>
+        <div class="d-flex align-items-center">
+          <div class="ml-auto p-2">
+              <button type="submit" class="btn btn-primary mr-2" (click)="applySearch(searchCalimObject)">Search</button>
+              <button type="submit" class="btn btn-outline-primary" (click)="onResetClick()">Reset</button>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <button type="button" class="btn btn-link advanced-search-btn" (click)="onSearchExpandCollapse()">
+            {{searchExpandCollapseText}} <i class="{{updownArrow}}"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="container">
+  <ng-container *ngIf="pagination.totalItems">
+    <div class="col-12 mt-3 mb-3">
+      <div class="row d-flex justify-content-between ">
+        <h5>Search Results - <span class="text-secondary">( {{pagination.totalItems}} Results Found )</span></h5>
+        <div class="form-inline m-0 mt-2">
+          <span class="text-muted float-right">*NCA = No Commercial Action</span>
+        </div>
+        <div class="form-inline m-0 mt-2">
+          <label for="page-size" class=" mr-2 text-muted">Show</label>
+          <select class="form-control form-control-sm" name="PageSize" [(ngModel)]="searchCalimObject.PageSize" (change)="applySearch(searchCalimObject)">
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+          <label for="page-size" class="ml-2 mr-2 text-muted">records per page</label>
+        </div>
+      </div>
+    </div>
+    <table class="table search-result">
+      <thead>
+        <tr>
+          <th scope="col" class="width-15">
+            <div class="d-flex align-items-center" (click)="applySorting('ClaimNo');">
+              <span class="d-flex align-items-start">Customer Claim No.</span>
+              <i class="icon-grid-sort d-flex align-items-end"></i>
+            </div>
+          </th>
+          <th scope="col" class="width-14">
+            <div class="d-flex align-items-center" (click)="applySorting('CustomerName');">
+              <span class="d-flex align-items-start">Customer Name</span>
+              <i class="icon-grid-sort d-flex align-items-end"></i>
+            </div>
+          </th>
+          <th scope="col" class="width-14">
+            <div class="d-flex align-items-center" (click)="applySorting('InitiatorName');">
+              <span class="d-flex align-items-start">Initiator Name</span>
+              <i class="icon-grid-sort d-flex align-items-end"></i>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex align-items-center" (click)="applySorting('ClaimInitiationDate');">
+              <span class="d-flex align-items-start">Claim Initiation</span>
+              <i class="icon-grid-sort d-flex align-items-end"></i>
+            </div>
+          </th>
+          <th class="width-8"scope="col">
+            <div class="d-flex align-items-center" (click)="applySorting('ClaimStatus');">
+              <span class="d-flex align-items-start">Claim Status</span>
+              <i class="icon-grid-sort d-flex align-items-end"></i>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex align-items-center" (click)="applySorting('ClaimLevel');">
+              <span class="d-flex align-items-start">Claim Level</span>
+              <i class="icon-grid-sort d-flex align-items-end"></i>
+            </div>
+          </th>
+          <th scope="col" class="width-10">
+            <div class="d-flex align-items-center" (click)="applySorting('InvoiceNo');">
+              <span class="d-flex align-items-start">Invoice No.</span>
+              <i class="icon-grid-sort d-flex align-items-end"></i>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex align-items-center" (click)="applySorting('DaysOpen');">
+              <span class="d-flex align-items-start">Days Open</span>
+              <i class="icon-grid-sort d-flex align-items-end"></i>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex align-items-center" (click)="applySorting('ClaimType');">
+              <span class="d-flex align-items-start">Claim Type</span>
+              <i class="icon-grid-sort d-flex align-items-end"></i>
+            </div>
+          </th>
+          <th scope="col" class="text-center width-7" *ngIf="!noClaim"> Actions</th>
+          <th scope="col" class="text-center" *ngIf="(isCapaLevelOne || isCapaLevelTwo)">Validation</th>
+          <th scope="col" class="text-center" *ngIf="(isCapaLevelOne || isCapaLevelTwo)">CAPA</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of data" class="cursor-pointer">
+          <td (click)='onEdit(item)' class="text-break-letter">{{item.ComplaintNumber}}</td>
+          <td (click)='onEdit(item)' class="text-break-letter"><span class="text-break-letter">{{item.CustomerName}}</span></td>
+          <td (click)='onEdit(item)' class="text-break-letter"><span class="text-break-letter">{{item.Initiator}}</span></td>
+          <td (click)='onEdit(item)'>{{item.ClaimInitiationDate| date:'MM/dd/yyyy'}}</td>
+          <td (click)='onEdit(item)' class="{{item.Status|spaceToHyphen}}"><i class="status-{{item.Status|spaceToHyphen}}"></i> {{item.Status}}</td>
+          <td (click)='onEdit(item)'>{{item.Category}}</td>
+          <td (click)='onEdit(item)' class="text-break-letter">{{item.InvoiceNumber}}</td>
+          <td *ngIf="item.Status === 'Draft'" (click)='onEdit(item)'></td>
+          <td *ngIf="item.Status !== 'Draft'" (click)='onEdit(item)'>{{item.DaysOpen}}</td>
+          <td (click)='onEdit(item)'>{{item.ClaimType}}</td>
+          <td *ngIf="!noClaim" class="d-flex justify-content-between icon-crt">
+            <!-- (click)="showDownloadPrintPreview(item, 'DOWNLOAD', claimPrintPreview)" -->
+            <i class="icon-download" (click)="downloadClaimPDF(item.ComplaintNumber)"></i>
+            <i class="icon-print" (click)="showDownloadPrintPreview(item, 'PRINT', claimPrintPreview)"></i>
+            <i class="icon-trash" *ngIf="isClaimLevelOne" (click)="deleteClaimClicked(item.ComplaintNumber,deleteClaimPopup)"></i>
+          </td>
+          <td class="text-center" *ngIf="(isCapaLevelOne || isCapaLevelTwo)">
+            <!-- Create Disabled -->
+            <button *ngIf="item.RespondButtonStatus ==0" class="icon-doc-checked" disabled></button>
+            <button *ngIf="(item.RespondButtonStatus ==1&& isCapaLevelTwo)" class="icon-doc-checked" disabled></button>
+            <!-- Create Button -->
+            <button *ngIf="(item.RespondButtonStatus ==1&& isCapaLevelOne)" (click)='onRespond(item)' class="icon-doc-checked" tooltip="Validate" placement="left"></button>
+
+            <!-- Edit Disabled -->
+            <button *ngIf="(item.RespondButtonStatus ==2&& isCapaLevelTwo)" class="icon-doc-checked" disabled></button>
+
+            <!-- Edit -->
+            <button *ngIf="(item.RespondButtonStatus ==2&& isCapaLevelOne)" (click)='onRespond(item)' class="icon-doc-checked" tooltip="Edit" placement="left"></button>
+
+            <!-- View -->
+            <button *ngIf="(item.RespondButtonStatus ==3&& (isCapaLevelOne || isCapaLevelTwo))"  class="icon-edit checked" (click)='onRespond(item)' tooltip="View" placement="left"></button>
+          </td>
+          <td class="text-center" *ngIf="(isCapaLevelOne || isCapaLevelTwo)">
+            <!-- Create Disabled -->
+            <button *ngIf="item.CAPAButtonStatus==0" class="icon-doc" disabled></button>
+            <button *ngIf="item.CAPAButtonStatus==1 && isCapaLevelTwo" class="icon-doc" disabled></button>
+
+            <!-- Create -->
+            <button *ngIf="(item.CAPAButtonStatus==1&& isCapaLevelOne)" class="icon-doc" (click)="onInitiateCapa(item)" tooltip="Create" placement="left"></button>
+
+            <!-- Edit Disable -->
+            <button *ngIf="(item.CAPAButtonStatus==2&& isCapaLevelTwo)" class="icon-doc" disabled></button>
+
+            <!-- Edit CAPA -->
+            <button *ngIf="(item.CAPAButtonStatus==2&& isCapaLevelOne)" class="icon-doc"  (click)='onInitiateCapa(item)' tooltip="Edit" placement="left"></button>
+
+            <!-- View -->
+            <button *ngIf="(item.CAPAButtonStatus==3&&  (isCapaLevelOne || isCapaLevelTwo))" class="icon-doc checked" (click)='onInitiateCapa(item)' tooltip="View" placement="left"></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
+
+  <h4 *ngIf="isrecordsAvailable !== undefined && isrecordsAvailable.length <= 0" class="mt-5 text-center">No Records Found!</h4>
+
+
+  <pagination *ngIf="pagination.totalItems"
+    previousText= '&lsaquo;'
+    nextText= '&rsaquo;'
+    firstText="&laquo;" lastText="&raquo;"
+    [boundaryLinks]= "true"
+    [totalItems]="pagination.totalItems"
+    [(ngModel)]="pagination.currentPage"
+    [maxSize]="pagination.maxPages"
+    [itemsPerPage]="pagination.itemsPerPage"
+    (pageChanged)="paginationChanged($event)" [hidden]="loading">
+  </pagination>
+
+</div>
+
+
+<!-- Print/Download popup -->
+<ng-template #claimPrintPreview>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col d-flex justify-content-end mb-2">
+        <button (click)="printClaim('printSectionId')" class="btn btn-primary btn-sm"  *ngIf="popupMode=='PRINT'">Print this page</button>
+        <button type="button" class="close ml-3" aria-label="Close" (click)="modalRef.hide()"><span aria-hidden="true">&times;</span></button>
+      </div>
+    </div>
+    <div  id="printSectionId">
+      <div class="print complaint-response">
+        <div class="container">
+          <div class="logo-container">
+            <img src="assets/images/logo.png" alt="" height="69"/>
+          </div>
+          <h5>External Customer Complaint Response</h5>
+          <hr>
+          <div class="col-12">
+            <table>
+              <tbody>
+                  <tr role="table-head">
+                    <td class="width-half">Number:</td>
+                    <td class="width-half">Date:</td>
+                  </tr>
+                  <tr>
+                    <td>{{CARNumber}}</td>
+                    <td>{{popupDate | date:'MM/dd/yyyy'}}</td>
+                  </tr>
+
+                  <tr role="table-head">
+                    <td>Sales Administrator:</td>
+                    <td>Sales Administrator Phone:</td>
+                  </tr>
+                  <tr>
+                    <td>{{SalesAdministrator}}</td>
+                    <td>{{SalesAdministratorPhone}}</td>
+                  </tr>
+
+                  <tr role="table-head">
+                    <td>Country:</td>
+                    <td>Customer Number:</td>
+                  </tr>
+                  <tr>
+                    <td>{{country}}</td>
+                    <td>{{customerNumber}}</td>
+                  </tr>
+
+                  <tr role="table-head">
+                    <td>Name of the Customer:</td>
+                    <td>Contact Person:</td>
+                  </tr>
+                  <tr>
+                    <td>{{nameOfTheCustomer}}</td>
+                    <td>{{ContactPerson}}</td>
+                  </tr>
+
+                  <tr role="table-head">
+                    <td>Customer Phone:</td>
+                    <td>Mode of Complaint:</td>
+                  </tr>
+                  <tr>
+                    <td>{{customerPhone}}</td>
+                    <td>{{ModeOfcomplaints}}</td>
+                  </tr>
+
+                  <tr role="table-head">
+                    <td class="width-full" colspan="2">Customer E-Mail:</td>
+                  </tr>
+                  <tr>
+                    <td class="width-full" colspan="2">{{customerEmail}}</td>
+                  </tr>
+
+                  <tr role="table-head">
+                    <td>Brand:</td>
+                    <td>Product Description:</td>
+                  </tr>
+                  <tr>
+                    <td>{{brand}}</td>
+                    <td>{{ProductDescription}}</td>
+                  </tr>
+
+                  <tr role="table-head">
+                    <td>Complaint Category:</td>
+                    <td>Delivery Date:</td>
+                  </tr>
+                  <tr>
+                    <td>{{complaintCategory}}</td>
+                    <td>{{DeliveryDate | date:'MM/dd/yyyy'}}</td>
+                  </tr>
+
+                  <tr role="table-head">
+                    <td>Invoice Number:</td>
+                    <td>Delivery Note:</td>
+                  </tr>
+                  <tr>
+                    <td>{{invoiceNumber}}</td>
+                    <td>{{DeliveryNote}}</td>
+                  </tr>
+
+                  <tr role="table-head">
+                    <td>Number of Defective Items:</td>
+                    <td>Number of Delivered Items:</td>
+                  </tr>
+                  <tr>
+                    <td>{{numberDefectedItems}}</td>
+                    <td>{{NumberofDeliveredItems}}</td>
+                  </tr>
+
+                  <tr role="table-head">
+                    <td class="width-full" colspan="2">Drawing Number and Rev. Level:</td>
+                  </tr>
+                  <tr>
+                    <td class="width-full" colspan="2">{{DrawingNumberandRevLevel}}</td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-12 actions">
+            <h6>Actions</h6>
+
+            <!-- COMMERCIAL AND ISSUE CREDIT - START -->
+            <hr *ngIf="claimActionArray.ActionRequested.IsCommertialAction && claimActionArray.ActionRequested.IsIssueCredit">
+            <table *ngIf="claimActionArray.ActionRequested.IsCommertialAction">
+              <tbody *ngIf="claimActionArray.ActionRequested.IsIssueCredit">
+                <tr role="table-head">
+                  <td  class="width-20">Action :</td>
+                  <td>Unit Cost {{countryObject.Symbol}}:</td>
+                  <td>Quantity :</td>
+                  <td>Additional Cost {{countryObject.Symbol}}:</td>
+                  <td>Total Cost {{countryObject.Symbol}}:</td>
+                  <td>Responsible Department :</td>
+                </tr>
+                <tr>
+                  <td>Issue Credit</td>
+                  <td>{{claimActionArray.ActionRequested.ICUnitCost ? claimActionArray.ActionRequested.ICUnitCost : 0}}</td>
+                  <td>{{claimActionArray.ActionRequested.ICQuantity ? claimActionArray.ActionRequested.ICQuantity : 0}}</td>
+                  <td>{{claimActionArray.ActionRequested.IssueCreditAdditionalCost ? claimActionArray.ActionRequested.IssueCreditAdditionalCost : 0}}</td>
+                  <td>{{claimActionArray.ActionRequested.ICTotalCost ? claimActionArray.ActionRequested.ICTotalCost : 0}}</td>
+                  <td>{{IC_reponsibleDept}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- COMMERCIAL AND ISSUE CREDIT - END -->
+
+            <!-- COMMERCIAL AND MINOR - REQUEST CAPA - START -->
+            <hr *ngIf="claimActionArray.ActionRequested.IsCommertialAction && claimActionArray.ClaimCategoryID == 2">
+            <table *ngIf="claimActionArray.ActionRequested.IsCommertialAction">
+              <tbody *ngIf="claimActionArray.ClaimCategoryID == 2">
+                <tr role="table-head">
+                  <td class="width-20">Action :</td>
+                  <td>Description :</td>
+                </tr>
+                <tr>
+                  <td>Request CAPA</td>
+                  <td *ngIf="claimActionArray.ActionRequested.CAPAFlag">Yes</td>
+                  <td *ngIf="!claimActionArray.ActionRequested.CAPAFlag">No</td>
+                </tr>
+              </tbody>
+            
+            </table>
+            <!-- COMMERCIAL AND MINOR - REQUEST CAPA - END -->
+
+            <hr *ngIf="claimActionArray.ActionRequested.IsCommertialAction && claimActionArray.ClaimCategoryID == 1 && claimActionArray.ActionRequested.IsRA">
+            <!-- COMMERICAL AND MAJOR - RETURN AUTHOR - CONSUMER - START -->
+            <table *ngIf="claimActionArray.ActionRequested.IsCommertialAction">
+              <tbody *ngIf="claimActionArray.ClaimCategoryID == 1 && claimActionArray.ActionRequested.IsRA">
+                <tr role="table-head" *ngIf="claimActionArray.ClaimTypeCode == 'CO' ">
+                  <td class="width-20">Action :</td>
+                  <td>RA No. :</td>
+                </tr>
+                <tr *ngIf="claimActionArray.ClaimTypeCode == 'CO' ">
+                  <td>Return Authorization</td>
+                  <td>{{claimActionArray.ActionRequested.RANumber}}</td>
+                </tr>
+              </tbody>
+            
+            </table>
+            <!-- COMMERICAL AND MAJOR - RETURN AUTHOR - CONSUMER - END -->
+
+            <!-- COMMERICAL AND MAJOR - RETURN AUTHOR - CUSTOMER - START -->
+            <table *ngIf="claimActionArray.ActionRequested.IsCommertialAction">
+              <tbody *ngIf="claimActionArray.ClaimCategoryID == 1 && claimActionArray.ActionRequested.IsRA">
+                 <tr role="table-head" *ngIf="claimActionArray.ClaimTypeCode == 'CU' ">
+                  <td class="width-20">Action :</td>
+                  <td>Unit Cost {{countryObject.Symbol}}:</td>
+                  <td>Quantity :</td>
+                  <td>Total Cost {{countryObject.Symbol}}:</td>
+                </tr>
+                <tr *ngIf="claimActionArray.ClaimTypeCode == 'CU' ">
+                  <td>Return Authorization</td>
+                  <td>{{claimActionArray.ActionRequested.ReturnAuthUnitCost ? claimActionArray.ActionRequested.ReturnAuthUnitCost : 0}}</td>
+                  <td>{{claimActionArray.ActionRequested.ReturnAuthQuantity ? claimActionArray.ActionRequested.ReturnAuthQuantity : 0}}</td>
+                  <td>{{claimActionArray.ActionRequested.ReturnAuthTotalCost ? claimActionArray.ActionRequested.ReturnAuthTotalCost : 0}}</td>
+                </tr>
+              </tbody>
+          
+            </table>
+            <!-- COMMERICAL AND MAJOR - RETURN AUTHOR - CUSTOMER - END -->
+
+            <!-- COMMERCIAL AND REPLACEMENT - START -->
+            <hr *ngIf="claimActionArray.ActionRequested.IsReplacement">
+            <table *ngIf="claimActionArray.ActionRequested.IsCommertialAction">
+              <tbody *ngIf="claimActionArray.ActionRequested.IsReplacement">
+                <tr role="table-head">
+                  <td class="width-20">Action :</td>
+                  <td>Unit Cost {{countryObject.Symbol}}:</td>
+                  <td>Quantity :</td>
+                  <td>Total Cost {{countryObject.Symbol}}:</td>
+                  <td>Responsible Department :</td>
+                </tr>
+                <tr>
+                  <td>Replacement</td>
+                  <td>{{claimActionArray.ActionRequested.ReplacementUnitCost ? claimActionArray.ActionRequested.ReplacementUnitCost : 0}}</td>
+                  <td>{{claimActionArray.ActionRequested.ReplacementQuantity ? claimActionArray.ActionRequested.ReplacementQuantity : 0}}</td>
+                  <td>{{claimActionArray.ActionRequested.ReplacementTotalCost ? claimActionArray.ActionRequested.ReplacementTotalCost : 0}}</td>
+                  <td>{{Replace_responsibleDept}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- COMMERCIAL AND REPLACEMENT - END -->
+
+            <!-- COMMERCIAL AND REMARKS - START -->
+            <hr *ngIf=" claimActionArray.ActionRequested.IsCommertialAction && claimActionArray.ActionRequested.IsRemarks">
+            <table *ngIf="claimActionArray.ActionRequested.IsCommertialAction">
+              <tbody *ngIf="claimActionArray.ActionRequested.IsRemarks">
+                <tr role="table-head">
+                  <td class="width-20">Action :</td>
+                  <td>Description :</td>
+                </tr>
+                <tr>
+                  <td>Remarks</td>
+                  <td>{{claimActionArray.ActionRequested.Remarks}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- COMMERCIAL AND REMARKS - END -->
+          
+            <!-- NCA AND REQUEST CAPA - START -->
+            <hr *ngIf="!claimActionArray.ActionRequested.IsCommertialAction">
+            <table *ngIf="!claimActionArray.ActionRequested.IsCommertialAction">
+              <tbody>
+                <tr role="table-head">
+                  <td class="width-20">Action :</td>
+                  <td>Description :</td>
+                </tr>
+                <tr>
+                  <td>Request CAPA</td>
+                  <td *ngIf="claimActionArray.ActionRequested.CAPAFlag">Yes</td>
+                  <td *ngIf="!claimActionArray.ActionRequested.CAPAFlag">No</td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- NCA AND REQUEST CAPA - END -->
+
+            <!-- NCA AND REMARKS - START -->
+            <hr *ngIf="!claimActionArray.ActionRequested.IsCommertialAction && claimActionArray.ActionRequested.IsRemarks">
+            <table *ngIf="!claimActionArray.ActionRequested.IsCommertialAction">
+              <tbody *ngIf="claimActionArray.ActionRequested.IsRemarks">
+                <tr role="table-head">
+                  <td class="width-20">Action :</td>
+                  <td>Description :</td>
+                </tr>
+                <tr>
+                  <td>Remarks</td>
+                  <td>{{claimActionArray.ActionRequested.Remarks}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- NCA AND REMARKS - END -->
+          </div>
+        
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- DELETE CLAIM POPUP - START -->
+<ng-template #deleteClaimPopup>
+    <div class="modal-body text-center">
+    <h4 class="modal-title pull-left">Delete claim: {{currentReferenceNo}}</h4>
+    <p>After deleting a claim you will not see it in search results or reports. Please click delete to continue</p>
+    <button type="button" class="btn btn-primary" (click)="confirmDeleteClaim()">Delete</button>
+    <button type="button" class="btn btn-default" (click)="modalRef.hide();">Cancel</button>
+  </div>
+</ng-template>
+<!-- DELETE CLAIM POPUP - END -->
+
+<div class="backdrop {{downloadPopUp}}" (click)="onResetCancel()"></div>
+<div class="backdrop"></div>
+
+<!--Loader-->
+<app-loader id="appLoader" [hidden]="!loading"></app-loader>

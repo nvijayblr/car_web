@@ -1,0 +1,78 @@
+// @import "../sass/variable";
+// @import "../sass/mixins";
+my-date-picker {
+    .mydp {
+        border: 1px solid $border-color;
+        border-radius: rem(4);
+        .selection {
+            color: $input-color;
+            padding: 0;
+            font-size: $font-normal-size !important;
+            width: 90%;
+            letter-spacing: $font-letter-spacing;
+        }
+        .selection,
+        .selbtngroup {
+            height: auto !important;
+        }
+        .selectiongroup {
+            min-height: rem(35);
+            padding: rem(14) rem(16);
+            @include vendor-prefix(box-shadow, 0px 2px 2.9px 0.1px rgba(149, 150, 150, 0.13));
+        }
+        .mydpicon {
+            font-size: $font-normal-size;
+            letter-spacing: $font-letter-spacing;
+        }
+        .icon-mydpcalendar:before {
+            content: "\e903";
+            color: $blue;
+            font-size: rem(15);
+        }
+        .btnpickerenabled:hover {
+            background: transparent;
+        }
+        .btnpicker {
+            width: auto;
+            height: auto;
+        }
+        .icon-mydpleft:before {
+            content: "\e901";
+        }
+        .icon-mydpright:before {
+            content: "\e909";
+        }
+        .icon-mydpup:before {
+            content: "\e902";
+        }
+        .icon-mydpdown:before {
+            content: "\e909";
+        }
+        .weekdaytitle,
+        .datevalue,
+        .headerlabelbtn {
+            font-size: $font-normal-size;
+            letter-spacing: $font-letter-spacing;
+        }
+    }
+    &.error {
+        .mydp {
+            border: 1px solid $red;
+        }
+    }
+    &[disabled] {
+        .selectiongroup,
+        .selectiongroup>input {
+            cursor: not-allowed;
+        }
+        .mydpicon,
+        .mydp,
+        .selectiongroup,
+        .selection {
+            background-color: #ececec;
+        }
+    }
+}
+my-date-picker[ng-reflect-disabled=true] .mydp .selectiongroup{
+    background: #eee;
+}

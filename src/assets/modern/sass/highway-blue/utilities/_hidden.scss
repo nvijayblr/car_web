@@ -1,0 +1,11 @@
+//
+// Hidden utilities
+//
+
+.hidden {
+  @include hidden();
+}
+
+.overflow-hidden{
+  overflow: hidden !important;
+}

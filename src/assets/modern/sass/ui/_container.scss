@@ -1,0 +1,6 @@
+.container.first{
+  padding-top: #{rem(($header-fixed-top-padding-y * 2) + $header-fixed-top-height)};
+}
+.container.last{
+  padding-bottom: #{rem(($header-fixed-top-padding-y * 2) + $header-fixed-top-height)};
+}

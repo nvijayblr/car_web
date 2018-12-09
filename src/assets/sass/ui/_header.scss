@@ -1,0 +1,38 @@
+// @import "../sass/variable";
+// @import "../sass/mixins";
+header {
+    width: 100%;
+    background: $header-bg;
+    padding: rem(20) rem(55);
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    z-index: 999;
+    h1 {
+        font-size: rem(20);
+        margin: 0;
+    }
+    span {
+        font-size: $font-normal-size;
+        font-family: $font-regular;
+        letter-spacing: $font-letter-spacing;
+    }
+    h1,
+    span,
+    i {
+        //color: $dark-blue;
+        color:$black;
+    }
+    i {
+        font-size: rem(32);
+        margin-left: rem(25);
+        cursor: pointer;
+    }
+}
+
+.logo {
+    max-width: rem(40);
+    display: inline-block;
+    margin-right: rem(45);
+}

@@ -1,0 +1,197 @@
+<div class="fixed-nav-header" id="fixed-nav-header">
+    <div class="container first">
+      <div class="row mt-1 border-top">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-back" [routerLink]="['/internal/claim']"></li>
+                  <li class="breadcrumb-item"><a> {{'hazardDeclarationPage.pageHead' | translate}}</a></li>
+                </ol>
+              </nav>
+            </div>
+            <div class="col d-flex flex-row-reverse" *ngIf="hazardClaim.ClaimStatusId == 1 && moduleWeightage &&  moduleWeightage.ICLMCR>=30">
+              <div class="form-group mt-2 mb-0">
+                <button type="button" class="btn btn-primary " [routerLink]="['/internal/claim/hazard/'+hazardClaim.ReferenceNo]">{{'hazardDeclarationPage.button.edit' | translate}}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-header" id="tabHeader">
+        <div class="col-12" >
+          <div class="row">
+            <a [class.active]="activeTab=='block-1'" (click)="onAnchorClick(1)" class="active"><i data-line="1"></i> {{'hazardDeclarationPage.basicDetails.label' | translate}}</a>
+            <a [class.active]="activeTab=='block-2'" (click)="onAnchorClick(2)" ><i data-line="2"></i>  {{'hazardDeclarationPage.hazardDetails.label' | translate}} </a>
+            <a [class.active]="activeTab=='block-3'" (click)="onAnchorClick(3)"><i data-line="3"></i> {{'hazardDeclarationPage.correctiveAction.label' | translate}} </a>
+          </div>
+        </div>
+    </div>
+  </div>
+  
+  <div class="container last application-view" id="scrollable-page">
+    <div id="block-1" class="block">
+      <h4 class="col-11 text-primary text-uppercase">1. {{'hazardDeclarationPage.basicDetails.label' | translate}}</h4>
+      <div class="row col-11">
+        <div class="col-4">
+          <div class="form-group">
+            <label for="reference-no">{{'hazardDeclarationPage.basicDetails.referenceNo' | translate}}</label>
+            <span class="form-control" data-style="text" name = "reference-no">{{hazardClaim.ReferenceNo}}</span>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <label for="incident-date">{{'hazardDeclarationPage.basicDetails.dateOfObservation' | translate}}</label>
+            <div class="input-group">
+                <span class="form-control" data-style="text" name="incident-date">{{hazardClaim.ObservedDate | date:"MM/dd/yyyy"}}</span>
+                <div class="input-group-append">
+                    <span class="input-group-text"> <i class="icon-calendar"></i> </span>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+              <label for="injured-employee-name">{{'hazardDeclarationPage.basicDetails.employeeName' | translate}}</label>
+              <span class="form-control" data-style="text" name="injured-employee-name" required>{{hazardClaim.EmployeeName}}</span>
+            </div>
+          </div>
+      </div>
+      <div class="row col-11">
+        <div class="col-4">
+          <div class="form-group">
+            <label for="employee-no">{{'hazardDeclarationPage.basicDetails.employeeNo' | translate}}</label>
+            <span class="form-control" data-style="text" name="employee-no">{{hazardClaim.EmployeeNo}}</span>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <label for="employee-mini-co">{{'hazardDeclarationPage.basicDetails.employeeMiniCo' | translate}}</label>
+            <span class="form-control" data-style="text" name="employee-mini-co">{{hazardClaim.EmplyeeMinCo}}</span>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+  
+            <label for="claim-status"> {{'hazardDeclarationPage.basicDetails.claimStatus' | translate}}</label>
+                <span  class="form-control-plaintext font-weight-bold">{{hazardClaim.claimstatus}}</span>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div>
+    <div id="block-2" class="block">
+        <h4 class="col-11 text-primary text-uppercase">2. {{'hazardDeclarationPage.hazardDetails.label' | translate}}</h4>
+        <div class="row col-11">
+          <div class="col-4">
+            <div class="form-group">
+              <label for="hazard-location">{{'hazardDeclarationPage.hazardDetails.hazardLocation' | translate}}</label>
+              <span class="form-control" data-style="text" name="employee-mini-co">{{hazardClaim.HazardDetail.Location}}</span>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group ">
+              <label for="incident-reported-by">{{'hazardDeclarationPage.hazardDetails.hazardNature' | translate}}</label>
+              <span class="form-control" data-style="text">{{hazardClaim.HazardDetail.HazardNatureId}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="row col-11">
+          <div class="col-12">
+            <div class="form-group">
+              <label for="incident-description">{{'hazardDeclarationPage.hazardDetails.hazardDescription' | translate}}</label>
+              <span class="form-control"  data-style="textarea">{{hazardClaim.HazardDetail.Description}}</span>
+            </div>
+          </div>
+        </div>
+  
+        <hr>
+      </div>
+      <div id="block-3" class="block">
+          <h4 class=" col-11 text-primary text-uppercase">3. {{'hazardDeclarationPage.correctiveAction.label' | translate}}</h4>
+          <div class="row col-11">
+            <div class="col-12">
+              <div class="form-group">
+                  <label for="corrective-action">{{'hazardDeclarationPage.correctiveAction.correctiveActionRequested' | translate}}</label>
+                  <span class="form-control"  data-style="text">{{hazardClaim.CorrectiveAction.ActionRequested}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="row col-11">
+              <div class="col-4">
+                <div class="form-group">
+                    <label for="send-to">{{'hazardDeclarationPage.correctiveAction.sendTo' | translate}}</label>
+                    <span class="form-control"  data-style="text">{{hazardClaim.CorrectiveAction.SendTo}}</span>
+                </div>
+              </div>
+              <div class="col-8">
+                  <div class="form-group">
+                      <label for="estimated-priority">{{'hazardDeclarationPage.correctiveAction.estimatedPriority' | translate}}</label>
+                      <span class="form-control" data-style="text">{{hazardClaim.CorrectiveAction.EstimatedPriority}}</span>
+                  </div>
+              </div>
+            </div>
+            <div class="row col-11">
+                <div class="col-12">
+                  <div class="form-group">
+                    <label for="additional-email"> {{'hazardDeclarationPage.correctiveAction.sendAdditionalEmail' | translate}}</label>
+                    <span class="form-control"  data-style="text">{{hazardClaim.CorrectiveAction.EmailTo}}</span>
+                  </div>
+                </div>
+              </div>
+          <div class="row col-11">
+            <div class="col-4">
+           <div class="form-group">
+             <label for="car-closed-by">{{'hazardDeclarationPage.correctiveAction.carClosedBy' | translate}}</label>
+             <span class="form-control" data-style="text"><!-- {{hazardClaim.InjuryDetail.CarClosedBy}} --></span>
+           </div>
+         </div>
+         <div class="col-4">
+             <div class="form-group">
+                 <label for="car-closed-date">{{'hazardDeclarationPage.correctiveAction.carClosedDate' | translate}}</label>
+                 <div class="input-group">
+                   <span class="form-control"  data-style="text" name="car-closed-date"><!-- {{hazardClaim.InjuryDetail.CarClosedDate | date:"MM/dd/y"}} --></span>
+                   <div class="input-group-append">
+                       <span class="input-group-text"> <i class="icon-calendar"></i> </span>
+                   </div>
+                 </div>
+             </div>
+         </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="Attach Photo" *ngIf="(hazardClaim.CorrectiveAction.Attachment && hazardClaim.CorrectiveAction.Attachment.length)">{{'hazardDeclarationPage.correctiveAction.attachPhoto' | translate}}</label>
+                    <div class="row">
+                      <div class="col-4" *ngIf="(hazardClaim.CorrectiveAction.Attachment && hazardClaim.CorrectiveAction.Attachment.length)">
+                        <button type="button" class="btn btn-light" (click)="viewAttachmentList(attachmentList)">
+                            {{hazardClaim.CorrectiveAction.Attachment.length}}&nbsp; {{'hazardDeclarationPage.correctiveAction.fileAdded' | translate}}
+                            <i class="icon-eye"></i> </button>
+                      </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>  
+  </div>
+  
+
+  <ng-template #attachmentList>
+      <div class="modal-header">
+        <h5 class="modal-title">{{'hazardDeclarationPage.correctiveAction.fileNames' | translate}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <ul class="list-group list-group-flush" >
+          <li class="list-group-item  d-flex justify-content-between align-items-center cursor-pointer" *ngFor="let item of hazardClaim.CorrectiveAction.Attachment" (click)="attachmentclick(item.FilePath)">
+              {{item.FileName}}
+          </li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" type="button"  (click)="modalRef.hide()">{{'hazardDeclarationPage.button.ok' | translate}}</button>
+      </div>
+  </ng-template>
+  

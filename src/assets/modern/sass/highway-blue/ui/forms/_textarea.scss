@@ -1,0 +1,13 @@
+textarea{
+  // Disable ie scroll
+  overflow: auto;
+  resize: vertical;
+  scrollbar-base-color: $white;
+  scrollbar-face-color: $gray-500;
+  scrollbar-3dlight-color: $white;
+  scrollbar-highlight-color: $white;
+  scrollbar-track-color: $gray-200;
+  scrollbar-arrow-color: $gray-500;
+  scrollbar-shadow-color: rgba(0, 0, 0, 0);
+  scrollbar-dark-shadow-color: $gray-500;
+}

@@ -1,0 +1,277 @@
+<div class="container"  *ngIf="isLevelOne || isLevelTwo">
+	<div class="search-wrapper">
+	  <div class="col ">
+	    <div class="row d-flex justify-content-between pb-3">
+	      <h5 class="text-primary">Search CAPA</h5>
+				<div class="form-group">
+					<div class="btn-group" dropdown placement="bottom right" *ngIf="isLevelOne">
+	        <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle btn-icon"><i class="icon-plus"></i> Create CAPA without claim</button>
+	        <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+	          <li class="dropdown-header text-primary" > <h6 class="mt-0 mb-0">Sales Business Unit</h6> </li>
+	          <li class="divider dropdown-divider"></li>
+	          <li role="menuitem" *ngFor="let sbu of SBUList;">
+	            <a class="dropdown-item cursor-pointer" (click)="createWithoutClaim(sbu.SBUId)" >{{sbu.SBUName}}</a>
+	          </li>
+	        </ul>
+	      </div>
+			<button type="button" class="btn btn-primary pull-right" *ngIf="isLevelOne" (click)="createCapaForMinorClaim(createCapaForMinorClaimModel)">Create CAPA for minor claim</button>
+		</div>
+	    </div>
+	  </div>
+	  <div class="search">
+			<form class="card-body">
+				<div class="d-flex justify-content-between">
+					<div class="width-75">
+						<div class="row">
+							<div class="col-4">
+								<div class="form-group">
+									<label>Universal Search</label>
+									<input type="text" class="form-control" name="SearchString" placeholder="Universal Search" [(ngModel)]="capaSearchViewObject.SearchString">
+								</div>
+							</div>
+							<div class="col-4">
+								<div class="form-group">
+									<label>CAPA Initiation Date ( From - To )</label>
+									<div class="row">
+										<div class="col-6 dash">
+											<div class="form-group">
+						                      <div class="input-group">
+						                        <input type="text" class="form-control" placeholder="mm/dd/yy"  #fdp="bsDatepicker"  bsDatepicker [bsValue]="bsValue" aria-label="CAPA Initator From date" aria-describedby="basic-addon2" name="CapaInitiatedFrm" [(ngModel)]="capaSearchViewObject.CapaInitiatedFrm" (ngModelChange)="initiateDateValidate(capaSearchViewObject.CapaInitiatedFrm, capaSearchViewObject.CapaInitiatedTo)" readonly>
+						                        <div class="input-group-append">
+						                          <span class="input-group-text" id="basic-addon2"  (click)="fdp.toggle()"> <i class="icon-calendar"></i> </span>
+						                        </div>
+						                      </div>
+						                    </div>
+										</div>
+										<div class="col-6">
+						                    <div class="form-group">
+						                      <div class="input-group">
+						                        <input type="text" class="form-control" placeholder="mm/dd/yy"  #tdp="bsDatepicker"  bsDatepicker [bsValue]="bsValue" aria-label="Claim Initator To date" aria-describedby="basic-addon2" name="claimInitatorTodate" [(ngModel)]="capaSearchViewObject.CapaInitiatedTo" (ngModelChange)="initiateDateValidate(capaSearchViewObject.CapaInitiatedFrm, capaSearchViewObject.CapaInitiatedTo)" readonly>
+						                        <div class="input-group-append">
+						                          <span class="input-group-text" id="basic-addon2"  (click)="tdp.toggle()"> <i class="icon-calendar"></i> </span>
+						                        </div>
+						                      </div>
+						                    </div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-4">
+								<div class="form-group">
+									<div class="select-down">
+										<label>CAPA For</label>
+										<select class="custom-select form-control" name="CAPAFor" [(ngModel)]="capaSearchViewObject.CAPAFor">
+											<option value="0" selected>Select</option>
+											<option *ngFor="let For of CAPAFor" value="{{For.ClaimCategoryId}}">{{For.ClaimCategory}}</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row" *ngIf="advanceSearch === true">
+							<div class="col-4">
+								<div class="form-group">
+									<label>CAPA Number</label>
+									<input type="text" class="form-control" placeholder="CAPA No." name="CAPANumber" [(ngModel)]="capaSearchViewObject.CAPANumber">
+								</div>
+							</div>
+							<div class="col-4">
+									<div class="form-group">
+										<div class="select-down">
+											<label>CAPA Status</label>
+											<select class="custom-select form-control" name="Status" [(ngModel)]="capaSearchViewObject.Status">
+												<option value="0" selected>Select</option>
+												<option *ngFor="let CAPA of CAPAStatus" value="{{CAPA.ClaimSatatusId}}">{{CAPA.ClaimSatus}}</option>
+											</select>
+										</div>
+									</div>
+							</div>
+							<div class="col-4">
+								<div class="form-group">
+									<div>
+										<label>Customer Name</label>
+										<input type="text" class="form-control" name="CustomerName" placeholder="Customer Name" [(ngModel)]="capaSearchViewObject.CustomerName">
+									</div>
+								</div>
+							</div>
+							<div class="col-4">
+								<div class="form-group">
+									<div>
+										<label>Defect Code</label>
+										<input type="text" class="form-control" placeholder="Defect Code" name="DefectCode" [(ngModel)]="capaSearchViewObject.DefectCode">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+        	<div class="vertical-line"></div>
+					<div class="d-flex align-items-center">
+						<div class="ml-auto p-2">
+							<button type="submit" class="btn btn-primary mr-2" (click)="applySearch(capaSearchViewObject)">Search</button>
+							<button type="submit" class="btn btn-outline-primary" (click)="onResetClick()">Reset</button>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12">
+					  <button type="button" class="btn btn-link advanced-search-btn" (click)="onSearchExpandCollapse()">
+							{{searchExpandCollapseText}}
+							<i class="{{updownArrow}}"></i>
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<ng-container *ngIf="pagination.totalItems">
+		    <div class="col-12 mt-3 mb-3">
+		      <div class="row d-flex justify-content-between ">
+		        <h5>Search Results - <span class="text-secondary">( {{pagination.totalItems}} Results Found )</span></h5>
+		        <div class="form-inline m-0 mt-2">
+		          <label for="page-size" class=" mr-2 text-muted">Show</label>
+		          <select class="form-control form-control-sm page-size mr-2" name="PageSize" [(ngModel)]="capaSearchViewObject.PageSize" (change)="applySearch(capaSearchViewObject)">
+		            <option value="10">10</option>
+		            <option value="25">25</option>
+		            <option value="50">50</option>
+		            <option value="100">100</option>
+		          </select>
+		          <label for="page-size" class=" mr-2 text-muted">records per page</label>
+		        </div>
+		      </div>
+		    </div>
+			<div class="search-result search-result-over-right">
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">
+					            <div class="d-flex align-items-center" (click)="applySorting('CAPAId');">
+					              <span class="d-flex align-items-start">CAPA Number</span>
+					              <i class="icon-grid-sort d-flex align-items-end"></i>
+					            </div>
+							</th>
+							<th scope="col">
+					            <div class="d-flex align-items-center" (click)="applySorting('CustomerName');">
+					              <span class="d-flex align-items-start">Customer Name</span>
+					              <i class="icon-grid-sort d-flex align-items-end"></i>
+					            </div>
+							</th>
+							<th scope="col">
+					            <div class="d-flex align-items-center" (click)="applySorting('CAPAInitiatedOn');">
+					              <span class="d-flex align-items-start">CAPA Initiation Date</span>
+					              <i class="icon-grid-sort d-flex align-items-end"></i>
+					            </div>
+							</th>
+							<th scope="col">
+					            <div class="d-flex align-items-center" (click)="applySorting('CAPAStatus');">
+					              <span class="d-flex align-items-start">CAPA Status</span>
+					              <i class="icon-grid-sort d-flex align-items-end"></i>
+					            </div>
+							</th>
+							<th>
+					            <div class="d-flex align-items-center" (click)="applySorting('DefectCode');">
+					              <span class="d-flex align-items-start">Defect Code</span>
+					              <i class="icon-grid-sort d-flex align-items-end"></i>
+					            </div>
+							</th>
+							<th scope="col">
+					            <div class="d-flex align-items-center" (click)="applySorting('CAPAFor');">
+					              <span class="d-flex align-items-start">CAPA For</span>
+					              <i class="icon-grid-sort d-flex align-items-end"></i>
+					            </div>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let item of data">
+
+							<td style="cursor: pointer;" (click)='onEdit(item)'>{{item.CAPANumber}}</td>
+							<td style="cursor: pointer;" (click)='onEdit(item)'>
+								<div class="text-break-letter">{{item.CustomerName}}</div>
+							</td>
+							<td style="cursor: pointer;" (click)='onEdit(item)'>{{item.CAPAInitiatedOn| date:'MM/dd/yyyy'}}</td>
+							<!-- CAPA status -->
+							<td style="cursor: pointer;" (click)='onEdit(item)' class="{{item.Status|spaceToHyphen}}">
+								<i class="status-{{item.CAPAStatus|spaceToHyphen}}"></i> {{item.CAPAStatus}}</td>
+
+							<td style="cursor: pointer;" (click)='onEdit(item)' style="cursor: pointer;">
+								<span class=""></span><div class="text-break-letter">
+					              {{item.DefectCode}}
+					            </div>
+					        </td>
+							<td style="cursor: pointer;" (click)='onEdit(item)' style="cursor: pointer;">
+								<span class=""></span>{{item.CAPAFor}}</td>
+		                </tr>
+					</tbody>
+				</table>
+			</div>
+		</ng-container>
+
+		<h4 *ngIf="isrecordsAvailable !== undefined && isrecordsAvailable && isrecordsAvailable.length <= 0" class="mt-5 text-center">No Records Found!</h4>
+
+		<pagination *ngIf="pagination.totalItems"
+			previousText= '&lsaquo;'
+			nextText= '&rsaquo;'
+			firstText="&laquo;" lastText="&raquo;"
+			[boundaryLinks]= "true"
+			[totalItems]="pagination.totalItems"
+			[(ngModel)]="pagination.currentPage"
+			[maxSize]="pagination.maxPages"
+			[itemsPerPage]="pagination.itemsPerPage"
+			(pageChanged)="paginationChanged($event)" [hidden]="loading">
+		</pagination>
+
+	</div>
+</div>
+
+
+<!-- Create capa for minor claim -->
+<ng-template #createCapaForMinorClaimModel>
+  <div class="modal-body text-break-letter">
+    <h5 class="text-center mt-0">CAPA for Minor Claim <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()"><span aria-hidden="true">&times;</span></button></h5>
+    <div class="col-12 mt-2">
+	    <div class="form-group">
+	        <label>Enter CAR Number</label>
+					<ng-select name="" [items]=CapaMinorCarList
+						bindLabel="ComplaintNumber"
+						bindValue="ComplaintNumber"
+						placeholder="Select"
+						[(ngModel)]="minorClaimModel"
+						[clearable] ="false">
+				 </ng-select>
+	    </div>
+      <div class="row mt-2">
+        <div class="col text-right">
+          <button class="btn btn-primary" type="button" (click)="modalRef.hide(); createForMinorClaim(minorClaimModel)" >Create</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!--Loader-->
+<app-loader id="appLoader" [hidden]="!loading"></app-loader>
+
+<!-- <div class="popup popup-styled" [ngClass] ="{show:minorClaim}">
+    <div class="popup-container popup-why-temp" style="width: 25%;">
+        <h3 class="popup-title" style="margin-bottom:10%">CAPA for Minor Claim<a class="icon-close" style="float: right;cursor: pointer;" (click)="minorClaim =false;minorClaimModel=''"></a></h3>
+        <div class="form-group CapaMinorClaims">
+            <label>Enter CAR Number</label>
+			<ng-select name="" [items]=CapaMinorCarList
+				bindLabel="ComplaintNumber"
+				bindValue="ComplaintNumber"
+				placeholder="Select"
+				[(ngModel)]="minorClaimModel"
+				[clearable] ="false">
+		 </ng-select>
+        </div>
+        <div class="row m-t-40">
+            <div class="col-6 text-right">
+            </div>
+            <div class="col-6 text-right">
+                <button class="btn btn-blue" type="button" (click)="createForMinorClaim(minorClaimModel)" >Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="backdrop" [ngClass] ="{show:minorClaim}"></div>
+ -->

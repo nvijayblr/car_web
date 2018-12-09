@@ -1,0 +1,21 @@
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  .form-control{
+    &[type="text"],
+    &[type="time"],
+    &[type="tel"],
+    &[type="url"],
+    &[type="month"],
+    &[type="email"],
+    &[type="number"],
+    &[type="datetime-local"],
+    &[type="date"]{
+      height: 2.2rem;
+    }
+  }
+  textarea.form-control{
+    min-height: 6rem;
+  }
+  .fixed-nav-header > .container > div{
+    margin-top: 0.1rem;
+  }
+}

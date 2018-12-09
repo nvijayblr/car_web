@@ -1,0 +1,335 @@
+<div class="fixed-nav-header" id="fixed-nav-header">
+  <div class="container first">
+    <div class="row mt-1 border-top">
+      <div class="container">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-back" [routerLink]="['/internal/claim']"></li>
+            <li class="breadcrumb-item"><a> {{'accidentDeclarationPage.pageHead' | translate}}</a></li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <div class="tab-header" id="tabHeader">
+      <div class="col-12" >
+        <div class="row">
+          <a data-target="#block-1" [class.active]="activeTab=='block-1'" (click)="onAnchorClick(1)"><i data-line="1"></i> {{'accidentDeclarationPage.basicDetails.label' | translate}}</a>
+          <a data-target="#block-2" [class.active]="activeTab=='block-2'" (click)="onAnchorClick(2)" ><i data-line="2"></i>  {{'accidentDeclarationPage.incidentDetails.label' | translate}} </a>
+          <a data-target="#block-3" [class.active]="activeTab=='block-3'" (click)="onAnchorClick(3)"><i data-line="3"></i> {{'accidentDeclarationPage.injuryDetails.label' | translate}} </a>
+        </div>
+      </div>
+  </div>
+</div>
+<form class="application" id="scrollable-page" #formAC="ngForm"  (ngSubmit)="submitClaim()">
+  <div class="container last">
+    <div id="block-1" class="block">
+      <h4 class="col-11 text-primary text-uppercase">1. {{'accidentDeclarationPage.basicDetails.label' | translate}}</h4>
+      <div class="row col-11">
+          <div class="col-4">
+          <div class="form-group">
+            <label for="reference-no">{{'accidentDeclarationPage.basicDetails.referenceNo' | translate}}</label>
+            <input type="text" class="form-control" name = "reference-no" [placeholder]="'accidentDeclarationPage.basicDetails.referenceNo' | translate" [value]="accidentClaim.ReferenceNo" disabled>
+          </div>
+        </div>
+          <div class="col-4">
+          <div class="form-group required">
+            <label for="incident-date">{{'accidentDeclarationPage.basicDetails.dateOfIncident' | translate}}</label>
+            <div class="input-group">
+                <input type="text" class="form-control" name="incident-date" #incidentDate = "bsDatepicker" bsDatepicker  [(ngModel)]="accidentClaim.IncidentDate" [bsConfig]="incidentDateConfig" required/>
+                <div class="input-group-append">
+                    <span class="input-group-text" (click)="incidentDate.toggle()"> <i class="icon-calendar"></i> </span>
+                </div>
+            </div>
+            <span *ngIf="!accidentClaim.IncidentDate">
+              {{'accidentDeclarationPage.validation.dateOfIncident' | translate}}
+            </span>
+          </div>
+        </div>
+          <div class="col-4">
+          <div class="form-group required">
+            <label for="incident-time">{{'accidentDeclarationPage.basicDetails.timeOfIncident' | translate}}</label>
+            <div class="input-group" *ngIf="bindTimePicker">
+              <ngb-timepicker [(ngModel)]="accidentClaim.IncidentTime" name="incident-time" [meridian]="true" [spinners]="false" (change)="timeValid =true"></ngb-timepicker>
+            </div>
+            <span *ngIf="(timeValid||isSubmited )&& !accidentClaim.IncidentTime">
+                {{'accidentDeclarationPage.validation.timeOfIncident' | translate}}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="row col-11">
+        <div class="col-4">
+          <div class="form-group required">
+            <label for="injured-employee-name">{{'accidentDeclarationPage.basicDetails.injuredEmployeeName' | translate}}</label>
+            <input type="text" class="form-control" name="injured-employee-name" #injuredEmployeeName="ngModel" [placeholder]="'accidentDeclarationPage.basicDetails.injuredEmployeeName' | translate" [(ngModel)]="accidentClaim.EmployeeName" required maxlength="64">
+            <span *ngIf="injuredEmployeeName.invalid && (injuredEmployeeName.dirty || injuredEmployeeName.touched)&& isSubmited ">
+                 {{'accidentDeclarationPage.validation.injuredEmployeeName' | translate}}
+            </span>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group not-required">
+            <label for="employee-no">{{'accidentDeclarationPage.basicDetails.employeeNo' | translate}}</label>
+            <input type="text" class="form-control" name="employee-no" #employeeNo="ngModel"  [placeholder]="'accidentDeclarationPage.basicDetails.employeeNo' | translate" pattern="[a-zA-Z0-9]+" [(ngModel)]="accidentClaim.EmployeeNo" maxlength="64">
+            <span *ngIf="employeeNo.invalid && (employeeNo.dirty || employeeNo.touched) && isSubmited">
+                {{'accidentDeclarationPage.validation.employeeNo' | translate}}
+            </span>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group required">
+            <label for="employment-type">
+                {{'accidentDeclarationPage.basicDetails.employementType' | translate}}
+            </label>
+            <select class="form-control" name="employment-type" [(ngModel)]="accidentClaim.EmploymentTypeId" #employmentType="ngModel" required>
+                <option value="null">{{'accidentDeclarationPage.button.select' | translate}}</option>
+                <option *ngFor="let item of typeOfEmployment" [ngValue]="item.Id">{{item.Name}}</option>
+              </select>
+                <span *ngIf="(employmentType.dirty || employmentType.touched) && (!accidentClaim.EmploymentTypeId || accidentClaim.EmploymentTypeId == 'null') ">
+                  {{'accidentDeclarationPage.validation.employementType' | translate}}
+              </span>
+          </div>
+        </div>
+      </div>
+      <div class="row col-11">
+        <div class="col-4">
+          <div class="form-group">
+            <label for="employee-mini-co">
+                {{'accidentDeclarationPage.basicDetails.employeeMiniCo' | translate}}
+            </label>
+            <input type="text" class="form-control" name="employee-mini-co"  [placeholder]="'accidentDeclarationPage.basicDetails.employeeMiniCo' | translate" [(ngModel)]="accidentClaim.EmplyeeMinCo" maxlength="64">
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group" *ngIf="accidentClaim.ClaimStatusId">
+            <label for="claim-status">
+                 {{'accidentDeclarationPage.basicDetails.claimStatus' | translate}}
+            </label>
+            <ng-container *ngFor="let item of claimStatusList">
+                <span *ngIf="accidentClaim.ClaimStatusId == item.Id" class="form-control-plaintext font-weight-bold">{{item.Name}}</span>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div>
+    <div id="block-2" class="block">
+      <h4 class="col-11 text-primary text-uppercase">2. {{'accidentDeclarationPage.incidentDetails.label' | translate}}</h4>
+      <div class="row col-11">
+        <div class="col-4">
+          <div class="form-group required">
+            <label for="send-to">{{'accidentDeclarationPage.incidentDetails.sendTo' | translate}}</label>
+            <select class="form-control" name="injury-mail" #sendTo="ngModel" [(ngModel)]="accidentClaim.IncidentDetail.SendToId" required>
+                <option value="null">{{'accidentDeclarationPage.button.select' | translate}}</option>
+                <option *ngFor="let item of sendToEmailList" [ngValue]="item.Id">{{item.Name}}</option>
+            </select>
+            <span *ngIf="(!accidentClaim.IncidentDetail.SendToId || accidentClaim.IncidentDetail.SendToId =='null') && (sendTo.dirty || sendTo.touched) && isSubmited">
+                {{'accidentDeclarationPage.validation.sendTo' | translate}}
+            </span>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group required">
+            <label for="incident-reported-by">{{'accidentDeclarationPage.incidentDetails.incidentReportedBy' | translate}}</label>
+            <input type="text" class="form-control" name="incident-reported-by" #incidentReportedBy="ngModel" [placeholder]="'accidentDeclarationPage.incidentDetails.incidentReportedBy' | translate" [(ngModel)]="accidentClaim.IncidentDetail.ReportedBy" required maxlength="64">
+            <span *ngIf="incidentReportedBy.invalid && (incidentReportedBy.dirty || incidentReportedBy.touched)&& isSubmited ">
+                {{'accidentDeclarationPage.validation.incidentReportedBy' | translate}}
+            </span>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group required">
+            <label for="precise-location">
+                {{'accidentDeclarationPage.incidentDetails.incidentLocation' | translate}}
+            </label>
+            <textarea class="form-control" name="precise-location" #preciseLocation="ngModel" [placeholder]="'accidentDeclarationPage.incidentDetails.incidentLocation' | translate" [(ngModel)]="accidentClaim.IncidentDetail.Location" rows="1" required maxlength="64"></textarea>
+            <span *ngIf="preciseLocation.invalid && (preciseLocation.dirty || preciseLocation.touched) && isSubmited">
+                {{'accidentDeclarationPage.validation.incidentLocation' | translate}}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="row col-11">
+        <div class="col-12">
+          <div class="form-group required">
+            <label for="incident-description">
+                {{'accidentDeclarationPage.incidentDetails.incidentDescription' | translate}}
+            </label>
+            <textarea class="form-control" name="incident-description" #incidentDescription="ngModel" [placeholder]="'accidentDeclarationPage.incidentDetails.incidentDescription' | translate" [(ngModel)]="accidentClaim.IncidentDetail.Description" required maxlength="1024"></textarea>
+            <span *ngIf="incidentDescription.invalid && (incidentDescription.dirty || incidentDescription.touched)&& isSubmited ">
+                {{'accidentDeclarationPage.validation.incidentDescription' | translate}}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="row col-11">
+        <div class="col-12">
+          <div class="form-group">
+            <label for="immediate-actions">
+                {{'accidentDeclarationPage.incidentDetails.immediateActions' | translate}}
+            </label>
+            <textarea class="form-control" name="immediate-actions" [placeholder]="'accidentDeclarationPage.incidentDetails.immediateActions' | translate" [(ngModel)]="accidentClaim.IncidentDetail.ImmediateAction" maxlength="1024"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="row col-11">
+        <div class="col-12">
+          <div class="form-group not-required">
+            <label for="additional-email">
+                {{'accidentDeclarationPage.incidentDetails.sendAdditionalEmail' | translate}}
+            </label>
+            <ng-select [items]="users"
+                       bindLabel="Address"
+                       bindValue="Address"
+                       [addTag]="addCustomEmail"
+                       [multiple]="true"
+                       name="additional-email"
+                        [placeholder]="'accidentDeclarationPage.incidentDetails.sendAdditionalEmail' | translate"
+                       [(ngModel)]="accidentClaim.IncidentDetail.EmailTo" (change)="validateemail(email)">
+            </ng-select>
+            <span *ngIf="accidentClaim.IncidentDetail.EmailTo && accidentClaim.IncidentDetail.EmailTo.length && !validmail">Please enter valid email</span>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div>
+    <div id="block-3" class="block last">
+      <h4 class="col-11 text-primary text-uppercase">3.  {{'accidentDeclarationPage.injuryDetails.label' | translate}}</h4>
+      <div class="row col-11">
+        <div class="col-4">
+          <div class="form-group required">
+              <label for="injury-nature">
+                {{'accidentDeclarationPage.injuryDetails.injuryNature' | translate}}
+              </label>
+              <select class="form-control" name="injury-nature" #injuryNature="ngModel" [(ngModel)]="accidentClaim.InjuryDetail.InjuryNatureId" required>
+                <option value="null">{{'accidentDeclarationPage.button.select' | translate}}</option>
+                <option *ngFor="let item of natureOfInjury" [ngValue]="item.Id">{{item.Name}}</option>
+              </select>
+              <span *ngIf=" (injuryNature.dirty || injuryNature.touched) && (!accidentClaim.InjuryDetail.InjuryNatureId || accidentClaim.InjuryDetail.InjuryNatureId =='null') && isSubmited">
+                {{'accidentDeclarationPage.validation.injuryNature' | translate}}
+              </span>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group required">
+                <label for="injury-location">
+                    {{'accidentDeclarationPage.injuryDetails.injuryLocation' | translate}}
+                </label>
+                    <select class="form-control" name="injury-location" #injuryLocation="ngModel" [(ngModel)]="accidentClaim.InjuryDetail.InjuryLocationId" required>
+                        <option value="null">{{'accidentDeclarationPage.button.select' | translate}}</option>
+                        <option *ngFor="let item of locationOfInjury" [ngValue]="item.Id">{{item.Name}}</option>
+                    </select>
+                <span *ngIf="(injuryLocation.dirty || injuryLocation.touched) && (!accidentClaim.InjuryDetail.InjuryLocationId || accidentClaim.InjuryDetail.InjuryLocationId =='null')&& isSubmited">
+                    {{'accidentDeclarationPage.validation.injuryLocation' | translate}}
+                </span>
+            </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <label for="ppe">
+                {{'accidentDeclarationPage.injuryDetails.ppeWearingCorrect' | translate}}
+            </label>
+             <textarea class="form-control" rows="1" name="ppe" [(ngModel)]="accidentClaim.InjuryDetail.Ppe" [placeholder]="'accidentDeclarationPage.injuryDetails.description' | translate" maxlength="1024"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="row col-11">
+        <div class="col-4">
+         <div class="form-group">
+           <label for="car-closed-by">
+               {{'accidentDeclarationPage.injuryDetails.carClosedBy' | translate}}
+           </label>
+           <input type="text" class="form-control" name="car-closed-by" [placeholder]="'accidentDeclarationPage.injuryDetails.carClosedBy' | translate" disabled>
+           <!-- <input type="text" class="form-control" name="car-closed-by" [placeholder]="'accidentDeclarationPage.InjuryDetail.carClosedBy' | translate" [value]="accidentClaim.InjuryDetail.CarClosedBy" disabled> -->
+         </div>
+       </div>
+        <div class="col-4">
+           <div class="form-group">
+
+               <label for="car-closed-date">
+                   {{'accidentDeclarationPage.injuryDetails.carClosedDate' | translate}}
+               </label>
+               <div class="input-group">
+                 <input type="text" class="form-control" name="car-closed-date" disabled />
+               </div><!--
+               <div class="input-group">
+                 <input type="text" class="form-control" name="car-closed-date" #carClosedDate = "bsDatepicker" bsDatepicker  [(ngModel)]="accidentClaim.InjuryDetail.CarClosedDate" [bsConfig]="carClosedDateConfig" required/>
+                 <div class="input-group-append">
+                     <span class="input-group-text" (click)="carClosedDate.toggle()"> <i class="icon-calendar"></i> </span>
+                 </div>
+               </div> -->
+           </div>
+       </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label for="Attach Photo">
+                    {{'accidentDeclarationPage.injuryDetails.attachPhoto' | translate}}
+                </label>
+                <div class="row">
+                  <div class="col-4">
+                    <div class="btn btn-primary custom-file">
+                        <input type="file" class="custom-file-input" name="attach-photo" ng2FileSelect [uploader]="attachPhoto" id="attach-photo" multiple />
+                        <label class="custom-file-label" for="customFile"></label>
+                    </div>
+                  </div>
+                  <div class="col-4" *ngIf="attachPhoto.queue.length || (accidentClaim.InjuryDetail.Attachment && accidentClaim.InjuryDetail.Attachment.length)">
+                    <button type="button" class="btn btn-light" (click)="viewAttachmentList(attachmentList)">
+                        {{ attachPhoto.queue.length + accidentClaim.InjuryDetail.Attachment.length}}&nbsp; {{'accidentDeclarationPage.injuryDetails.fileAdded' | translate}}
+                        <i class="icon-eye"></i> </button>
+                  </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-fixed">
+    <div class="container">
+      <div class="d-flex justify-content-between">
+          <div>
+              <button type="button" class="btn btn-outline-light"  name="reset-button" (click)="confirmResetWindow(resetFormModal)" [disabled]="apiProcessing">{{'accidentDeclarationPage.button.reset' | translate}}</button>
+              <button type="button" class="btn btn-outline-light"  name="save-button" (click)="saveAsDraft()" [disabled]="apiProcessing">{{'accidentDeclarationPage.button.saveasDraft' | translate}}</button>
+          </div>
+          <div>
+              <button type="submit" class="btn btn-light"  name="submit-button" [disabled]="apiProcessing">{{'accidentDeclarationPage.button.submit' | translate}}</button>
+          </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<!-- Attachment modal -->
+<ng-template #attachmentList>
+    <div class="modal-header">
+      <h5 class="modal-title">{{'accidentDeclarationPage.injuryDetails.fileAdded' | translate}}</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <ul class="list-group list-group-flush text-break-letter" *ngIf="attachPhoto.queue.length ||(accidentClaim.InjuryDetail.Attachment && accidentClaim.InjuryDetail.Attachment.length)">
+        <li class="list-group-item  d-flex justify-content-between align-items-center" *ngFor="let item of attachPhoto.queue">{{ item?.file?.name }} <span class="badge-pill"  (click)="item.remove()"> <i class="icon-trash cursor-pointer"></i> </span></li>
+        <li class="list-group-item  d-flex justify-content-between align-items-center" *ngFor="let item of accidentClaim.InjuryDetail.Attachment;let inx = index">
+            {{item.FileName}}
+            <span class="badge-pill"  (click)="deleteAttachment(item.AttachmentID,inx)"> <i class="icon-trash"></i> </span>
+        </li>
+      </ul>
+      <span *ngIf="!attachPhoto.queue.length && accidentClaim.InjuryDetail.Attachment.length == 0 ">No Images selected</span>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" type="button"  (click)="modalRef.hide()">{{'accidentDeclarationPage.button.ok' | translate}}</button>
+    </div>
+</ng-template>
+
+
+<!-- reset form modal -->
+<ng-template #resetFormModal>
+  <div class="modal-body text-center">
+    <p>{{'accidentDeclarationPage.resetForm.resetFormModal' | translate}}</p>
+    <button type="button" class="btn btn-default" (click)="resetFormModel(formAC)" >{{'accidentDeclarationPage.resetForm.yes' | translate}}</button>
+    <button type="button" class="btn btn-primary" (click)="resetFormRef.hide()" >{{'accidentDeclarationPage.resetForm.no' | translate}}</button>
+  </div>
+</ng-template>
+<!-- Loader -->
+<app-loader id="appLoader" [hidden]="!loading"></app-loader>

@@ -1,0 +1,95 @@
+.ss-multiselect {
+    .select-down{
+      &:before{
+        z-index: 5;
+        top:2.4rem;
+      }
+    }
+    .btn{
+      color: $black;
+      padding: 0.2rem 1rem !important;
+      background-color: transparent !important;
+      height: 2.5rem !important;
+    }
+    .add-user-dropdown{
+      line-height: inherit !important;
+    }
+    .add-user-blk{
+      border-radius: 0.2rem;
+      height: 2.6rem;
+      border: 1px solid #e1dfdf;
+      @include vendor-prefix(box-shadow, 0px 2px 2.9px 0.1px rgba(149, 150, 150, 0.13));
+      &:focus {
+          outline: 0;
+      }
+      &.error {
+          border: 1px solid $red;
+      }
+    }
+    li.add-user-blk{
+      padding: 0.3rem;
+    }
+    ul.dropdown-menu{
+      padding-top: 0.4rem !important;
+    }
+
+    .info-icon{
+      position: absolute;
+      right: 3rem;
+      top: 2.4rem;
+      z-index: 5;
+      cursor: pointer;
+      color: gray;
+    }
+    ul.popper-list{
+      display: block;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      li{
+        padding-bottom: 1rem;
+        font-size: 1.1rem;
+        &:last-child{
+          padding-bottom: inherit;
+        }
+      }
+    }
+}
+.ss-multiselect-disabled{
+    .add-user-blk{
+      cursor: not-allowed !important;
+      border: 1px solid #e1dfdf !important;
+      background-color: #ececec !important;
+    }
+    ss-multiselect-dropdown{
+      *{
+        cursor: not-allowed !important;
+      }
+    }
+}
+.info-wrapper{
+  position: relative;
+  input.form-control{
+    padding-right: 2.5rem !important;
+  }
+  .info-icon-gray{
+    width: 1rem;
+    height: 1rem;
+    cursor: pointer;
+    color: gray;
+    position: absolute;
+    right:1rem;
+    top: 0.9rem;
+  }
+}
+
+.CapaMinorClaims .ng-select{
+  .ng-control{
+    .ng-value-container{
+      height: 3rem;
+      .ng-input{
+        top: 0.8rem;
+      }
+    }
+  }
+}

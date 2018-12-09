@@ -1,0 +1,209 @@
+
+// Buttons + Forms
+//
+// Shared variables that are reassigned to `$input-` and `$btn-` specific variables.
+
+$input-btn-padding-y:         .375rem !default;
+$input-btn-padding-x:         .75rem !default;
+$input-btn-line-height:       $line-height-base !default;
+
+$input-btn-focus-width:       .2rem !default;
+$input-btn-focus-color:       rgba($component-active-bg, .25) !default;
+$input-btn-focus-box-shadow:  0 0 0 $input-btn-focus-width $input-btn-focus-color !default;
+
+$input-btn-padding-y-sm:      .25rem !default;
+$input-btn-padding-x-sm:      1rem !default;
+$input-btn-line-height-sm:    $line-height-sm !default;
+
+$input-btn-padding-y-lg:      .5rem !default;
+$input-btn-padding-x-lg:      1rem !default;
+$input-btn-line-height-lg:    $line-height-lg !default;
+
+$input-btn-border-width:      $border-width !default;
+
+
+// Buttons
+//
+// For each of Bootstrap's buttons, define text, background, and border color.
+
+$btn-padding-y:               $input-btn-padding-y !default;
+$btn-padding-x:               $input-btn-padding-x !default;
+$btn-line-height:             $input-btn-line-height !default;
+
+$btn-padding-y-sm:            $input-btn-padding-y-sm !default;
+$btn-padding-x-sm:            $input-btn-padding-x-sm !default;
+$btn-line-height-sm:          $input-btn-line-height-sm !default;
+
+$btn-padding-y-lg:            $input-btn-padding-y-lg !default;
+$btn-padding-x-lg:            $input-btn-padding-x-lg !default;
+$btn-line-height-lg:          $input-btn-line-height-lg !default;
+
+$btn-border-width:            $input-btn-border-width !default;
+
+$btn-font-weight:             $font-weight-normal !default;
+$btn-box-shadow:              none !default;
+$btn-focus-width:             $input-btn-focus-width !default;
+$btn-focus-box-shadow:        $input-btn-focus-box-shadow !default;
+$btn-disabled-opacity:        .65 !default;
+$btn-active-box-shadow:       none !default;
+
+$btn-link-disabled-color:     $gray-600 !default;
+
+$btn-block-spacing-y:         .5rem !default;
+
+// Allows for customizing button radius independently from global border radius
+$btn-border-radius:           $border-radius * 6 !default;
+$btn-border-radius-lg:        $border-radius-lg !default;
+$btn-border-radius-sm:        $btn-padding-x-sm !default;
+
+$btn-transition:              color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out !default;
+
+
+// Forms
+
+$input-padding-y:                       $input-btn-padding-y !default;
+$input-padding-x:                       $input-btn-padding-x !default;
+$input-line-height:                     $input-btn-line-height !default;
+
+$input-padding-y-sm:                    $input-btn-padding-y-sm !default;
+$input-padding-x-sm:                    $input-btn-padding-x-sm !default;
+$input-line-height-sm:                  $input-btn-line-height-sm !default;
+
+$input-padding-y-lg:                    $input-btn-padding-y-lg !default;
+$input-padding-x-lg:                    $input-btn-padding-x-lg !default;
+$input-line-height-lg:                  $input-btn-line-height-lg !default;
+
+$input-bg:                              $white !default;
+$input-disabled-bg:                     $white !default;
+$input-autofill-bg:                     $input-bg !default;
+
+$input-color:                           $gray-700 !default;
+$input-border-color:                    $gray-400 !default;
+$input-border-width:                    $input-btn-border-width !default;
+$input-box-shadow:                      inset 0 .0625rem .0625rem rgba($black, .075) !default;
+
+$input-border-radius:                   $border-radius !default;
+$input-border-radius-lg:                $border-radius-lg !default;
+$input-border-radius-sm:                $border-radius-sm !default;
+
+$input-focus-bg:                        $input-bg !default;
+$input-focus-border-color:              lighten($component-active-bg, 25%) !default;
+$input-focus-color:                     $input-color !default;
+$input-focus-width:                     $input-btn-focus-width !default;
+$input-focus-box-shadow:                $input-btn-focus-box-shadow !default;
+
+$input-placeholder-color:               $gray-600 !default;
+
+$input-height-border:                   $input-border-width * 2 !default;
+
+$input-height-inner:                    ($font-size-base * $input-btn-line-height) + ($input-btn-padding-y * 2) !default;
+$input-height:                          calc(#{$input-height-inner} + #{$input-height-border}) !default;
+
+$input-height-inner-sm:                 ($font-size-sm * $input-btn-line-height-sm) + ($input-btn-padding-y-sm * 2) !default;
+$input-height-sm:                       calc(#{$input-height-inner-sm} + #{$input-height-border}) !default;
+
+$input-height-inner-lg:                 ($font-size-lg * $input-btn-line-height-lg) + ($input-btn-padding-y-lg * 2) !default;
+$input-height-lg:                       calc(#{$input-height-inner-lg} + #{$input-height-border}) !default;
+
+$input-transition:                      border-color .15s ease-in-out, box-shadow .15s ease-in-out !default;
+
+$form-text-margin-top:                  .25rem !default;
+
+$form-check-input-gutter:               1.25rem !default;
+$form-check-input-margin-y:             .3rem !default;
+$form-check-input-margin-x:             .25rem !default;
+
+$form-check-inline-margin-x:            .75rem !default;
+$form-check-inline-input-margin-x:      .3125rem !default;
+
+$form-group-margin-bottom:              1rem !default;
+
+$input-group-addon-color:               $input-color !default;
+$input-group-addon-bg:                  $white !default;
+$input-group-addon-border-color:        $input-border-color !default;
+
+$custom-control-gutter:                 1.5rem !default;
+$custom-control-spacer-x:               1rem !default;
+
+$custom-control-indicator-size:         1rem !default;
+$custom-control-indicator-bg:           $gray-300 !default;
+$custom-control-indicator-bg-size:      50% 50% !default;
+$custom-control-indicator-box-shadow:   none !default;
+
+$custom-control-indicator-disabled-bg:  $gray-200 !default;
+$custom-control-label-disabled-color:   $gray-600 !default;
+
+$custom-control-indicator-checked-color:        $component-active-color !default;
+$custom-control-indicator-checked-bg:           $green !default;
+$custom-control-indicator-checked-disabled-bg:  rgba($green, .5) !default;
+$custom-control-indicator-checked-box-shadow:   none !default;
+
+$custom-control-indicator-focus-box-shadow:     0 0 0 .0625rem $body-bg, $input-btn-focus-box-shadow !default;
+
+$custom-control-indicator-active-color:         $component-active-color !default;
+$custom-control-indicator-active-bg:            lighten($component-active-bg, 35%) !default;
+$custom-control-indicator-active-box-shadow:    none !default;
+
+$custom-checkbox-indicator-border-radius:       $border-radius !default;
+$custom-checkbox-indicator-icon-checked:        str-replace(url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='#{$custom-control-indicator-checked-color}' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3E%3C/svg%3E"), "#", "%23") !default;
+
+$custom-checkbox-indicator-indeterminate-bg:    $component-active-bg !default;
+$custom-checkbox-indicator-indeterminate-color: $custom-control-indicator-checked-color !default;
+$custom-checkbox-indicator-icon-indeterminate:  str-replace(url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4'%3E%3Cpath stroke='#{$custom-checkbox-indicator-indeterminate-color}' d='M0 2h4'/%3E%3C/svg%3E"), "#", "%23") !default;
+$custom-checkbox-indicator-indeterminate-box-shadow: none !default;
+
+$custom-radio-indicator-border-radius:          50% !default;
+$custom-radio-indicator-icon-checked:           str-replace(url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3E%3Ccircle r='3' fill='#{$custom-control-indicator-checked-color}'/%3E%3C/svg%3E"), "#", "%23") !default;
+
+$custom-select-padding-y:           .375rem !default;
+$custom-select-padding-x:           .60rem !default;
+$custom-select-height:              $input-height !default;
+$custom-select-indicator-padding:   1rem !default; // Extra padding to account for the presence of the background-image based indicator
+$custom-select-line-height:         $input-btn-line-height !default;
+$custom-select-color:               $input-color !default;
+$custom-select-disabled-color:      $gray-600 !default;
+$custom-select-bg:                  $white !default;
+$custom-select-disabled-bg:         $gray-200 !default;
+$custom-select-bg-size:             1rem 1rem !default; // In pixels because image dimensions
+$custom-select-bg-size-sm:          .8rem .8rem !default;
+$custom-select-indicator-color:     $gray-800 !default;
+$custom-select-indicator:           str-replace(url("data:image/svg+xml,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' width='1024' height='1024' fill='#{$primary}' viewBox='0 0 1024 1024'%3E%3Ctitle%3E%3C/title%3E%3Cg id='icomoon-ignore'%3E%3C/g%3E%3Cpath d='M527.462 812.954c11.878-8.602 25.19-15.77 35.328-26.010 132.915-133.12 265.318-266.854 397.926-400.282 10.547-10.547 18.637-21.914 18.637-37.683 0.035-0.661 0.055-1.434 0.055-2.213 0-18.080-10.797-33.639-26.295-40.58l-0.282-0.113c-5.825-3.039-12.722-4.822-20.035-4.822-10.947 0-20.961 3.995-28.663 10.606l0.059-0.049c-4.506 3.584-8.397 7.885-12.493 11.981-120.013 120.934-240.026 241.766-359.834 362.803-3.994 3.994-6.349 9.626-9.421 14.541h-7.373c-3.072-4.915-5.427-10.547-9.318-14.541-127.386-128.788-245.401-247.549-363.684-366.042l1.495 1.498c-8.765-8.822-19.696-15.482-31.928-19.115l-0.533-0.136c-19.251-5.018-37.581 5.53-47.104 22.63-3.701 6.546-5.882 14.375-5.882 22.714 0 11.46 4.119 21.958 10.958 30.094l-0.059-0.072c3.379 4.096 7.27 7.782 10.957 11.469 131.482 132.506 262.963 265.114 394.752 397.312 10.24 10.24 23.552 17.408 35.43 26.010h17.306z'%3E%3C/path%3E%3C/svg%3E%0A"), "#", "%23") !default;
+//$custom-select-indicator:           str-replace(url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='#{$custom-select-indicator-color}' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E"), "#", "%23") !default;
+$custom-select-border-width:        $input-btn-border-width !default;
+$custom-select-border-color:        $input-border-color !default;
+$custom-select-border-radius:       $border-radius !default;
+
+$custom-select-focus-border-color:  $input-focus-border-color !default;
+$custom-select-focus-box-shadow:    inset 0 .0625rem .125rem rgba($black, .075), 0 0 0.3125rem rgba($custom-select-focus-border-color, .5) !default;
+
+$custom-select-font-size-sm:        75% !default;
+$custom-select-height-sm:           $input-height-sm !default;
+
+$custom-select-font-size-lg:        125% !default;
+$custom-select-height-lg:           $input-height-lg !default;
+
+$custom-file-height:                $input-height !default;
+$custom-file-focus-border-color:    $input-focus-border-color !default;
+$custom-file-focus-box-shadow:      $input-btn-focus-box-shadow !default;
+
+$custom-file-padding-y:             $input-btn-padding-y !default;
+$custom-file-padding-x:             $input-btn-padding-x !default;
+$custom-file-line-height:           $input-btn-line-height !default;
+$custom-file-color:                 $input-color !default;
+$custom-file-bg:                    $input-bg !default;
+$custom-file-border-width:          $input-btn-border-width !default;
+$custom-file-border-color:          $input-border-color !default;
+$custom-file-border-radius:         $input-border-radius !default;
+$custom-file-box-shadow:            $input-box-shadow !default;
+$custom-file-button-color:          $custom-file-color !default;
+$custom-file-button-bg:             $input-group-addon-bg !default;
+$custom-file-text: (
+  en: "Browse"
+) !default;
+
+
+// Form validation
+$form-feedback-margin-top:          $form-text-margin-top !default;
+$form-feedback-font-size:           $small-font-size !default;
+$form-feedback-valid-color:         theme-color("success") !default;
+$form-feedback-invalid-color:       theme-color("danger") !default;

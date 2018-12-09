@@ -1,0 +1,47 @@
+// Variables
+//
+// Variables should follow the `$component-state-property-size` formula for
+// consistent naming. Ex: $nav-link-disabled-color and $modal-content-box-shadow-xs.
+@import "variables/paths";
+@import "variables/base";
+@import "variables/color-system";
+@import "variables/box-shadow";
+@import "variables/options";
+@import "variables/spacing";
+@import "variables/body";
+@import "variables/links";
+@import "variables/paragraphs";
+
+// // Layout
+@import "variables/grid-breakpoints";
+@import "variables/grid-containers";
+@import "variables/grid-columns";
+
+// // Components
+@import "variables/components";
+@import "variables/fonts";
+@import "variables/tables";
+@import "variables/forms-buttons";
+@import "variables/dropdowns";
+@import "variables/nav";
+@import "variables/pagination";
+@import "variables/jumbotron";
+@import "variables/cards";
+@import "variables/tooltips";
+@import "variables/popovers";
+@import "variables/badges";
+@import "variables/modals";
+@import "variables/alerts";
+@import "variables/progress-bars";
+@import "variables/list-group";
+@import "variables/image-thumbnails";
+@import "variables/figures";
+@import "variables/breadcrumbs";
+@import "variables/carousel";
+@import "variables/close";
+@import "variables/code";
+
+@import "variables/icon-status";
+
+@import "variables/z-index";
+@import "variables/printing";

@@ -1,0 +1,10 @@
+diff a/frontend-web/src/app/home/dashboard/createnewclaim/createnewclaim.component.html b/frontend-web/src/app/home/dashboard/createnewclaim/createnewclaim.component.html	(rejected hunks)
+@@ -1441,7 +1441,7 @@
+                                                 <input [attr.disabled]="disableClaim?'':null" class="form-check-input" type="radio" id="radioDefectiveSampleReceivedStatusNO"
+                                                     name="radioDefectiveSampleReceivedStatus" [(ngModel)]="createNewClaimObjectClaimDetails.custDefectiveSampleReceivedStatus"
+                                                     [value]="'false'" [checked]="createNewClaimObjectClaimDetails.custDefectiveSampleReceivedStatus=='false'"
+-                                                    (click)="onDefectiveSelect('true')">
++                                                    (click)="onDefectiveSelect('false')">
+                                                 <label class="form-check-label" for="radioDefectiveSampleReceivedStatusNO">No</label>
+                                             </div>
+                                         </li>

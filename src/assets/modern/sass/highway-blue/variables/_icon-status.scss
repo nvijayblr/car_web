@@ -1,0 +1,19 @@
+
+$status-icon-border-radius:   $border-radius !default;
+$status-icon-border-width:    $border-width * 4 !default;
+$status-icon-base-color:      $gray-300 !default;
+$status-icon-width:           0.8rem !default;
+$status-icon-height:          0.8rem !default;
+$status-icon-margin-y:        -0.1rem !default;
+
+$status-icon: () !default;
+$status-icon: map-merge((
+  "closed":             $green,
+  "open":               $secondary,
+  "submitted":          $primary,
+  "saved-as-draft":     $yellow,
+  "draft":              $yellow,
+  "reviewed":           $pink,
+  "reopen":             $orange,
+  "under-review":       $cyan
+), $status-icon);

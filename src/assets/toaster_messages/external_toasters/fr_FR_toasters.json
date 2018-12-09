@@ -1,0 +1,14 @@
+{
+    "CLSAS" : "Prétendre {claim_no} enregistré avec succès",
+    "CLCRS" : "Prétendre {claim_no} Soumis avec succès",
+    "CDNE"  : "La réclamation n'existe pas",
+    "VE"    : "erreur de validation",
+    "PERF"  : "Entrez tous les champs obligatoires",
+    "SUCCESS"  : "Succès!",
+    "SORRYMSG" : "Désolé, quelque chose s'est mal passé, veuillez essayer après un certain temps",
+    "FAILURE"  : "Échoué!",
+    "RESETSUCCESS" : "Réinitialiser!",
+    "DRAFTSUCCESS" : "Enregistrement actuel enregistré dans le brouillon!",
+    "NOCHANGES" : "Il n'y a aucun changement, les données sont déjà sauvegardées!",
+    "NO_NETWORK_FOUND" : "Aucun réseau trouvé.Veuillez vérifier votre connexion Internet."
+}

@@ -1,0 +1,77 @@
+.tab-header{
+  @extend .container;
+  @extend .bg-primary;
+
+
+  a{
+    color: $white !important;
+    padding-top: $grid-gutter-width / 2;
+    padding-bottom: $grid-gutter-width / 2;
+    font-size: 87%;
+    cursor: pointer;
+    opacity: 0.5;
+    word-wrap: break-word;
+    @extend .d-flex;
+    @extend .align-items-center;
+    @extend .col;
+
+    i{
+      speak: none;
+      font-style: normal;
+      font-weight: normal;
+      font-variant: normal;
+      text-transform: none;
+
+      /* Better Font Rendering =========== */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+
+      width: $display4-size + $display4-size / 3;
+      height: $display4-size + $display4-size / 3;
+      border-color: $white;
+      display: inline-block;
+      background-color: $white;
+      position: relative;
+      margin-right: $display4-size / 3;
+      margin-left: - $display4-size + $display4-size / 3;
+      // margin-bottom: - $display4-size / 3;
+      border:0.1rem solid $white;
+      @extend .rounded-circle;
+
+      @extend .align-self-center;
+
+      &:after{
+        content: attr(data-line);
+        top: 0.05rem;
+        width: 100%;
+        position: absolute;
+        text-align: center;
+        left: 0;
+        font-size: 0.8rem;
+        color: $primary;
+      }
+    }
+
+    @include hover-focus {
+      opacity: 1;
+    }
+
+    span{
+      width: 100% !important;
+      word-wrap: break-word;
+      margin-right: -10% !important;
+    }
+  }
+
+  a.active{
+    opacity: 1;
+    i{
+      background-color: transparent;
+      border:0.1rem solid $white;
+      &:after{
+        background-color: transparent;
+        color:$white;
+      }
+    }
+  }
+}

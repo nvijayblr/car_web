@@ -1,0 +1,34 @@
+<app-header></app-header>
+
+<div class="container front-page">
+	<div>
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-4" *ngIf="moduleWeightage.CLMCR > 10 || moduleWeightage.CLMRESCAPA > 10">
+					<div class="card">
+						<div class="card-body">
+							<img class="card-graphic" src="assets/modern/img/graphic-external@3x.png" alt="">
+							<div class="text-content">
+								<p>{{'landingPage.externalMessage' | translate}}</p>
+							</div>
+							<button [routerLink]="['../dashboard']" type="button" class="btn btn-primary btn-lg btn-block">{{'landingPage.externalButton' | translate}} <i class="icon-arrow-right"></i> </button>
+						</div>
+					</div>
+				</div>
+				<div class="col-4" *ngIf="moduleWeightage.ICLMCR > 10 || moduleWeightage.ICLMRESCAPA > 10">
+					<div class="card">
+						<div class="card-body">
+							<img class="card-graphic" src="assets/modern/img/graphic-internal@3x.png" alt="">
+							<div class="text-content">
+								<p>{{'landingPage.internalMessage' | translate}}</p>
+							</div>
+							<button [routerLink]="['../internal/claim']" type="button" class="btn btn-secondary btn-lg btn-block">{{'landingPage.internalButton' | translate}} <i class="icon-arrow-right"></i></button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<link rel="stylesheet" href="/assets/modern/css/styles.css">
+<!-- {{ 'Intro' | translate }} -->

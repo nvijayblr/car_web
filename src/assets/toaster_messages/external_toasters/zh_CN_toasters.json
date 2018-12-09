@@ -1,0 +1,14 @@
+{
+    "CLSAS" : "要求 {claim_no} 保存 顺利",
+    "CLCRS" : "要求 {claim_no} 提交 顺利",
+    "CDNE"  : "声明不存在",
+    "VE"    : "验证错误",
+    "PERF"  : "输入所有必填字段",
+    "SUCCESS"  : "成功!",
+    "SORRYMSG" : "对不起，有些东西出了问题，请过一段时间再试",
+    "FAILURE"  : "失败!",
+    "RESETSUCCESS" : "重置成功!",
+    "DRAFTSUCCESS" : "当前记录保存在草稿中!",
+    "NOCHANGES" : "没有变化，数据已经保存!",
+    "NO_NETWORK_FOUND" : "没有网络found.Please检查您的互联网连接。"
+}
